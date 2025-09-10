@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odin Sight</title>
+    <style>
+        :root {
+            --primary: #4a9bd7;
+            --secondary: #5bc0de;
+            --dark: #0a1622;
+            --light: #ecf0f1;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #1abc9c;
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #5bc0de;
+        }
+        
+        /* Login Screen Styles */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            background-image: linear-gradient(rgba(10, 22, 34, 0.9), rgba(10, 22, 34, 0.95)), url('https://i.imgur.com/QSSR5V8.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .login-container {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .login-header {
+            margin-bottom: 30px;
+        }
+        
+        .login-logo {
+            max-width: 320px;
+            margin-bottom: 15px;
+        }
+        
+        .login-header h2 {
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        
+        .login-header p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(74, 155, 215, 0.3);
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s;
+            color: var(--text-light);
+        }
+        
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(74, 155, 215, 0.5);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .login-btn {
+            background-color: rgba(74, 155, 215, 0.2);
+            color: var(--text-light);
+            border: 1px solid var(--primary);
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .login-btn:hover {
+            background-color: var(--primary);
+            box-shadow: 0 0 15px rgba(74, 155, 215, 0.5);
+        }
+        
+        .login-error {
+            color: var(--danger);
+            font-size: 14px;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .card {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            margin-bottom: 25px;
+            color: var(--text-light);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(74, 155, 215, 0.3);
+            padding-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(74, 155, 215, 0.3);
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s;
+            color: var(--text-light);
+        }
+        
+        /* Style for dropdown options */
+        select option {
+            background-color: var(--dark);
+            color: var(--text-light);
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(74, 155, 215, 0.5);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        button {
+            background-color: rgba(74, 155, 215, 0.2);
+            color: var(--text-light);
+            border: 1px solid var(--primary);
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            background-color: var(--primary);
+            box-shadow: 0 0 15px rgba(74, 155, 215, 0.5);
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .results.active {
+            display: block;
+        }
+        
+        .app-card {
+            display: flex;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+            background-color: rgba(10, 22, 34, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(74, 155, 215, 0.2);
+        }
+        
+        .app-card-rank {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            background-color: var(--primary);
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .app-card-content {
+            padding: 15px;
+            flex-grow: 1;
+            color: var(--text-light);
+        }
+        
+        .app-card h3 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .app-card-stats {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .stat {
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .recommendations {
+            margin-top: 30px;
+        }
+        
+        .recommendation-item {
+            background-color: rgba(10, 22, 34, 0.8);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recommendation-item h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .steps {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .steps li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        
+        .steps li:before {
+            content: "\2192";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .score-improvement {
+            display: inline-block;
+            background-color: rgba(74, 155, 215, 0.2);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-left: 10px;
+            border: 1px solid var(--primary);
+            font-weight: 500;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .comparison-table th {
+            background-color: rgba(10, 22, 34, 0.8);
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(74, 155, 215, 0.1);
+        }
+        
+        .better {
+            color: var(--secondary);
+        }
+        
+        .worse {
+            color: var(--danger);
+        }
+        
+        .chart-container {
+            margin-top: 30px;
+            height: 300px;
+        }
+        
+        /* New styles for multi-selection */
+        .selected-apps {
+            margin-top: 15px;
+        }
+        
+        .selected-app-item {
+            display: flex;
+            align-items: center;
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .selected-app-item span {
+            flex-grow: 1;
+        }
+        
+        .remove-app {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .add-app-btn {
+            background-color: var(--secondary);
+            margin-top: 10px;
+        }
+        
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            color: var(--text-light);
+        }
+        
+        .ranking-table th, .ranking-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(74, 155, 215, 0.2);
+        }
+        
+        .ranking-table th {
+            background-color: rgba(10, 22, 34, 0.8);
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        
+        .ranking-table tr:hover {
+            background-color: rgba(74, 155, 215, 0.1);
+        }
+        
+        /* New styles for detailed tasks */
+        .view-tasks-btn {
+            background-color: rgba(74, 155, 215, 0.2);
+            color: var(--text-light);
+            border: 1px solid var(--primary);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .view-tasks-btn:hover {
+            background-color: var(--primary);
+            box-shadow: 0 0 10px rgba(74, 155, 215, 0.3);
+        }
+        
+        .detailed-tasks {
+            display: none;
+            background-color: rgba(10, 22, 34, 0.6);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .detailed-tasks.active {
+            display: block;
+        }
+        
+        .task-list {
+            list-style-type: decimal;
+            padding-left: 25px;
+            color: var(--text-light);
+        }
+        
+        .task-list li {
+            margin-bottom: 10px;
+            padding-left: 5px;
+        }
+        
+        .task-header {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-light);
+            border-bottom: 1px solid rgba(74, 155, 215, 0.3);
+            padding-bottom: 8px;
+        }
+        
+        .task-category {
+            font-weight: 600;
+            margin: 15px 0 8px 0;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        
+        /* PDF Report Styles */
+        
+        
+        
+        .report-container {
+            display: none;
+            position: absolute;
+            left: -9999px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: var(--dark);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            border: 1px solid rgba(74, 155, 215, 0.2);
+        }
+        
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 20px;
+        }
+        
+        .report-header img {
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+        
+        .report-section {
+            margin-bottom: 30px;
+        }
+        
+        .report-section h2 {
+            color: #3498db;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .report-table th, .report-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ecf0f1;
+            text-align: left;
+        }
+        
+        .report-table th {
+            background-color: rgba(10, 22, 34, 0.8);
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+        
+        .report-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #3498db;
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .app-card {
+                flex-direction: column;
+            }
+            
+            .app-card-rank {
+                width: 100%;
+                padding: 5px 0;
+            }
+        }
+    </style>
+<script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
+</head>
+<body>
+<!-- Login Screen -->
+<div id="login-overlay" class="login-overlay">
+    <div class="login-container">
+        <div class="login-header">
+            <img src="https://i.imgur.com/QSSR5V8.png" alt="Odin Sight Logo" class="login-logo">
+            <h2>Tech Maturity Assessment</h2>
+            <p>Please log in to access the assessment tool</p>
+        </div>
+        <div class="login-form">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <div id="login-error" class="login-error"></div>
+            <button id="login-btn" class="login-btn">Log In</button>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content (initially hidden) -->
+<div id="main-content" style="display: none;">
+<header>
+  <div class="container">
+    <div class="header-content">
+      <div class="welcome-message">
+        <h1>Welcome to the Tech Maturity Assessment by OdinSight</h1>
+        <h2>Provided by Odin Tech Forge</h2>
+        <p>Our intuitive and well-designed assessment quickly evaluates your organization's technology maturity. You'll receive a comprehensive Tech Maturity Score along with tailored recommendations to guide your next steps, while effectively identifying both risks and opportunities.</p>
+      </div>
+      <div class="logout-container">
+        <span id="welcome-message" class="welcome-user">Welcome</span>
+        <button id="logout-btn" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  header {
+    background-color: var(--dark);
+    padding: 30px 0;
+    color: var(--text-light);
+    position: relative;
+    border-bottom: 1px solid rgba(74, 155, 215, 0.2);
+  }
+
+  .header-content {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .welcome-message {
+    max-width: 1000px;
+    padding: 0 20px;
+  }
+  
+  .logout-container {
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .welcome-user {
+    color: var(--text-light);
+    font-size: 14px;
+    opacity: 0.9;
+  }
+  
+  .logout-btn {
+    background-color: rgba(74, 155, 215, 0.2);
+    color: var(--text-light);
+    border: 1px solid var(--primary);
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .logout-btn:hover {
+    background-color: var(--primary);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  }
+
+  header h1 {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0 0 5px 0;
+    color: var(--text-light);
+  }
+  
+  header h2 {
+    font-weight: 500;
+    font-size: 1.3rem;
+    margin: 0 0 15px 0;
+    opacity: 0.85;
+    color: var(--primary);
+  }
+  
+  header p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.9;
+    color: var(--text-muted);
+  }
+  
+  /* App Ranking Criteria Styles */
+  .criteria-explanation {
+      margin-bottom: 30px;
+      border-left: 4px solid var(--primary);
+      padding-left: 15px;
+  }
+  
+  .criteria-explanation p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-light);
+  }
+  
+  .criteria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+  }
+  
+  .criteria-item {
+      background-color: rgba(10, 22, 34, 0.8);
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid rgba(74, 155, 215, 0.2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .criteria-item h3 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: 600;
+  }
+  
+  .criteria-item p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-muted);
+  }
+  
+  .criteria-item strong {
+      color: var(--primary);
+  }
+</style>
+
+    
+    <div class="container">
+        <div class="card">
+            <h2>Select Your Category and App</h2>
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category">
+                    <option value="">Select a category</option>
+                    <option value="Hosting & collaboration">Email (Hosting & collaboration)</option>
+                    <option value="Team Messaging">DMs (Team Messaging)</option>
+                    <option value="Customer Messaging">DMs (Customer Messaging)</option>
+                    <option value="Unified Communications">DMs (Unified Communications)</option>
+                    <option value="Audio/Video Calls">Audio/Video Calls</option>
+                    <option value="Data Storage">Data Storage</option>
+                    <option value="CRM">CRM</option>
+                    <option value="PM Tools">Project Management Tools</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="app">App:</label>
+                <select id="app" disabled>
+                    <option value="">First select a category</option>
+                </select>
+                <button id="add-app-btn" class="add-app-btn" disabled>Add App</button>
+            </div>
+            
+            <div class="selected-apps" id="selected-apps">
+                <!-- Selected apps will be displayed here -->
+                <p id="no-apps-message">No apps selected yet. You can select up to 8 apps.</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Company Profile</h2>
+            <div class="form-group">
+                <label for="company-name">Company Name:</label>
+                <input type="text" id="company-name" placeholder="Enter your company name">
+            </div>
+            <div class="form-group">
+                <label for="team-size">Team Size:</label>
+                <select id="team-size">
+                    <option value="1-10">1-10</option>
+                    <option value="11-50">11-50</option>
+                    <option value="51-200">51-200</option>
+                    <option value="200+">200+</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="infrastructure">Where is your infrastructure hosted?</label>
+                <select id="infrastructure">
+                    <option value="On-premise">On-premise</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Cloud-first (AWS, Azure, GCP)">Cloud-first (AWS, Azure, GCP)</option>
+                    <option value="Fully automated cloud-native">Fully automated cloud-native</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="disaster-recovery">Do you have disaster recovery/backups?</label>
+                <select id="disaster-recovery">
+                    <option value="No backups">No backups</option>
+                    <option value="Manual occasionally">Manual occasionally</option>
+                    <option value="Automated daily">Automated daily</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="security">How do you manage security practices?</label>
+                <select id="security">
+                    <option value="None">None</option>
+                    <option value="Ad-hoc">Ad-hoc</option>
+                    <option value="Regular vulnerability scans">Regular vulnerability scans</option>
+                    <option value="Formal framework (ISO 27001, SOC2)">Formal framework (ISO 27001, SOC2)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="gdpr">GDPR/Data Protection compliance?</label>
+                <select id="gdpr">
+                    <option value="None">None</option>
+                    <option value="In progress">In progress</option>
+                    <option value="Fully compliant with audits">Fully compliant with audits</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="deployment">How is your software deployed?</label>
+                <select id="deployment">
+                    <option value="Manual">Manual</option>
+                    <option value="Basic CI/CD">Basic CI/CD</option>
+                    <option value="Automated CI/CD + testing">Automated CI/CD + testing</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="version-control">Do you use version control (Git)?</label>
+                <select id="version-control">
+                    <option value="No">No</option>
+                    <option value="Yes, but inconsistently">Yes, but inconsistently</option>
+                    <option value="Yes, fully standardized">Yes, fully standardized</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="cto">Do you have a CTO/IT strategy owner?</label>
+                <select id="cto">
+                    <option value="No dedicated tech leader">No dedicated tech leader</option>
+                    <option value="Part-time/fractional support">Part-time/fractional support</option>
+                    <option value="Dedicated CTO">Dedicated CTO</option>
+                    <option value="CTO + leadership team">CTO + leadership team</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="roadmap">How often do you update your IT roadmap?</label>
+                <select id="roadmap">
+                    <option value="Never">Never</option>
+                    <option value="Once a year">Once a year</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Continuous">Continuous</option>
+                </select>
+            </div>
+            
+            <!-- New AI Usage Section -->
+            <h2>AI Usage & Strategy</h2>
+            
+            <div class="form-group">
+                <label for="ai-usage">Do you currently use AI tools in your business?</label>
+                <select id="ai-usage">
+                    <option value="Not at all">Not at all</option>
+                    <option value="Experimenting in some departments">Experimenting in some departments</option>
+                    <option value="Integrated into workflows (e.g., analytics, automation)">Integrated into workflows (e.g., analytics, automation)</option>
+                    <option value="Core part of products/services">Core part of products/services</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="ai-strategy">Do you have a company-wide AI strategy or policy?</label>
+                <select id="ai-strategy">
+                    <option value="No strategy/policy">No strategy/policy</option>
+                    <option value="Some guidelines, not standardized">Some guidelines, not standardized</option>
+                    <option value="Formal AI strategy in progress">Formal AI strategy in progress</option>
+                    <option value="Comprehensive AI strategy with governance">Comprehensive AI strategy with governance</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="ai-ethics">How do you manage AI ethics & compliance (bias, transparency, data use)?</label>
+                <select id="ai-ethics">
+                    <option value="Not considered">Not considered</option>
+                    <option value="Ad-hoc awareness">Ad-hoc awareness</option>
+                    <option value="Formal reviews & partial safeguards">Formal reviews & partial safeguards</option>
+                    <option value="Fully established AI governance framework">Fully established AI governance framework</option>
+                </select>
+            </div>
+            
+            <button id="calculate-btn">Calculate Optimization Steps</button>
+        </div>
+        
+        <div class="results" id="results">
+            <div class="card">
+                <h2>App Ranking Criteria</h2>
+                <div class="criteria-explanation">
+                    <p>Our app ranking system evaluates software across seven key dimensions that are critical for business success:</p>
+                    <div class="criteria-grid">
+                        <div class="criteria-item">
+                            <h3>Functionality / Features (1–5)</h3>
+                            <p>Range and depth of features offered. <strong>Why it matters:</strong> Comprehensive functionality reduces the need for multiple tools and ensures your business needs are met without workarounds.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Ease of Use / UX (1–5)</h3>
+                            <p>User interface and experience. <strong>Why it matters:</strong> Intuitive design reduces training time, increases adoption rates, and improves productivity across your organization.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Integration (1–5)</h3>
+                            <p>Compatibility with other tools and platforms. <strong>Why it matters:</strong> Strong integration capabilities ensure smooth data flow between systems, eliminating silos and manual transfers.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Scalability (1–5)</h3>
+                            <p>Ability to grow with organizational needs. <strong>Why it matters:</strong> Scalable solutions adapt to your business growth without requiring costly migrations or replacements.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Reliability / Performance (1–5)</h3>
+                            <p>Uptime, speed, and consistency. <strong>Why it matters:</strong> Reliable performance minimizes disruptions, maintains productivity, and builds user confidence in your systems.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Security & Compliance (1–5)</h3>
+                            <p>Data protection and regulatory adherence. <strong>Why it matters:</strong> Strong security protects sensitive information and helps meet industry regulations, reducing organizational risk.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Support & Community (1–5)</h3>
+                            <p>Availability and quality of support resources. <strong>Why it matters:</strong> Responsive support and active communities accelerate problem resolution and provide valuable implementation guidance.</p>
+                        </div>
+                        <div class="criteria-item">
+                            <h3>Cost / Value (1–5)</h3>
+                            <p>Price relative to delivered value. <strong>Why it matters:</strong> Optimal pricing ensures you're getting maximum return on your technology investment without overpaying for unused features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Your Current App Ranking</h2>
+                <div id="current-app-details"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Top Alternatives to Consider</h2>
+                <div id="alternatives"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Recommended Optimization Steps</h2>
+                <div class="recommendations" id="recommendations"></div>
+                <div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- The hidden container for the full PDF report has been removed -->
+    </div>
+
+    <script>
+        // App data from Excel - Updated with new ranking system
+        const appData = {
+            "Email": [
+                {"name": "Fastmail (Business)", "category": "Hosting & collaboration", "functionality": 4.2, "easeOfUse": 4.5, "integration": 3.8, "scalability": 4.0, "reliability": 4.7, "security": 4.8, "support": 4.3, "cost": 4.2, "notes": "Privacy-focused, clean UI", "overallScore": 4.29},
+                {"name": "Google Workspace (Gmail)", "category": "Hosting & collaboration", "functionality": 4.8, "easeOfUse": 4.7, "integration": 4.9, "scalability": 4.8, "reliability": 4.9, "security": 4.7, "support": 4.5, "cost": 4.3, "notes": "Cloud-native suite; best for collaboration", "overallScore": 4.73},
+                {"name": "Zoho Mail / Zoho Workplace", "category": "Hosting & collaboration", "functionality": 4.5, "easeOfUse": 4.3, "integration": 4.4, "scalability": 4.6, "reliability": 4.5, "security": 4.4, "support": 4.2, "cost": 4.8, "notes": "Very cost-effective for SMBs", "overallScore": 4.46},
+                {"name": "Microsoft 365 (Outlook/Exchange)", "category": "Hosting & collaboration", "functionality": 4.9, "easeOfUse": 4.4, "integration": 4.9, "scalability": 4.9, "reliability": 4.8, "security": 4.8, "support": 4.6, "cost": 4.0, "notes": "Enterprise features; Office integration", "overallScore": 4.71},
+                {"name": "Titan Mail (standalone)", "category": "Hosting & collaboration", "functionality": 3.7, "easeOfUse": 4.1, "integration": 3.4, "scalability": 3.5, "reliability": 4.0, "security": 4.1, "support": 3.8, "cost": 4.3, "notes": "SMB-focused, growing", "overallScore": 3.83},
+                {"name": "Namecheap Private Email", "category": "Hosting & collaboration", "functionality": 3.6, "easeOfUse": 4.0, "integration": 3.3, "scalability": 3.4, "reliability": 3.9, "security": 4.0, "support": 3.7, "cost": 4.4, "notes": "Low-cost, registrar bundle", "overallScore": 3.73},
+                {"name": "Proton Mail (Business)", "category": "Hosting & collaboration (privacy)", "functionality": 4.0, "easeOfUse": 3.9, "integration": 3.5, "scalability": 3.8, "reliability": 4.6, "security": 5.0, "support": 4.1, "cost": 3.7, "notes": "End-to-end encryption; regulatory friendly", "overallScore": 4.06},
+                {"name": "Rackspace Email", "category": "Hosting & collaboration", "functionality": 3.8, "easeOfUse": 3.9, "integration": 3.7, "scalability": 4.0, "reliability": 4.3, "security": 4.2, "support": 4.4, "cost": 3.8, "notes": "Managed hosting, legacy option", "overallScore": 3.96},
+                {"name": "IONOS Business Email", "category": "Hosting & collaboration", "functionality": 3.5, "easeOfUse": 3.8, "integration": 3.4, "scalability": 3.6, "reliability": 3.9, "security": 4.0, "support": 3.6, "cost": 4.2, "notes": "Affordable, registrar-integrated", "overallScore": 3.71},
+                {"name": "DreamHost Email", "category": "Hosting & collaboration", "functionality": 3.4, "easeOfUse": 3.7, "integration": 3.2, "scalability": 3.3, "reliability": 3.8, "security": 3.9, "support": 3.5, "cost": 4.1, "notes": "Simple, good for web-hosted businesses", "overallScore": 3.58},
+                {"name": "Amazon WorkMail", "category": "Hosting & collaboration", "functionality": 4.1, "easeOfUse": 3.5, "integration": 4.3, "scalability": 4.5, "reliability": 4.4, "security": 4.5, "support": 3.7, "cost": 3.6, "notes": "AWS-backed; scalable", "overallScore": 4.08},
+                {"name": "Bluehost / cPanel Email", "category": "Hosting & collaboration", "functionality": 3.2, "easeOfUse": 3.5, "integration": 3.1, "scalability": 3.2, "reliability": 3.6, "security": 3.7, "support": 3.4, "cost": 4.0, "notes": "Standard hosting email via cPanel", "overallScore": 3.41},
+                {"name": "IceWarp", "category": "Hosting & collaboration", "functionality": 4.0, "easeOfUse": 3.6, "integration": 3.8, "scalability": 4.1, "reliability": 4.0, "security": 4.1, "support": 3.5, "cost": 4.2, "notes": "Collaboration suite alternative", "overallScore": 3.93},
+                {"name": "Mailfence", "category": "Hosting & collaboration (privacy)", "functionality": 3.7, "easeOfUse": 3.6, "integration": 3.3, "scalability": 3.4, "reliability": 3.8, "security": 4.7, "support": 3.5, "cost": 3.8, "notes": "European privacy-focused", "overallScore": 3.73},
+                {"name": "Runbox", "category": "Hosting & collaboration (privacy)", "functionality": 3.5, "easeOfUse": 3.4, "integration": 3.2, "scalability": 3.3, "reliability": 3.7, "security": 4.4, "support": 3.4, "cost": 3.6, "notes": "Norway-based privacy provider", "overallScore": 3.55},
+                {"name": "Zimbra (open-source/on-prem)", "category": "Hosting & collaboration", "functionality": 3.8, "easeOfUse": 2.8, "integration": 3.5, "scalability": 3.7, "reliability": 3.5, "security": 3.9, "support": 2.5, "cost": 3.2, "notes": "On-prem or hosted; more setup", "overallScore": 3.42},
+                {"name": "Nextcloud Mail (self-host)", "category": "Hosting & collaboration", "functionality": 3.3, "easeOfUse": 2.5, "integration": 3.8, "scalability": 3.0, "reliability": 3.2, "security": 4.2, "support": 2.0, "cost": 3.8, "notes": "Self-hosted collaboration + mail", "overallScore": 3.28}
+            ],
+            "DMs": [
+                {"name": "Slack", "category": "Team Messaging", "functionality": 4.8, "easeOfUse": 4.7, "integration": 4.9, "scalability": 4.8, "reliability": 4.8, "security": 4.6, "support": 4.5, "cost": 4.2, "notes": "Highly user-friendly; extensive integrations; widely adopted", "overallScore": 4.71},
+                {"name": "Google Chat", "category": "Team Messaging", "functionality": 4.3, "easeOfUse": 4.5, "integration": 4.7, "scalability": 4.6, "reliability": 4.5, "security": 4.4, "support": 4.3, "cost": 4.6, "notes": "Best for Google Workspace users; simple interface", "overallScore": 4.48},
+                {"name": "Discord", "category": "Team Messaging", "functionality": 4.5, "easeOfUse": 4.6, "integration": 4.2, "scalability": 4.4, "reliability": 4.3, "security": 4.1, "support": 3.8, "cost": 4.8, "notes": "Excellent voice/video; popular among tech teams", "overallScore": 4.38},
+                {"name": "WhatsApp Business", "category": "Customer Messaging", "functionality": 4.2, "easeOfUse": 4.8, "integration": 3.8, "scalability": 4.0, "reliability": 4.7, "security": 4.3, "support": 3.5, "cost": 4.7, "notes": "Widely used; good for customer support; limited integrations", "overallScore": 4.28},
+                {"name": "Tidio", "category": "Customer Messaging", "functionality": 4.3, "easeOfUse": 4.4, "integration": 4.1, "scalability": 4.2, "reliability": 4.3, "security": 4.2, "support": 4.1, "cost": 4.5, "notes": "Chatbot automation; free version available", "overallScore": 4.28},
+                {"name": "Microsoft Teams", "category": "Team Messaging", "functionality": 4.7, "easeOfUse": 4.2, "integration": 4.8, "scalability": 4.8, "reliability": 4.7, "security": 4.7, "support": 4.4, "cost": 4.1, "notes": "Seamless integration with Microsoft 365; robust features", "overallScore": 4.58},
+                {"name": "Freshchat", "category": "Customer Messaging", "functionality": 4.2, "easeOfUse": 4.3, "integration": 4.0, "scalability": 4.1, "reliability": 4.2, "security": 4.1, "support": 4.0, "cost": 4.3, "notes": "AI-powered; integrates with CRM; good for SMBs", "overallScore": 4.16},
+                {"name": "RingCentral", "category": "Unified Communications", "functionality": 4.4, "easeOfUse": 4.1, "integration": 4.3, "scalability": 4.5, "reliability": 4.4, "security": 4.3, "support": 4.2, "cost": 4.0, "notes": "Messaging, video, and voice; hybrid teams", "overallScore": 4.30},
+                {"name": "Crisp", "category": "Customer Messaging", "functionality": 4.1, "easeOfUse": 4.2, "integration": 4.0, "scalability": 4.0, "reliability": 4.1, "security": 4.0, "support": 3.9, "cost": 4.4, "notes": "CRM integration; good for startups; limited features", "overallScore": 4.10},
+                {"name": "Rocket.Chat", "category": "Team Messaging", "functionality": 4.3, "easeOfUse": 3.8, "integration": 4.2, "scalability": 4.3, "reliability": 4.0, "security": 4.4, "support": 3.7, "cost": 4.5, "notes": "Open-source; customizable; requires more setup", "overallScore": 4.16}
+            ],
+            "Audio/Video Calls": [
+                {"name": "Microsoft Teams", "category": "Audio and Video", "functionality": 4.8, "easeOfUse": 4.3, "integration": 4.9, "scalability": 4.9, "reliability": 4.8, "security": 4.8, "support": 4.5, "cost": 4.3, "notes": "Bundled with M365, deep integrations, secure, cost-effective if on 365", "overallScore": 4.69},
+                {"name": "Google Meet", "category": "Audio and Video", "functionality": 4.6, "easeOfUse": 4.7, "integration": 4.7, "scalability": 4.7, "reliability": 4.6, "security": 4.5, "support": 4.4, "cost": 4.5, "notes": "Easy rollout on Workspace, good controls, competitive pricing", "overallScore": 4.61},
+                {"name": "Zoom", "category": "Audio and Video", "functionality": 4.9, "easeOfUse": 4.6, "integration": 4.6, "scalability": 4.8, "reliability": 4.8, "security": 4.7, "support": 4.5, "cost": 4.2, "notes": "Best UX, wide adoption, good integrations, moderate cost", "overallScore": 4.70},
+                {"name": "Cisco Webex", "category": "Audio and Video", "functionality": 4.7, "easeOfUse": 4.2, "integration": 4.5, "scalability": 4.7, "reliability": 4.8, "security": 4.9, "support": 4.6, "cost": 4.0, "notes": "Mature, secure, strong compliance, slightly higher cost", "overallScore": 4.56},
+                {"name": "Slack (Huddles & Calls)", "category": "Audio and Video", "functionality": 4.3, "easeOfUse": 4.5, "integration": 4.7, "scalability": 4.4, "reliability": 4.5, "security": 4.4, "support": 4.2, "cost": 4.3, "notes": "Great if Slack is used, simple adoption, free tier limited", "overallScore": 4.43},
+                {"name": "GoTo Meeting", "category": "Audio and Video", "functionality": 4.4, "easeOfUse": 4.3, "integration": 4.2, "scalability": 4.5, "reliability": 4.6, "security": 4.5, "support": 4.3, "cost": 4.2, "notes": "Simple, fair pricing, reliable", "overallScore": 4.38},
+                {"name": "RingCentral (Video/RingEX)", "category": "Audio and Video", "functionality": 4.5, "easeOfUse": 4.2, "integration": 4.4, "scalability": 4.6, "reliability": 4.4, "security": 4.4, "support": 4.3, "cost": 4.1, "notes": "Best for UCaaS needs, higher cost if full suite", "overallScore": 4.39},
+                {"name": "Zoho Meeting", "category": "Audio and Video", "functionality": 4.1, "easeOfUse": 4.3, "integration": 4.2, "scalability": 4.2, "reliability": 4.3, "security": 4.2, "support": 4.0, "cost": 4.4, "notes": "Very cost-effective, fits Zoho ecosystem", "overallScore": 4.21},
+                {"name": "Whereby", "category": "Audio and Video", "functionality": 3.9, "easeOfUse": 4.8, "integration": 3.8, "scalability": 3.7, "reliability": 4.2, "security": 4.0, "support": 3.8, "cost": 4.5, "notes": "Browser-based, no installs, easy embedding", "overallScore": 4.09},
+                {"name": "Amazon Chime", "category": "Audio and Video", "functionality": 4.0, "easeOfUse": 3.8, "integration": 4.3, "scalability": 4.4, "reliability": 4.3, "security": 4.3, "support": 3.7, "cost": 4.2, "notes": "Pay-per-use, strong SDK, best for AWS environments", "overallScore": 4.13},
+                {"name": "Pexip", "category": "Audio and Video", "functionality": 4.2, "easeOfUse": 3.7, "integration": 4.0, "scalability": 4.3, "reliability": 4.4, "security": 4.6, "support": 3.9, "cost": 3.8, "notes": "Enterprise-grade, strong compliance, higher setup & cost", "overallScore": 4.13},
+                {"name": "Jitsi", "category": "Audio and Video", "functionality": 3.8, "easeOfUse": 3.5, "integration": 4.1, "scalability": 3.5, "reliability": 3.8, "security": 4.2, "support": 3.0, "cost": 4.7, "notes": "Open-source, free, self-hosting complexity", "overallScore": 3.83}
+            ],
+            "Data Storage": [
+                {"name": "Microsoft OneDrive (Office 365)", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Seamless with Microsoft 365, enterprise security", "overallScore": 4.50},
+                {"name": "Microsoft Azure Blob Storage", "category": "Data Storage", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Flexible, secure, best in Azure ecosystem, more technical", "overallScore": 4.50},
+                {"name": "Amazon S3 (AWS)", "category": "Data Storage", "functionality": 5.0, "easeOfUse": 2.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Highly scalable, pay-as-you-go, requires technical setup", "overallScore": 4.38},
+                {"name": "Google Drive (Google Workspace)", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 4.0, "reliability": 5.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Simple UI, strong collaboration, bundled in Workspace", "overallScore": 4.25},
+                {"name": "Box Business", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 3.0, "notes": "Strong compliance & governance, widely used in enterprises", "overallScore": 4.25},
+                {"name": "Dropbox Business", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 5.0, "integration": 4.0, "scalability": 4.0, "reliability": 5.0, "security": 4.0, "support": 4.0, "cost": 3.0, "notes": "Best UX, strong third-party integrations, slightly pricier", "overallScore": 4.12},
+                {"name": "Egnyte Business", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 4.0, "reliability": 4.0, "security": 5.0, "support": 4.0, "cost": 3.0, "notes": "Hybrid storage, security-focused, good for regulated industries", "overallScore": 4.12},
+                {"name": "Wasabi Hot Cloud Storage", "category": "Data Storage", "functionality": 3.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 5.0, "notes": "Low-cost, S3-compatible, simple pricing model", "overallScore": 3.88},
+                {"name": "Backblaze B2 Cloud Storage", "category": "Data Storage", "functionality": 3.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 5.0, "notes": "Cheapest S3-alternative, developer-friendly, more technical", "overallScore": 3.88},
+                {"name": "iDrive Business", "category": "Data Storage", "functionality": 3.0, "easeOfUse": 3.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Good SMB backup solution, cost-effective", "overallScore": 3.50},
+                {"name": "pCloud Business", "category": "Data Storage", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Simple UI, lifetime plans, strong encryption options", "overallScore": 3.50},
+                {"name": "Apple iCloud for Business", "category": "Data Storage", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 3.0, "notes": "Best for Apple ecosystem, limited enterprise features", "overallScore": 3.38}
+            ],
+            "CRM": [
+                {"name": "HubSpot CRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 5.0, "integration": 5.0, "scalability": 4.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 4.0, "notes": "Free tier available, very user-friendly, easy integrations, good scaling options", "overallScore": 4.62},
+                {"name": "Salesforce Sales Cloud", "category": "CRM", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 3.0, "notes": "Market leader, highly customizable, more complex setup and costly", "overallScore": 4.50},
+                {"name": "Microsoft Dynamics 365 Sales", "category": "CRM", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 3.0, "notes": "Best for Microsoft-centric enterprises, flexible but complex", "overallScore": 4.50},
+                {"name": "Pipedrive", "category": "CRM", "functionality": 4.0, "easeOfUse": 5.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Very intuitive, affordable, quick to implement, strong for SMBs", "overallScore": 4.25},
+                {"name": "Zoho CRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Highly cost-effective, broad feature set, best for SMBs", "overallScore": 4.12},
+                {"name": "Freshsales (Freshworks)", "category": "CRM", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Easy to use, AI features, affordable, good automation", "overallScore": 4.00},
+                {"name": "SugarCRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 3.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 3.0, "notes": "Flexible open platform, more technical and higher cost for advanced use", "overallScore": 3.75},
+                {"name": "Close CRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Built for sales teams, strong calling/SMS/email features", "overallScore": 3.62},
+                {"name": "Copper CRM", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Seamless with Google Workspace, simple setup, user-friendly", "overallScore": 3.62},
+                {"name": "Insightly", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Good balance of features and cost, integrates with GSuite/MS365", "overallScore": 3.50},
+                {"name": "Keap (Infusionsoft)", "category": "CRM", "functionality": 4.0, "easeOfUse": 3.0, "integration": 4.0, "scalability": 3.0, "reliability": 3.0, "security": 4.0, "support": 4.0, "cost": 3.0, "notes": "Strong automation/marketing CRM, but higher learning curve", "overallScore": 3.50},
+                {"name": "Nimble", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 3.0, "security": 3.0, "support": 3.0, "cost": 4.0, "notes": "Social CRM focus, easy to use, affordable", "overallScore": 3.25}
+            ],
+            "PM Tools": [
+                {"name": "Monday.com", "category": "PM Tools", "functionality": 5.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 4.0, "notes": "Very visual and customizable, strong automation, higher costs for large teams", "overallScore": 4.75},
+                {"name": "Wrike", "category": "PM Tools", "functionality": 5.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 4.0, "notes": "Good for larger teams, scalable, more complex setup, limited free version", "overallScore": 4.75},
+                {"name": "Jira", "category": "PM Tools", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 4.0, "notes": "Best for software development teams, powerful but steep learning curve", "overallScore": 4.62},
+                {"name": "Asana", "category": "PM Tools", "functionality": 4.0, "easeOfUse": 5.0, "integration": 5.0, "scalability": 4.0, "reliability": 5.0, "security": 4.0, "support": 5.0, "cost": 4.0, "notes": "Great UI, flexible, integrations with many tools, free plan available", "overallScore": 4.50},
+                {"name": "ClickUp", "category": "PM Tools", "functionality": 5.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Highly cost-effective, all-in-one features, slightly steeper learning curve", "overallScore": 4.25},
+                {"name": "Notion", "category": "PM Tools", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Flexible for docs + project tracking, very affordable, customizable but setup-heavy", "overallScore": 4.12},
+                {"name": "Smartsheet", "category": "PM Tools", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Spreadsheet-style management, strong enterprise features, better for advanced users", "overallScore": 4.12},
+                {"name": "Microsoft Project", "category": "PM Tools", "functionality": 5.0, "easeOfUse": 3.0, "integration": 4.0, "scalability": 4.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 3.0, "notes": "Enterprise-focused, powerful Gantt charts, high cost, complex setup", "overallScore": 4.12},
+                {"name": "Trello", "category": "PM Tools", "functionality": 3.0, "easeOfUse": 5.0, "integration": 4.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Very intuitive, free tier available, quick setup, good for small teams", "overallScore": 4.00},
+                {"name": "Basecamp", "category": "PM Tools", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Flat pricing model, very simple and easy, fewer advanced features", "overallScore": 3.50}
+            ]
+        };
+
+        // Scoring map from the provided JavaScript - Updated with AI Usage section
+        const SCORE_MAP = {
+            "Team Size": {"1-10": 1, "11-50": 2, "51-200": 3, "200+": 4},
+            "Where is your infrastructure hosted?": {
+                "On-premise": 1, "Hybrid": 2, "Cloud-first (AWS, Azure, GCP)": 4, "Fully automated cloud-native": 5
+            },
+            "Do you have disaster recovery/backups?": {"No backups": 0, "Manual occasionally": 2, "Automated daily": 4},
+            "How do you manage security practices?": {
+                "None": 0, "Ad-hoc": 1, "Regular vulnerability scans": 3, "Formal framework (ISO 27001, SOC2)": 5
+            },
+            "GDPR/Data Protection compliance?": {"None": 0, "In progress": 2, "Fully compliant with audits": 5},
+            "How is your software deployed?": {"Manual": 1, "Basic CI/CD": 3, "Automated CI/CD + testing": 5},
+            "Do you use version control (Git)?": {"No": 0, "Yes, but inconsistently": 2, "Yes, fully standardized": 5},
+            "Do you have a CTO/IT strategy owner?": {
+                "No dedicated tech leader": 0, "Part-time/fractional support": 2, "Dedicated CTO": 4, "CTO + leadership team": 5
+            },
+            "How often do you update your IT roadmap?": {"Never": 0, "Once a year": 2, "Quarterly": 4, "Continuous": 5},
+            
+            // New AI Usage section
+            "Do you currently use AI tools in your business?": {
+                "Not at all": 0,
+                "Experimenting in some departments": 2,
+                "Integrated into workflows (e.g., analytics, automation)": 4,
+                "Core part of products/services": 5
+            },
+            "Do you have a company-wide AI strategy or policy?": {
+                "No strategy/policy": 0,
+                "Some guidelines, not standardized": 2,
+                "Formal AI strategy in progress": 3,
+                "Comprehensive AI strategy with governance": 5
+            },
+            "How do you manage AI ethics & compliance (bias, transparency, data use)?": {
+                "Not considered": 0,
+                "Ad-hoc awareness": 2,
+                "Formal reviews & partial safeguards": 4,
+                "Fully established AI governance framework": 5
+            }
+        };
+
+        // DOM elements
+        const categorySelect = document.getElementById('category');
+        const appSelect = document.getElementById('app');
+        const addAppBtn = document.getElementById('add-app-btn');
+        const selectedAppsDiv = document.getElementById('selected-apps');
+        const noAppsMessage = document.getElementById('no-apps-message');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resultsDiv = document.getElementById('results');
+        const currentAppDetails = document.getElementById('current-app-details');
+        const recommendationsDiv = document.getElementById('recommendations');
+        const alternativesDiv = document.getElementById('alternatives');
+        
+        // Array to store selected apps
+        let selectedApps = [];
+        const MAX_APPS = 8;
+
+        // Populate app dropdown based on category selection
+        categorySelect.addEventListener('change', function() {
+            const category = this.value;
+            appSelect.innerHTML = '<option value="">Select an app</option>';
+            
+            if (!category) {
+                appSelect.disabled = true;
+                addAppBtn.disabled = true;
+                return;
+            }
+            
+            let apps = [];
+            
+            // Find apps for the selected category
+            if (category === "Hosting & collaboration") {
+                apps = appData.Email.filter(app => app.category === category || app.category.includes(category));
+            } else if (category === "Team Messaging" || category === "Customer Messaging" || category === "Unified Communications") {
+                apps = appData.DMs.filter(app => app.category === category);
+            } else if (category === "Audio/Video Calls") {
+                apps = appData["Audio/Video Calls"];
+            } else if (category === "Data Storage") {
+                apps = appData["Data Storage"];
+            } else if (category === "CRM") {
+                apps = appData.CRM;
+            } else if (category === "PM Tools") {
+                apps = appData["PM Tools"];
+            }
+            
+            // Add apps to dropdown
+            apps.forEach(app => {
+                const option = document.createElement('option');
+                option.value = app.name;
+                option.textContent = app.name;
+                appSelect.appendChild(option);
+            });
+            
+            appSelect.disabled = false;
+            
+            // Enable add button if an app is selected
+            appSelect.addEventListener('change', function() {
+                addAppBtn.disabled = !this.value;
+            });
+        });
+        
+        // Add app button click handler
+        addAppBtn.addEventListener('click', function() {
+            const category = categorySelect.value;
+            const appName = appSelect.value;
+            
+            if (!category || !appName) {
+                alert('Please select both a category and an app.');
+                return;
+            }
+            
+            // Check if we've reached the maximum number of apps
+            if (selectedApps.length >= MAX_APPS) {
+                alert(`You can only select up to ${MAX_APPS} apps.`);
+                return;
+            }
+            
+            // Check if app is already selected
+            if (selectedApps.some(app => app.name === appName)) {
+                alert('This app is already selected.');
+                return;
+            }
+            
+            // Find the selected app
+            let selectedApp;
+            
+            if (category === "Hosting & collaboration") {
+                selectedApp = appData.Email.find(app => app.name === appName);
+            } else if (category === "Team Messaging" || category === "Customer Messaging" || category === "Unified Communications") {
+                selectedApp = appData.DMs.find(app => app.name === appName);
+            } else if (category === "Audio/Video Calls") {
+                selectedApp = appData["Audio/Video Calls"].find(app => app.name === appName);
+            } else if (category === "Data Storage") {
+                selectedApp = appData["Data Storage"].find(app => app.name === appName);
+            } else if (category === "CRM") {
+                selectedApp = appData.CRM.find(app => app.name === appName);
+            } else if (category === "PM Tools") {
+                selectedApp = appData["PM Tools"].find(app => app.name === appName);
+            }
+            
+            // Add app to selected apps
+            selectedApps.push(selectedApp);
+            
+            // Update UI
+            updateSelectedAppsUI();
+        });
+        
+        // Update selected apps UI
+        function updateSelectedAppsUI() {
+            // Hide no apps message if we have apps
+            noAppsMessage.style.display = selectedApps.length > 0 ? 'none' : 'block';
+            
+            // Clear current list (except the message)
+            const items = selectedAppsDiv.querySelectorAll('.selected-app-item');
+            items.forEach(item => item.remove());
+            
+            // Add each app to the list
+            selectedApps.forEach((app, index) => {
+                const appItem = document.createElement('div');
+                appItem.className = 'selected-app-item';
+                
+                const appName = document.createElement('span');
+                appName.textContent = `${index + 1}. ${app.name} (${app.category})`;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-app';
+                removeBtn.textContent = 'Remove';
+                removeBtn.onclick = function() {
+                    selectedApps.splice(index, 1);
+                    updateSelectedAppsUI();
+                };
+                
+                appItem.appendChild(appName);
+                appItem.appendChild(removeBtn);
+                selectedAppsDiv.appendChild(appItem);
+            });
+            
+            // Disable add button if we've reached the maximum
+            addAppBtn.disabled = selectedApps.length >= MAX_APPS;
+        }
+
+        // Calculate button click handler
+        calculateBtn.addEventListener('click', function() {
+            if (selectedApps.length === 0) {
+                alert('Please select at least one app.');
+                return;
+            }
+            
+            // Get company profile scores
+            const teamSizeScore = SCORE_MAP["Team Size"][document.getElementById('team-size').value];
+            const infrastructureScore = SCORE_MAP["Where is your infrastructure hosted?"][document.getElementById('infrastructure').value];
+            const disasterRecoveryScore = SCORE_MAP["Do you have disaster recovery/backups?"][document.getElementById('disaster-recovery').value];
+            const securityScore = SCORE_MAP["How do you manage security practices?"][document.getElementById('security').value];
+            const gdprScore = SCORE_MAP["GDPR/Data Protection compliance?"][document.getElementById('gdpr').value];
+            const deploymentScore = SCORE_MAP["How is your software deployed?"][document.getElementById('deployment').value];
+            const versionControlScore = SCORE_MAP["Do you use version control (Git)?"][document.getElementById('version-control').value];
+            const ctoScore = SCORE_MAP["Do you have a CTO/IT strategy owner?"][document.getElementById('cto').value];
+            const roadmapScore = SCORE_MAP["How often do you update your IT roadmap?"][document.getElementById('roadmap').value];
+            
+            // Get AI usage scores
+            const aiUsageScore = SCORE_MAP["Do you currently use AI tools in your business?"][document.getElementById('ai-usage').value];
+            const aiStrategyScore = SCORE_MAP["Do you have a company-wide AI strategy or policy?"][document.getElementById('ai-strategy').value];
+            const aiEthicsScore = SCORE_MAP["How do you manage AI ethics & compliance (bias, transparency, data use)?"][document.getElementById('ai-ethics').value];
+            
+            // Calculate company maturity score (0-5 scale)
+            const totalPossibleScore = 59; // Updated sum of max values in SCORE_MAP
+            const actualScore = teamSizeScore + infrastructureScore + disasterRecoveryScore + 
+                                securityScore + gdprScore + deploymentScore + 
+                                versionControlScore + ctoScore + roadmapScore +
+                                aiUsageScore + aiStrategyScore + aiEthicsScore;
+            const maturityScore = (actualScore / totalPossibleScore) * 5;
+            
+            // Process each selected app
+            const appResults = [];
+            const allRecommendations = [];
+            
+            selectedApps.forEach(app => {
+                // Find all apps in the same category
+                let allAppsInCategory = [];
+                
+                if (app.category === "Hosting & collaboration" || app.category.includes("Hosting & collaboration")) {
+                    allAppsInCategory = appData.Email.filter(a => a.category === app.category || a.category.includes("Hosting & collaboration"));
+                } else if (app.category === "Team Messaging" || app.category === "Customer Messaging" || app.category === "Unified Communications") {
+                    allAppsInCategory = appData.DMs.filter(a => a.category === app.category);
+                } else if (app.category === "Audio/Video Calls" || app.category === "Audio and Video") {
+                    allAppsInCategory = appData["Audio/Video Calls"];
+                } else if (app.category === "Data Storage") {
+                    allAppsInCategory = appData["Data Storage"];
+                } else if (app.category === "CRM") {
+                    allAppsInCategory = appData.CRM;
+                } else if (app.category === "PM Tools") {
+                    allAppsInCategory = appData["PM Tools"];
+                }
+                
+                // Sort apps by overall score
+                allAppsInCategory.sort((a, b) => b.overallScore - a.overallScore);
+                
+                // Find rank of selected app
+                const appRank = allAppsInCategory.findIndex(a => a.name === app.name) + 1;
+                
+                // Generate recommendations
+                const recommendations = generateRecommendations(app, maturityScore, {
+                    companyName: document.getElementById('company-name').value || 'Your Company',
+                    teamSize: document.getElementById('team-size').value,
+                    infrastructure: document.getElementById('infrastructure').value,
+                    disasterRecovery: document.getElementById('disaster-recovery').value,
+                    security: document.getElementById('security').value,
+                    gdpr: document.getElementById('gdpr').value,
+                    deployment: document.getElementById('deployment').value,
+                    versionControl: document.getElementById('version-control').value,
+                    cto: document.getElementById('cto').value,
+                    roadmap: document.getElementById('roadmap').value,
+                    aiUsage: document.getElementById('ai-usage').value,
+                    aiStrategy: document.getElementById('ai-strategy').value,
+                    aiEthics: document.getElementById('ai-ethics').value
+                });
+                
+                // Find top alternatives
+                const topAlternatives = allAppsInCategory
+                    .filter(a => a.name !== app.name)
+                    .slice(0, 3);
+                
+                // Store results
+                appResults.push({
+                    app: app,
+                    rank: appRank,
+                    totalApps: allAppsInCategory.length,
+                    alternatives: topAlternatives,
+                    companyName: document.getElementById('company-name').value || 'Your Company'
+                });
+                
+                // Store recommendations
+                recommendations.forEach(rec => {
+                    if (!allRecommendations.some(r => r.title === rec.title)) {
+                        allRecommendations.push(rec);
+                    }
+                });
+            });
+            
+            // Display results
+            displayResults(appResults, allRecommendations, maturityScore);
+            
+            // Show results section
+            resultsDiv.classList.add('active');
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Generate recommendations based on app and company profile
+        function generateRecommendations(app, maturityScore, companyProfile) {
+            const recommendations = [];
+            
+            // Recommendation 1: Based on functionality
+            if (app.functionality < 4.0) {
+                recommendations.push({
+                    title: "Enhance App Functionality",
+                    steps: [
+                        "Identify specific functionality gaps in your current implementation",
+                        "Explore premium tiers or add-ons that provide needed features",
+                        "Consider integration with complementary tools to extend capabilities",
+                        "Develop custom extensions or scripts where possible",
+                        "Establish a feedback loop with the vendor for feature requests"
+                    ],
+                    improvement: "Functionality +30%, Productivity +20%",
+                    detailedTasks: [
+                        {
+                            category: "Assessment",
+                            tasks: [
+                                "Document current functionality limitations with specific examples",
+                                "Survey team members to identify top 3 missing features",
+                                "Research if these limitations are due to your plan tier or the product itself",
+                                "Evaluate ROI of upgrading vs. switching to alternative solutions"
+                            ]
+                        },
+                        {
+                            category: "Implementation",
+                            tasks: [
+                                "Schedule demos of premium tiers or add-ons",
+                                "Test complementary tools in a sandbox environment",
+                                "Develop proof-of-concept for custom extensions",
+                                "Create implementation timeline with clear milestones"
+                            ]
+                        },
+                        {
+                            category: "Training & Adoption",
+                            tasks: [
+                                "Create training materials for new functionality",
+                                "Schedule training sessions for team members",
+                                "Designate power users to support others during transition",
+                                "Establish usage metrics to track adoption"
+                            ]
+                        },
+                        {
+                            category: "Feedback & Iteration",
+                            tasks: [
+                                "Implement a structured feedback process for users",
+                                "Schedule regular review meetings with vendor representatives",
+                                "Create a feature request tracking system",
+                                "Develop a roadmap for future functionality enhancements"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 2: Based on ease of use
+            if (app.easeOfUse < 4.0) {
+                recommendations.push({
+                    title: "Improve User Experience",
+                    steps: [
+                        "Create a comprehensive onboarding program for new users",
+                        "Develop custom training materials specific to your team's workflows",
+                        "Implement a buddy system where experienced users help new users",
+                        "Schedule regular check-ins to address usability challenges",
+                        "Consider hiring a consultant for advanced training sessions"
+                    ],
+                    improvement: "User satisfaction +25%, Productivity +15%",
+                    detailedTasks: [
+                        {
+                            category: "User Research",
+                            tasks: [
+                                "Conduct user interviews to identify specific pain points",
+                                "Create user journey maps for common workflows",
+                                "Analyze support tickets to identify recurring usability issues",
+                                "Benchmark your team's efficiency against industry standards"
+                            ]
+                        },
+                        {
+                            category: "Training Development",
+                            tasks: [
+                                "Create role-specific training guides with screenshots",
+                                "Develop video tutorials for complex workflows",
+                                "Build an internal knowledge base with FAQs and tips",
+                                "Create quick reference cards for common tasks"
+                            ]
+                        },
+                        {
+                            category: "Implementation",
+                            tasks: [
+                                "Establish a formal onboarding process for new users",
+                                "Pair new users with experienced mentors",
+                                "Schedule monthly training refreshers",
+                                "Create a feedback mechanism for training materials"
+                            ]
+                        },
+                        {
+                            category: "Continuous Improvement",
+                            tasks: [
+                                "Track user efficiency metrics before and after training",
+                                "Conduct quarterly usability reviews",
+                                "Update training materials based on user feedback",
+                                "Explore UI customization options within the app"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 3: Based on integration
+            if (app.integration < 4.0) {
+                recommendations.push({
+                    title: "Enhance Integration Capabilities",
+                    steps: [
+                        "Map all required integration points between systems",
+                        "Implement middleware solutions where direct integrations aren't available",
+                        "Develop custom API connectors for critical workflows",
+                        "Consider integration platforms like Zapier or Make for simpler connections",
+                        "Establish data synchronization protocols and schedules"
+                    ],
+                    improvement: "Data consistency +35%, Workflow efficiency +20%",
+                    detailedTasks: [
+                        {
+                            category: "Integration Assessment",
+                            tasks: [
+                                "Document all systems that need to connect with the app",
+                                "Identify data that needs to flow between systems",
+                                "Map current manual processes that could be automated",
+                                "Prioritize integrations based on business impact"
+                            ]
+                        },
+                        {
+                            category: "Technical Planning",
+                            tasks: [
+                                "Review API documentation for all systems",
+                                "Evaluate middleware options (Zapier, Make, Workato, etc.)",
+                                "Determine authentication requirements for each system",
+                                "Create data mapping documents for each integration"
+                            ]
+                        },
+                        {
+                            category: "Implementation",
+                            tasks: [
+                                "Set up test environments for integration development",
+                                "Develop and test integrations in phases",
+                                "Implement error handling and notification systems",
+                                "Create monitoring dashboards for integration health"
+                            ]
+                        },
+                        {
+                            category: "Maintenance & Optimization",
+                            tasks: [
+                                "Document all integration configurations",
+                                "Establish regular integration testing schedule",
+                                "Create backup procedures for integration settings",
+                                "Develop a process for handling API changes from vendors"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 4: Based on scalability
+            if (app.scalability < 4.0) {
+                recommendations.push({
+                    title: "Improve Scalability",
+                    steps: [
+                        "Conduct a scalability assessment of your current implementation",
+                        "Implement resource optimization techniques for better performance",
+                        "Develop a scaling plan aligned with your business growth projections",
+                        "Consider distributed or load-balanced architectures where applicable",
+                        "Establish performance monitoring and alerting systems"
+                    ],
+                    improvement: "System capacity +40%, Growth readiness +35%",
+                    detailedTasks: [
+                        {
+                            category: "Scalability Assessment",
+                            tasks: [
+                                "Benchmark current system performance under various loads",
+                                "Identify performance bottlenecks and single points of failure",
+                                "Project growth needs for the next 12-24 months",
+                                "Analyze historical usage patterns and peak demand periods"
+                            ]
+                        },
+                        {
+                            category: "Architecture Planning",
+                            tasks: [
+                                "Evaluate current architecture against scalability best practices",
+                                "Research vendor recommendations for scaling the application",
+                                "Design improved architecture with scalability in mind",
+                                "Create capacity planning models for different growth scenarios"
+                            ]
+                        },
+                        {
+                            category: "Implementation",
+                            tasks: [
+                                "Implement database optimization techniques",
+                                "Set up caching mechanisms where appropriate",
+                                "Configure load balancing for high-availability",
+                                "Implement horizontal scaling capabilities where possible"
+                            ]
+                        },
+                        {
+                            category: "Monitoring & Management",
+                            tasks: [
+                                "Deploy performance monitoring tools",
+                                "Set up automated alerts for capacity thresholds",
+                                "Create dashboards for real-time performance visibility",
+                                "Establish regular performance review meetings"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 5: Based on reliability
+            if (app.reliability < 4.0) {
+                recommendations.push({
+                    title: "Enhance System Reliability",
+                    steps: [
+                        "Implement comprehensive monitoring and alerting systems",
+                        "Establish regular maintenance schedules and procedures",
+                        "Develop incident response and recovery protocols",
+                        "Create redundancy for critical components and data",
+                        "Conduct regular stress testing and performance optimization"
+                    ],
+                    improvement: "System uptime +15%, Incident recovery -40%",
+                    detailedTasks: [
+                        {
+                            category: "Reliability Assessment",
+                            tasks: [
+                                "Document historical downtime incidents and root causes",
+                                "Identify critical failure points in the current setup",
+                                "Calculate current uptime percentages and reliability metrics",
+                                "Benchmark against industry standards for similar systems"
+                            ]
+                        },
+                        {
+                            category: "Monitoring Implementation",
+                            tasks: [
+                                "Deploy uptime monitoring tools with multi-channel alerts",
+                                "Implement synthetic transaction monitoring for key workflows",
+                                "Set up log aggregation and analysis systems",
+                                "Create monitoring dashboards for system health"
+                            ]
+                        },
+                        {
+                            category: "Redundancy & Recovery",
+                            tasks: [
+                                "Implement redundant systems for critical components",
+                                "Set up automated failover mechanisms",
+                                "Create and test disaster recovery procedures",
+                                "Establish backup verification protocols"
+                            ]
+                        },
+                        {
+                            category: "Process Improvement",
+                            tasks: [
+                                "Create an incident response playbook",
+                                "Establish a regular maintenance window schedule",
+                                "Implement change management procedures",
+                                "Conduct quarterly reliability reviews and improvements"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 6: Based on security
+            if (app.security < 4.0) {
+                recommendations.push({
+                    title: "Strengthen Security Measures",
+                    steps: [
+                        "Conduct a comprehensive security audit of your implementation",
+                        "Implement multi-factor authentication and role-based access controls",
+                        "Establish regular security training for all users",
+                        "Develop data encryption protocols for sensitive information",
+                        "Create security incident response procedures"
+                    ],
+                    improvement: "Security posture +45%, Vulnerability risk -60%",
+                    detailedTasks: [
+                        {
+                            category: "Security Assessment",
+                            tasks: [
+                                "Conduct a comprehensive security audit",
+                                "Perform vulnerability scanning of all connected systems",
+                                "Review current access control policies",
+                                "Assess compliance with relevant security frameworks"
+                            ]
+                        },
+                        {
+                            category: "Authentication & Access",
+                            tasks: [
+                                "Implement multi-factor authentication for all users",
+                                "Review and refine role-based access controls",
+                                "Implement just-in-time access for administrative functions",
+                                "Establish regular access review procedures"
+                            ]
+                        },
+                        {
+                            category: "Data Protection",
+                            tasks: [
+                                "Implement encryption for data at rest and in transit",
+                                "Develop data classification policies",
+                                "Create data retention and deletion procedures",
+                                "Implement data loss prevention controls"
+                            ]
+                        },
+                        {
+                            category: "Security Operations",
+                            tasks: [
+                                "Create a security incident response plan",
+                                "Establish regular security training for all users",
+                                "Implement security monitoring and alerting",
+                                "Schedule regular penetration testing"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 7: Based on support
+            if (app.support < 4.0) {
+                recommendations.push({
+                    title: "Improve Support Resources",
+                    steps: [
+                        "Establish internal support documentation and knowledge base",
+                        "Train designated super-users to provide first-line support",
+                        "Negotiate enhanced support packages with vendors",
+                        "Join user communities and forums for peer assistance",
+                        "Develop escalation procedures for critical issues"
+                    ],
+                    improvement: "Issue resolution time -35%, User satisfaction +25%",
+                    detailedTasks: [
+                        {
+                            category: "Support Assessment",
+                            tasks: [
+                                "Analyze historical support tickets by category and resolution time",
+                                "Survey users about support satisfaction and pain points",
+                                "Review current vendor support agreement and SLAs",
+                                "Benchmark against industry standards for similar applications"
+                            ]
+                        },
+                        {
+                            category: "Internal Support Development",
+                            tasks: [
+                                "Create an internal knowledge base for common issues",
+                                "Identify and train super-users for each department",
+                                "Develop troubleshooting guides for frequent problems",
+                                "Implement a tiered support escalation process"
+                            ]
+                        },
+                        {
+                            category: "Vendor Relationship",
+                            tasks: [
+                                "Review and potentially upgrade support contracts",
+                                "Establish direct contacts with vendor support team",
+                                "Schedule regular check-ins with vendor account manager",
+                                "Join vendor's customer advisory board if available"
+                            ]
+                        },
+                        {
+                            category: "Community Engagement",
+                            tasks: [
+                                "Join user communities and forums for the application",
+                                "Participate in user groups and meetups",
+                                "Contribute to community knowledge sharing",
+                                "Consider hosting a user group for your region"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 8: Based on cost
+            if (app.cost < 4.0) {
+                recommendations.push({
+                    title: "Optimize Cost Structure",
+                    steps: [
+                        "Audit current license usage to identify unused accounts",
+                        "Negotiate enterprise pricing if team size exceeds 50 users",
+                        "Consider annual payment plans for additional discounts",
+                        "Evaluate feature usage to determine if a lower tier plan would suffice",
+                        "Implement usage monitoring to prevent resource waste"
+                    ],
+                    improvement: "Cost reduction of 15-30%",
+                    detailedTasks: [
+                        {
+                            category: "Cost Analysis",
+                            tasks: [
+                                "Conduct a comprehensive license audit",
+                                "Analyze feature usage across different user groups",
+                                "Calculate cost per user and compare to industry benchmarks",
+                                "Project costs for the next 12-24 months based on growth"
+                            ]
+                        },
+                        {
+                            category: "License Optimization",
+                            tasks: [
+                                "Identify and reclaim inactive or underutilized licenses",
+                                "Implement tiered licensing based on user needs",
+                                "Create a license provisioning and deprovisioning process",
+                                "Set up regular license usage reviews"
+                            ]
+                        },
+                        {
+                            category: "Vendor Negotiation",
+                            tasks: [
+                                "Research competitive pricing and alternatives",
+                                "Prepare negotiation strategy with clear objectives",
+                                "Request volume discounts or multi-year pricing",
+                                "Explore bundling opportunities with other products"
+                            ]
+                        },
+                        {
+                            category: "Usage Optimization",
+                            tasks: [
+                                "Implement resource usage monitoring",
+                                "Create policies to minimize unnecessary resource consumption",
+                                "Automate scaling resources based on actual usage",
+                                "Establish cost allocation and chargeback mechanisms"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 9: Based on company maturity
+            if (maturityScore < 2.5) {
+                recommendations.push({
+                    title: "Increase Technical Maturity",
+                    steps: [
+                        "Implement basic backup and disaster recovery procedures",
+                        "Establish formal security protocols and compliance measures",
+                        "Adopt version control for all configuration changes",
+                        "Create a basic technology roadmap with quarterly reviews",
+                        "Consider fractional CTO services to guide technology decisions"
+                    ],
+                    improvement: "Risk reduction -40%, Technology alignment +50%",
+                    detailedTasks: [
+                        {
+                            category: "Foundational Infrastructure",
+                            tasks: [
+                                "Implement automated daily backups for all critical systems",
+                                "Create a basic disaster recovery plan",
+                                "Establish minimum security standards for all systems",
+                                "Document current technology stack and dependencies"
+                            ]
+                        },
+                        {
+                            category: "Process Development",
+                            tasks: [
+                                "Implement basic change management procedures",
+                                "Create standard operating procedures for key IT functions",
+                                "Establish incident response protocols",
+                                "Develop user onboarding and offboarding processes"
+                            ]
+                        },
+                        {
+                            category: "Strategic Planning",
+                            tasks: [
+                                "Create a 12-month technology roadmap",
+                                "Establish quarterly technology review meetings",
+                                "Develop basic IT budgeting and forecasting",
+                                "Align technology initiatives with business objectives"
+                            ]
+                        },
+                        {
+                            category: "Leadership & Governance",
+                            tasks: [
+                                "Evaluate fractional CTO or IT leadership options",
+                                "Establish a basic IT steering committee",
+                                "Create technology policies and standards",
+                                "Develop metrics for measuring IT effectiveness"
+                            ]
+                        }
+                    ]
+                });
+            } else if (maturityScore >= 2.5 && maturityScore < 4.0) {
+                recommendations.push({
+                    title: "Advance Technical Capabilities",
+                    steps: [
+                        "Implement automated CI/CD pipelines for deployment",
+                        "Establish formal security frameworks and regular audits",
+                        "Develop comprehensive disaster recovery testing procedures",
+                        "Create a detailed technology roadmap with business alignment",
+                        "Implement advanced monitoring and alerting systems"
+                    ],
+                    improvement: "Operational efficiency +30%, Compliance readiness +45%",
+                    detailedTasks: [
+                        {
+                            category: "DevOps Implementation",
+                            tasks: [
+                                "Implement CI/CD pipelines for all development projects",
+                                "Establish infrastructure as code practices",
+                                "Implement automated testing frameworks",
+                                "Create deployment automation for all environments"
+                            ]
+                        },
+                        {
+                            category: "Security Enhancement",
+                            tasks: [
+                                "Implement a formal security framework (ISO 27001, NIST, etc.)",
+                                "Conduct regular security audits and penetration testing",
+                                "Establish a security operations center function",
+                                "Develop comprehensive security incident response capabilities"
+                            ]
+                        },
+                        {
+                            category: "Resilience & Recovery",
+                            tasks: [
+                                "Implement comprehensive business continuity planning",
+                                "Establish regular disaster recovery testing",
+                                "Develop automated failover capabilities",
+                                "Create resilient architecture patterns"
+                            ]
+                        },
+                        {
+                            category: "Strategic Technology Management",
+                            tasks: [
+                                "Develop a 3-year technology roadmap with business alignment",
+                                "Establish technology governance committees",
+                                "Implement portfolio management for technology initiatives",
+                                "Create innovation management processes"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // Recommendation 10: Based on specific company profile weaknesses
+            if (companyProfile.disasterRecovery === "No backups" || companyProfile.disasterRecovery === "Manual occasionally") {
+                recommendations.push({
+                    title: "Strengthen Data Protection",
+                    steps: [
+                        "Implement automated daily backups of all critical data",
+                        "Establish off-site backup storage for disaster recovery",
+                        "Create and test a data restoration procedure",
+                        "Implement version history and point-in-time recovery",
+                        "Develop a formal disaster recovery plan with assigned responsibilities"
+                    ],
+                    improvement: "Data loss risk -75%, Recovery time -60%",
+                    detailedTasks: [
+                        {
+                            category: "Backup Implementation",
+                            tasks: [
+                                "Inventory all critical data sources and systems",
+                                "Select and implement automated backup solutions",
+                                "Configure backup schedules based on data criticality",
+                                "Implement backup monitoring and alerting"
+                            ]
+                        },
+                        {
+                            category: "Storage & Retention",
+                            tasks: [
+                                "Establish off-site and/or cloud backup storage",
+                                "Implement the 3-2-1 backup strategy (3 copies, 2 media types, 1 off-site)",
+                                "Create data retention policies aligned with business needs",
+                                "Implement secure backup encryption"
+                            ]
+                        },
+                        {
+                            category: "Recovery Testing",
+                            tasks: [
+                                "Develop detailed restoration procedures for each system",
+                                "Conduct regular restoration testing exercises",
+                                "Document recovery time objectives (RTOs) for each system",
+                                "Create recovery prioritization guidelines"
+                            ]
+                        },
+                        {
+                            category: "Disaster Recovery Planning",
+                            tasks: [
+                                "Develop a comprehensive disaster recovery plan",
+                                "Assign specific roles and responsibilities",
+                                "Create communication protocols for recovery scenarios",
+                                "Schedule quarterly disaster recovery plan reviews"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            if (companyProfile.security === "None" || companyProfile.security === "Ad-hoc") {
+                recommendations.push({
+                    title: "Establish Security Framework",
+                    steps: [
+                        "Implement regular vulnerability scanning and remediation",
+                        "Establish formal security policies and procedures",
+                        "Conduct security awareness training for all staff",
+                        "Implement multi-factor authentication across all systems",
+                        "Consider security compliance frameworks appropriate for your industry"
+                    ],
+                    improvement: "Security incidents -65%, Compliance readiness +70%",
+                    detailedTasks: [
+                        {
+                            category: "Security Assessment",
+                            tasks: [
+                                "Conduct a comprehensive security risk assessment",
+                                "Implement regular vulnerability scanning",
+                                "Perform an initial penetration test",
+                                "Document current security gaps and prioritize remediation"
+                            ]
+                        },
+                        {
+                            category: "Policy Development",
+                            tasks: [
+                                "Create fundamental security policies (acceptable use, access control, etc.)",
+                                "Develop incident response procedures",
+                                "Establish data classification guidelines",
+                                "Create security standards for systems and applications"
+                            ]
+                        },
+                        {
+                            category: "Security Controls",
+                            tasks: [
+                                "Implement multi-factor authentication for all systems",
+                                "Deploy endpoint protection on all devices",
+                                "Configure network security controls (firewalls, IDS/IPS)",
+                                "Implement email security and anti-phishing measures"
+                            ]
+                        },
+                        {
+                            category: "Training & Awareness",
+                            tasks: [
+                                "Develop security awareness training materials",
+                                "Conduct baseline security training for all staff",
+                                "Implement regular phishing simulations",
+                                "Create security champions program across departments"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // New AI-related recommendations
+            if (companyProfile.aiUsage === "Not at all" || companyProfile.aiUsage === "Experimenting in some departments") {
+                recommendations.push({
+                    title: "Develop AI Implementation Strategy",
+                    steps: [
+                        "Identify key business processes that could benefit from AI automation",
+                        "Start with small, high-impact AI pilot projects",
+                        "Develop AI skills within your technical team through training",
+                        "Evaluate AI-as-a-Service options for quicker implementation",
+                        "Create metrics to measure AI implementation success"
+                    ],
+                    improvement: "Process efficiency +40%, Decision-making speed +35%",
+                    detailedTasks: [
+                        {
+                            category: "Opportunity Assessment",
+                            tasks: [
+                                "Conduct an AI opportunity workshop with key stakeholders",
+                                "Map business processes that could benefit from AI",
+                                "Prioritize use cases based on business impact and feasibility",
+                                "Develop ROI models for top AI opportunities"
+                            ]
+                        },
+                        {
+                            category: "Pilot Implementation",
+                            tasks: [
+                                "Select 1-2 high-impact, low-risk pilot projects",
+                                "Identify AI-as-a-Service solutions for quick wins",
+                                "Establish clear success metrics for pilots",
+                                "Create implementation timeline with milestones"
+                            ]
+                        },
+                        {
+                            category: "Capability Building",
+                            tasks: [
+                                "Assess current AI skills within the organization",
+                                "Develop AI training program for technical teams",
+                                "Create AI awareness sessions for business stakeholders",
+                                "Identify potential AI champions across departments"
+                            ]
+                        },
+                        {
+                            category: "Scaling Strategy",
+                            tasks: [
+                                "Develop a framework for evaluating pilot results",
+                                "Create a roadmap for scaling successful pilots",
+                                "Establish governance for AI implementations",
+                                "Develop data strategy to support AI initiatives"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            if (companyProfile.aiStrategy === "No strategy/policy" || companyProfile.aiStrategy === "Some guidelines, not standardized") {
+                recommendations.push({
+                    title: "Establish AI Governance Framework",
+                    steps: [
+                        "Develop a formal AI strategy aligned with business objectives",
+                        "Create clear policies for AI tool selection and implementation",
+                        "Establish data quality standards for AI training and usage",
+                        "Define roles and responsibilities for AI oversight",
+                        "Implement regular AI strategy review processes"
+                    ],
+                    improvement: "AI project success rate +55%, Strategic alignment +60%",
+                    detailedTasks: [
+                        {
+                            category: "Strategy Development",
+                            tasks: [
+                                "Conduct an AI strategy workshop with leadership",
+                                "Define AI vision and principles for the organization",
+                                "Align AI initiatives with business strategic objectives",
+                                "Create a 2-year AI implementation roadmap"
+                            ]
+                        },
+                        {
+                            category: "Policy Creation",
+                            tasks: [
+                                "Develop AI tool evaluation and selection criteria",
+                                "Create data governance policies for AI training data",
+                                "Establish AI implementation standards",
+                                "Define AI risk management framework"
+                            ]
+                        },
+                        {
+                            category: "Governance Structure",
+                            tasks: [
+                                "Define AI roles and responsibilities across the organization",
+                                "Establish an AI steering committee",
+                                "Create AI project approval processes",
+                                "Develop AI performance monitoring standards"
+                            ]
+                        },
+                        {
+                            category: "Continuous Improvement",
+                            tasks: [
+                                "Implement quarterly AI strategy review meetings",
+                                "Create AI knowledge sharing mechanisms",
+                                "Establish AI innovation pipeline",
+                                "Develop AI maturity assessment framework"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            if (companyProfile.aiEthics === "Not considered" || companyProfile.aiEthics === "Ad-hoc awareness") {
+                recommendations.push({
+                    title: "Implement AI Ethics & Compliance",
+                    steps: [
+                        "Develop AI ethics principles specific to your organization",
+                        "Establish bias detection and mitigation procedures",
+                        "Create transparency guidelines for AI-driven decisions",
+                        "Implement regular AI ethics training for all relevant staff",
+                        "Develop an AI ethics review board for oversight"
+                    ],
+                    improvement: "Regulatory compliance +70%, Stakeholder trust +50%",
+                    detailedTasks: [
+                        {
+                            category: "Ethics Framework",
+                            tasks: [
+                                "Research AI ethics frameworks and best practices",
+                                "Develop organization-specific AI ethics principles",
+                                "Create an AI ethics policy document",
+                                "Establish AI ethics review process for new projects"
+                            ]
+                        },
+                        {
+                            category: "Bias Management",
+                            tasks: [
+                                "Implement bias detection tools and methodologies",
+                                "Create diverse training data guidelines",
+                                "Establish regular bias audits for AI systems",
+                                "Develop mitigation strategies for identified biases"
+                            ]
+                        },
+                        {
+                            category: "Transparency & Explainability",
+                            tasks: [
+                                "Create standards for AI decision transparency",
+                                "Implement explainable AI techniques where possible",
+                                "Develop user communication guidelines for AI systems",
+                                "Establish appeal processes for AI decisions"
+                            ]
+                        },
+                        {
+                            category: "Governance & Oversight",
+                            tasks: [
+                                "Establish an AI ethics review board",
+                                "Create AI ethics training for developers and stakeholders",
+                                "Implement regular AI ethics audits",
+                                "Develop reporting mechanisms for AI ethics concerns"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            // App-specific recommendations
+            if (app.category === "Hosting & collaboration" || app.category.includes("Hosting & collaboration")) {
+                recommendations.push({
+                    title: "Optimize Email Workflow",
+                    steps: [
+                        "Implement email organization policies (folders, labels, archiving)",
+                        "Create email templates for common communications",
+                        "Establish email security protocols (SPF, DKIM, DMARC)",
+                        "Configure advanced spam filtering and phishing protection",
+                        "Implement email backup and retention policies"
+                    ],
+                    improvement: "Email productivity +40%, Security posture +50%",
+                    detailedTasks: [
+                        {
+                            category: "Organization & Efficiency",
+                            tasks: [
+                                "Develop email folder/label structure guidelines",
+                                "Create email templates for common communications",
+                                "Implement email rules for automatic organization",
+                                "Configure inbox management features (priority, categories)"
+                            ]
+                        },
+                        {
+                            category: "Security Enhancement",
+                            tasks: [
+                                "Configure SPF, DKIM, and DMARC records",
+                                "Implement advanced anti-phishing protection",
+                                "Set up email encryption for sensitive communications",
+                                "Configure attachment scanning and sandboxing"
+                            ]
+                        },
+                        {
+                            category: "Compliance & Retention",
+                            tasks: [
+                                "Develop email retention policies aligned with regulations",
+                                "Implement email archiving solution",
+                                "Configure legal hold capabilities",
+                                "Create email compliance training for users"
+                            ]
+                        },
+                        {
+                            category: "Integration & Collaboration",
+                            tasks: [
+                                "Integrate email with other collaboration tools",
+                                "Configure calendar sharing and resource management",
+                                "Implement shared mailbox protocols",
+                                "Set up email delegation and permissions"
+                            ]
+                        }
+                    ]
+                });
+            } else if (app.category === "Team Messaging") {
+                recommendations.push({
+                    title: "Enhance Team Communication",
+                    steps: [
+                        "Establish channel organization and naming conventions",
+                        "Create guidelines for effective messaging and notifications",
+                        "Implement integrations with other critical business tools",
+                        "Set up automated workflows for routine processes",
+                        "Develop a knowledge base within the messaging platform"
+                    ],
+                    improvement: "Team coordination +45%, Information accessibility +60%",
+                    detailedTasks: [
+                        {
+                            category: "Channel Structure",
+                            tasks: [
+                                "Develop channel naming conventions",
+                                "Create channel organization guidelines (public vs. private)",
+                                "Implement channel archiving policies",
+                                "Establish channel ownership and moderation"
+                            ]
+                        },
+                        {
+                            category: "Communication Protocols",
+                            tasks: [
+                                "Create messaging etiquette guidelines",
+                                "Develop notification management best practices",
+                                "Establish status update protocols",
+                                "Implement thread usage guidelines"
+                            ]
+                        },
+                        {
+                            category: "Integration & Automation",
+                            tasks: [
+                                "Integrate messaging platform with key business tools",
+                                "Create automated notifications for critical events",
+                                "Implement chatbots for routine inquiries",
+                                "Develop custom workflows for team processes"
+                            ]
+                        },
+                        {
+                            category: "Knowledge Management",
+                            tasks: [
+                                "Establish pinned content guidelines",
+                                "Create searchable knowledge base within the platform",
+                                "Implement information archiving procedures",
+                                "Develop content curation roles and responsibilities"
+                            ]
+                        }
+                    ]
+                });
+            } else if (app.category === "Customer Messaging") {
+                recommendations.push({
+                    title: "Improve Customer Engagement",
+                    steps: [
+                        "Develop response templates for common customer inquiries",
+                        "Implement chatbots for initial customer interaction",
+                        "Create escalation paths for complex customer issues",
+                        "Integrate customer messaging with your CRM system",
+                        "Establish customer satisfaction measurement processes"
+                    ],
+                    improvement: "Response time -50%, Customer satisfaction +35%",
+                    detailedTasks: [
+                        {
+                            category: "Response Management",
+                            tasks: [
+                                "Create response templates for common inquiries",
+                                "Develop tone and voice guidelines for customer communications",
+                                "Establish response time standards",
+                                "Implement after-hours response protocols"
+                            ]
+                        },
+                        {
+                            category: "Automation Implementation",
+                            tasks: [
+                                "Configure chatbot for initial customer engagement",
+                                "Develop decision tree for automated responses",
+                                "Create handoff protocols from bot to human agents",
+                                "Implement automated follow-up processes"
+                            ]
+                        },
+                        {
+                            category: "Issue Resolution",
+                            tasks: [
+                                "Create tiered support escalation paths",
+                                "Develop issue categorization system",
+                                "Establish SLAs for different issue types",
+                                "Implement case routing based on expertise"
+                            ]
+                        },
+                        {
+                            category: "Performance Measurement",
+                            tasks: [
+                                "Implement customer satisfaction surveys",
+                                "Create agent performance metrics",
+                                "Develop regular reporting on customer engagement",
+                                "Establish continuous improvement processes"
+                            ]
+                        }
+                    ]
+                });
+            } else if (app.category === "Audio/Video Calls" || app.category === "Audio and Video") {
+                recommendations.push({
+                    title: "Optimize Virtual Meetings",
+                    steps: [
+                        "Establish meeting protocols and best practices",
+                        "Create standardized meeting templates for different purposes",
+                        "Implement recording and transcription for important meetings",
+                        "Configure optimal audio/video settings for your environment",
+                        "Integrate calendar scheduling for seamless meeting management"
+                    ],
+                    improvement: "Meeting efficiency +30%, Information retention +45%",
+                    detailedTasks: [
+                        {
+                            category: "Meeting Structure",
+                            tasks: [
+                                "Create meeting templates for different meeting types",
+                                "Develop agenda and note-taking standards",
+                                "Establish meeting facilitation guidelines",
+                                "Implement time management protocols"
+                            ]
+                        },
+                        {
+                            category: "Technical Optimization",
+                            tasks: [
+                                "Configure optimal audio settings for your environment",
+                                "Establish video quality guidelines",
+                                "Create hardware recommendations for different user roles",
+                                "Implement network optimization for video calls"
+                            ]
+                        },
+                        {
+                            category: "Recording & Documentation",
+                            tasks: [
+                                "Establish recording policies and permissions",
+                                "Implement transcription for important meetings",
+                                "Create searchable meeting archive",
+                                "Develop action item tracking system"
+                            ]
+                        },
+                        {
+                            category: "Integration & Scheduling",
+                            tasks: [
+                                "Integrate meeting platform with calendaring system",
+                                "Create room resource management system",
+                                "Implement scheduling templates with default settings",
+                                "Develop hybrid meeting protocols for mixed remote/in-person"
+                            ]
+                        }
+                    ]
+                });
+            } else if (app.category === "Data Storage") {
+                recommendations.push({
+                    title: "Enhance Data Management",
+                    steps: [
+                        "Implement folder structure and naming conventions",
+                        "Establish access control and permission policies",
+                        "Create automated backup and versioning procedures",
+                        "Implement data lifecycle management policies",
+                        "Develop collaboration protocols for shared documents"
+                    ],
+                    improvement: "Data organization +55%, Collaboration efficiency +40%",
+                    detailedTasks: [
+                        {
+                            category: "Organization Structure",
+                            tasks: [
+                                "Design standardized folder hierarchy",
+                                "Create file naming conventions",
+                                "Implement metadata tagging system",
+                                "Develop search optimization guidelines"
+                            ]
+                        },
+                        {
+                            category: "Access Management",
+                            tasks: [
+                                "Create role-based access control framework",
+                                "Implement least privilege principles",
+                                "Establish permission review procedures",
+                                "Develop external sharing policies"
+                            ]
+                        },
+                        {
+                            category: "Data Protection",
+                            tasks: [
+                                "Configure automated backup schedules",
+                                "Implement file versioning policies",
+                                "Create data recovery procedures",
+                                "Establish retention and archiving rules"
+                            ]
+                        },
+                        {
+                            category: "Collaboration Protocols",
+                            tasks: [
+                                "Develop co-editing guidelines",
+                                "Create document check-out/check-in procedures",
+                                "Implement comment and feedback protocols",
+                                "Establish notification preferences for shared content"
+                            ]
+                        }
+                    ]
+                });
+            } else if (app.category === "CRM") {
+                recommendations.push({
+                    title: "Maximize CRM Value",
+                    steps: [
+                        "Standardize data entry procedures for consistent records",
+                        "Implement automated lead scoring and qualification",
+                        "Create custom pipelines aligned with your sales process",
+                        "Develop comprehensive reporting and analytics dashboards",
+                        "Integrate email and communication tools with CRM"
+                    ],
+                    improvement: "Sales visibility +60%, Conversion rate +25%",
+                    detailedTasks: [
+                        {
+                            category: "Data Quality Management",
+                            tasks: [
+                                "Create data entry standards and guidelines",
+                                "Implement required fields and validation rules",
+                                "Develop duplicate detection and merging procedures",
+                                "Establish regular data cleansing processes"
+                            ]
+                        },
+                        {
+                            category: "Process Automation",
+                            tasks: [
+                                "Configure lead scoring models",
+                                "Implement automated assignment rules",
+                                "Create workflow automations for routine tasks",
+                                "Develop email templates and sequences"
+                            ]
+                        },
+                        {
+                            category: "Pipeline Customization",
+                            tasks: [
+                                "Map sales process stages to CRM pipeline",
+                                "Create stage transition criteria and checklists",
+                                "Implement opportunity scoring",
+                                "Develop forecasting methodologies"
+                            ]
+                        },
+                        {
+                            category: "Reporting & Analytics",
+                            tasks: [
+                                "Create role-specific dashboards",
+                                "Implement key performance indicators",
+                                "Develop regular reporting cadence",
+                                "Configure automated alerts for critical metrics"
+                            ]
+                        }
+                    ]
+                });
+            } else if (app.category === "PM Tools") {
+                recommendations.push({
+                    title: "Optimize Project Management",
+                    steps: [
+                        "Establish standardized project templates and workflows",
+                        "Implement task prioritization and assignment protocols",
+                        "Create custom dashboards for different stakeholder views",
+                        "Develop automated progress reporting procedures",
+                        "Integrate time tracking and resource allocation"
+                    ],
+                    improvement: "Project delivery time -30%, Resource utilization +35%",
+                    detailedTasks: [
+                        {
+                            category: "Project Structure",
+                            tasks: [
+                                "Create standardized project templates",
+                                "Develop work breakdown structure guidelines",
+                                "Implement project categorization system",
+                                "Establish milestone and deliverable standards"
+                            ]
+                        },
+                        {
+                            category: "Task Management",
+                            tasks: [
+                                "Create task prioritization framework",
+                                "Implement assignment protocols and workload balancing",
+                                "Develop estimation guidelines",
+                                "Establish dependency management procedures"
+                            ]
+                        },
+                        {
+                            category: "Visibility & Reporting",
+                            tasks: [
+                                "Create role-specific dashboards",
+                                "Implement automated status reporting",
+                                "Develop project health indicators",
+                                "Establish regular review cadence"
+                            ]
+                        },
+                        {
+                            category: "Resource Management",
+                            tasks: [
+                                "Implement time tracking procedures",
+                                "Create resource allocation framework",
+                                "Develop capacity planning methodologies",
+                                "Establish budget tracking and forecasting"
+                            ]
+                        }
+                    ]
+                });
+            }
+            
+            return recommendations;
+        }
+
+        // Display results in the UI
+        function displayResults(appResults, recommendations, maturityScore) {
+            // Display current app details with table
+            let currentAppsHTML = `
+                <div style="margin-bottom: 20px;">
+                    <p><strong>${appResults[0].companyName || 'Your Company'} Maturity Score:</strong> ${maturityScore.toFixed(2)}/5</p>
+                </div>
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>App Name</th>
+                            <th>Category</th>
+                            <th>Functionality</th>
+                            <th>Ease of Use</th>
+                            <th>Integration</th>
+                            <th>Scalability</th>
+                            <th>Reliability</th>
+                            <th>Security</th>
+                            <th>Support</th>
+                            <th>Cost</th>
+                            <th>Overall Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            appResults.forEach(result => {
+                currentAppsHTML += `
+                    <tr>
+                        <td>${result.rank}/${result.totalApps}</td>
+                        <td>${result.app.name}</td>
+                        <td>${result.app.category}</td>
+                        <td>${result.app.functionality}/5</td>
+                        <td>${result.app.easeOfUse}/5</td>
+                        <td>${result.app.integration}/5</td>
+                        <td>${result.app.scalability}/5</td>
+                        <td>${result.app.reliability}/5</td>
+                        <td>${result.app.security}/5</td>
+                        <td>${result.app.support}/5</td>
+                        <td>${result.app.cost}/5</td>
+                        <td><strong>${result.app.overallScore.toFixed(2)}/5</strong></td>
+                    </tr>
+                `;
+            });
+            
+            currentAppsHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            currentAppDetails.innerHTML = currentAppsHTML;
+            
+            // Display alternatives with table
+            let alternativesHTML = '';
+            
+            appResults.forEach(result => {
+                alternativesHTML += `
+                    <h3 style="margin-top: 30px;">Top Alternatives for ${result.app.name}</h3>
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>App Name</th>
+                                <th>Notes</th>
+                                <th>Functionality</th>
+                                <th>Ease of Use</th>
+                                <th>Integration</th>
+                                <th>Scalability</th>
+                                <th>Reliability</th>
+                                <th>Security</th>
+                                <th>Support</th>
+                                <th>Cost</th>
+                                <th>Overall Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                result.alternatives.forEach((alt, index) => {
+                    alternativesHTML += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${alt.name}</td>
+                            <td>${alt.notes}</td>
+                            <td>${alt.functionality}/5</td>
+                            <td>${alt.easeOfUse}/5</td>
+                            <td>${alt.integration}/5</td>
+                            <td>${alt.scalability}/5</td>
+                            <td>${alt.reliability}/5</td>
+                            <td>${alt.security}/5</td>
+                            <td>${alt.support}/5</td>
+                            <td>${alt.cost}/5</td>
+                            <td><strong>${alt.overallScore.toFixed(2)}/5</strong></td>
+                        </tr>
+                    `;
+                });
+                
+                alternativesHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                // Add comparison table
+                alternativesHTML += `
+                    <h3 style="margin-top: 30px;">Comparison with ${result.app.name}</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>${result.app.name}</th>
+                                ${result.alternatives.map(alt => `<th>${alt.name}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Functionality</td>
+                                <td>${result.app.functionality}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.functionality - result.app.functionality;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.functionality} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Ease of Use</td>
+                                <td>${result.app.easeOfUse}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.easeOfUse - result.app.easeOfUse;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.easeOfUse} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Integration</td>
+                                <td>${result.app.integration}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.integration - result.app.integration;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.integration} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Scalability</td>
+                                <td>${result.app.scalability}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.scalability - result.app.scalability;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.scalability} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Reliability</td>
+                                <td>${result.app.reliability}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.reliability - result.app.reliability;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.reliability} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Security</td>
+                                <td>${result.app.security}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.security - result.app.security;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.security} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Support</td>
+                                <td>${result.app.support}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.support - result.app.support;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.support} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td>Cost</td>
+                                <td>${result.app.cost}</td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.cost - result.app.cost;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}">${alt.cost} ${diff > 0 ? '(+' + diff.toFixed(1) + ')' : (diff < 0 ? '(' + diff.toFixed(1) + ')' : '')}</td>`;
+                                }).join('')}
+                            </tr>
+                            <tr>
+                                <td><strong>Overall Score</strong></td>
+                                <td><strong>${result.app.overallScore.toFixed(2)}</strong></td>
+                                ${result.alternatives.map(alt => {
+                                    const diff = alt.overallScore - result.app.overallScore;
+                                    const className = diff > 0 ? 'better' : (diff < 0 ? 'worse' : '');
+                                    return `<td class="${className}"><strong>${alt.overallScore.toFixed(2)} ${diff > 0 ? '(+' + diff.toFixed(2) + ')' : (diff < 0 ? '(' + diff.toFixed(2) + ')' : '')}</strong></td>`;
+                                }).join('')}
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+            });
+            
+            alternativesDiv.innerHTML = alternativesHTML;
+            
+            // Display recommendations with detailed tasks button
+            recommendationsDiv.innerHTML = '';
+            recommendations.forEach((rec, index) => {
+                const stepsHTML = rec.steps.map(step => `<li>${step}</li>`).join('');
+                
+                let recHTML = `
+                    <div class="recommendation-item" id="rec-${index}">
+                        <h4>${rec.title} <span class="score-improvement">${rec.improvement}</span></h4>
+                        <ul class="steps">
+                            ${stepsHTML}
+                        </ul>
+                        <button class="view-tasks-btn" onclick="toggleDetailedTasks('detailed-tasks-${index}')">View Detailed Tasks</button>
+                        <div class="detailed-tasks" id="detailed-tasks-${index}">
+                            <p class="task-header">Detailed implementation tasks for ${rec.title}:</p>
+                `;
+                
+                // Add detailed tasks if available
+                if (rec.detailedTasks && rec.detailedTasks.length > 0) {
+                    rec.detailedTasks.forEach(category => {
+                        recHTML += `
+                            <p class="task-category">${category.category}</p>
+                            <ol class="task-list">
+                                ${category.tasks.map(task => `<li>${task}</li>`).join('')}
+                            </ol>
+                        `;
+                    });
+                } else {
+                    recHTML += `<p>No detailed tasks available for this recommendation.</p>`;
+                }
+                
+                recHTML += `
+                        </div>
+                    </div>
+                `;
+                
+                recommendationsDiv.innerHTML += recHTML;
+            });
+            
+            // Add script to toggle detailed tasks
+            const script = document.createElement('script');
+            script.textContent = `
+                function toggleDetailedTasks(id) {
+                    const tasksDiv = document.getElementById(id);
+                    if (tasksDiv.classList.contains('active')) {
+                        tasksDiv.classList.remove('active');
+                    } else {
+                        tasksDiv.classList.add('active');
+                    }
+                }
+            `;
+            document.body.appendChild(script);
+            
+        }
+    </script>
+    
+    <!-- Login Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginOverlay = document.getElementById('login-overlay');
+            const mainContent = document.getElementById('main-content');
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginError = document.getElementById('login-error');
+            
+            // Check if user is already logged in (using session storage)
+            if (sessionStorage.getItem('odinSightLoggedIn') === 'true') {
+                loginOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Update welcome message
+                const welcomeMessage = document.getElementById('welcome-message');
+                const username = sessionStorage.getItem('odinSightUsername') || 'User';
+                welcomeMessage.textContent = `Welcome, ${username}`;
+            }
+            
+            // Login button click handler
+            loginBtn.addEventListener('click', function() {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                
+                // Validate credentials
+                if ((username === 'Admin' && password === 'Admin123456') || 
+                    (username === 'User' && password === 'Welcome2025!!')) {
+                    // Store login state in session storage
+                    sessionStorage.setItem('odinSightLoggedIn', 'true');
+                    sessionStorage.setItem('odinSightUsername', username);
+                    
+                    // Hide login overlay and show main content
+                    loginOverlay.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    
+                    // Update welcome message
+                    const welcomeMessage = document.getElementById('welcome-message');
+                    welcomeMessage.textContent = `Welcome, ${username}`;
+                } else {
+                    // Show error message
+                    loginError.textContent = 'Invalid username or password. Please try again.';
+                    passwordInput.value = '';
+                }
+            });
+            
+            // Logout button click handler
+            logoutBtn.addEventListener('click', function() {
+                // Remove login state from session storage
+                sessionStorage.removeItem('odinSightLoggedIn');
+                sessionStorage.removeItem('odinSightUsername');
+                
+                // Show login overlay and hide main content
+                loginOverlay.style.display = 'flex';
+                mainContent.style.display = 'none';
+                
+                // Clear login form
+                usernameInput.value = '';
+                passwordInput.value = '';
+                loginError.textContent = '';
+            });
+            
+            // Allow Enter key to submit the form
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loginBtn.click();
+                }
+            });
+        });
+    </script>
+</div> <!-- End of main-content div -->
+</body>
+</html>
