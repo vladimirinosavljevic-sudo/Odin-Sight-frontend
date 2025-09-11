@@ -746,7 +746,6 @@
         <p>Our intuitive and well-designed assessment quickly evaluates your organization's technology maturity. You'll receive a comprehensive Tech Maturity Score along with tailored recommendations to guide your next steps, while effectively identifying both risks and opportunities.</p>
       </div>
       <div class="logout-container">
-        <span id="welcome-message" class="welcome-user">Welcome</span>
         <button id="logout-btn" class="logout-btn">Logout</button>
       </div>
     </div>
@@ -782,11 +781,7 @@
     gap: 15px;
   }
   
-  .welcome-user {
-    color: var(--text-light);
-    font-size: 14px;
-    opacity: 0.9;
-  }
+  
   
   .logout-btn {
     background-color: rgba(74, 155, 215, 0.2);
@@ -2911,10 +2906,7 @@
                 loginOverlay.style.display = 'none';
                 mainContent.style.display = 'block';
                 
-                // Update welcome message
-                const welcomeMessage = document.getElementById('welcome-message');
-                const username = sessionStorage.getItem('odinSightUsername') || 'User';
-                welcomeMessage.textContent = `Welcome, ${username}`;
+                
             }
             
             // Login button click handler
@@ -2923,8 +2915,7 @@
                 const password = passwordInput.value.trim();
                 
                 // Validate credentials
-                if ((username === 'Admin' && password === 'Admin123456') || 
-                    (username === 'User' && password === 'Welcome2025!!')) {
+                if (username && password) {
                     // Store login state in session storage
                     sessionStorage.setItem('odinSightLoggedIn', 'true');
                     sessionStorage.setItem('odinSightUsername', username);
@@ -2933,9 +2924,7 @@
                     loginOverlay.style.display = 'none';
                     mainContent.style.display = 'block';
                     
-                    // Update welcome message
-                    const welcomeMessage = document.getElementById('welcome-message');
-                    welcomeMessage.textContent = `Welcome, ${username}`;
+                    
                 } else {
                     // Show error message
                     loginError.textContent = 'Invalid username or password. Please try again.';
