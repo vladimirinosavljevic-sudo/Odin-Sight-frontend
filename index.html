@@ -1105,9 +1105,9 @@
         const appData = {
             "Email": [
                 {"name": "Fastmail (Business)", "category": "Hosting & collaboration", "functionality": 4.2, "easeOfUse": 4.5, "integration": 3.8, "scalability": 4.0, "reliability": 4.7, "security": 4.8, "support": 4.3, "cost": 4.2, "notes": "Privacy-focused, clean UI", "overallScore": 4.29},
-                {"name": "Google Workspace (Gmail)", "category": "Hosting & collaboration", "functionality": 4.8, "easeOfUse": 4.7, "integration": 4.9, "scalability": 4.8, "reliability": 4.9, "security": 4.7, "support": 4.5, "cost": 4.3, "notes": "Cloud-native suite; best for collaboration", "overallScore": 4.73},
-                {"name": "Zoho Mail / Zoho Workplace", "category": "Hosting & collaboration", "functionality": 4.5, "easeOfUse": 4.3, "integration": 4.4, "scalability": 4.6, "reliability": 4.5, "security": 4.4, "support": 4.2, "cost": 4.8, "notes": "Very cost-effective for SMBs", "overallScore": 4.46},
-                {"name": "Microsoft 365 (Outlook/Exchange)", "category": "Hosting & collaboration", "functionality": 4.9, "easeOfUse": 4.4, "integration": 4.9, "scalability": 4.9, "reliability": 4.8, "security": 4.8, "support": 4.6, "cost": 4.0, "notes": "Enterprise features; Office integration", "overallScore": 4.71},
+                {"name": "Google Workspace (Gmail)", "category": "Hosting & collaboration", "functionality": 4.8, "easeOfUse": 4.7, "integration": 4.9, "scalability": 4.8, "reliability": 4.9, "security": 4.7, "support": 4.5, "cost": 4.3, "notes": "Cloud-native suite; best for collaboration", "overallScore": 4.73, "synergyWith": {"Google Drive": 0.2, "Google Chat": 0.15, "Google Meet": 0.15, "Asana": 0.1}},
+                {"name": "Zoho Mail / Zoho Workplace", "category": "Hosting & collaboration", "functionality": 4.5, "easeOfUse": 4.3, "integration": 4.4, "scalability": 4.6, "reliability": 4.5, "security": 4.4, "support": 4.2, "cost": 4.8, "notes": "Very cost-effective for SMBs", "overallScore": 4.46, "synergyWith": {"Zoho CRM": 0.25, "Zoho Meeting": 0.2}},
+                {"name": "Microsoft 365 (Outlook/Exchange)", "category": "Hosting & collaboration", "functionality": 4.9, "easeOfUse": 4.4, "integration": 4.9, "scalability": 4.9, "reliability": 4.8, "security": 4.8, "support": 4.6, "cost": 4.0, "notes": "Enterprise features; Office integration", "overallScore": 4.71, "synergyWith": {"Microsoft Teams": 0.3, "OneDrive": 0.2, "SharePoint": 0.2, "Microsoft Dynamics 365 Sales": 0.15, "Microsoft Project": 0.1}},
                 {"name": "Titan Mail (standalone)", "category": "Hosting & collaboration", "functionality": 3.7, "easeOfUse": 4.1, "integration": 3.4, "scalability": 3.5, "reliability": 4.0, "security": 4.1, "support": 3.8, "cost": 4.3, "notes": "SMB-focused, growing", "overallScore": 3.83},
                 {"name": "Namecheap Private Email", "category": "Hosting & collaboration", "functionality": 3.6, "easeOfUse": 4.0, "integration": 3.3, "scalability": 3.4, "reliability": 3.9, "security": 4.0, "support": 3.7, "cost": 4.4, "notes": "Low-cost, registrar bundle", "overallScore": 3.73},
                 {"name": "Proton Mail (Business)", "category": "Hosting & collaboration (privacy)", "functionality": 4.0, "easeOfUse": 3.9, "integration": 3.5, "scalability": 3.8, "reliability": 4.6, "security": 5.0, "support": 4.1, "cost": 3.7, "notes": "End-to-end encryption; regulatory friendly", "overallScore": 4.06},
@@ -1124,11 +1124,11 @@
             ],
             "DMs": [
                 {"name": "Slack", "category": "Team Messaging", "functionality": 4.8, "easeOfUse": 4.7, "integration": 4.9, "scalability": 4.8, "reliability": 4.8, "security": 4.6, "support": 4.5, "cost": 4.2, "notes": "Highly user-friendly; extensive integrations; widely adopted", "overallScore": 4.71},
-                {"name": "Google Chat", "category": "Team Messaging", "functionality": 4.3, "easeOfUse": 4.5, "integration": 4.7, "scalability": 4.6, "reliability": 4.5, "security": 4.4, "support": 4.3, "cost": 4.6, "notes": "Best for Google Workspace users; simple interface", "overallScore": 4.48},
+                {"name": "Google Chat", "category": "Team Messaging", "functionality": 4.3, "easeOfUse": 4.5, "integration": 4.7, "scalability": 4.6, "reliability": 4.5, "security": 4.4, "support": 4.3, "cost": 4.6, "notes": "Best for Google Workspace users; simple interface", "overallScore": 4.48, "synergyWith": {"Google Workspace (Gmail)": 0.15, "Google Drive": 0.2, "Google Meet": 0.15, "Asana": 0.1}},
                 {"name": "Discord", "category": "Team Messaging", "functionality": 4.5, "easeOfUse": 4.6, "integration": 4.2, "scalability": 4.4, "reliability": 4.3, "security": 4.1, "support": 3.8, "cost": 4.8, "notes": "Excellent voice/video; popular among tech teams", "overallScore": 4.38},
                 {"name": "WhatsApp Business", "category": "Customer Messaging", "functionality": 4.2, "easeOfUse": 4.8, "integration": 3.8, "scalability": 4.0, "reliability": 4.7, "security": 4.3, "support": 3.5, "cost": 4.7, "notes": "Widely used; good for customer support; limited integrations", "overallScore": 4.28},
                 {"name": "Tidio", "category": "Customer Messaging", "functionality": 4.3, "easeOfUse": 4.4, "integration": 4.1, "scalability": 4.2, "reliability": 4.3, "security": 4.2, "support": 4.1, "cost": 4.5, "notes": "Chatbot automation; free version available", "overallScore": 4.28},
-                {"name": "Microsoft Teams", "category": "Team Messaging", "functionality": 4.7, "easeOfUse": 4.2, "integration": 4.8, "scalability": 4.8, "reliability": 4.7, "security": 4.7, "support": 4.4, "cost": 4.1, "notes": "Seamless integration with Microsoft 365; robust features", "overallScore": 4.58},
+                {"name": "Microsoft Teams", "category": "Team Messaging", "functionality": 4.7, "easeOfUse": 4.2, "integration": 4.8, "scalability": 4.8, "reliability": 4.7, "security": 4.7, "support": 4.4, "cost": 4.1, "notes": "Seamless integration with Microsoft 365; robust features", "overallScore": 4.58, "synergyWith": {"Microsoft 365 (Outlook/Exchange)": 0.3, "OneDrive": 0.25, "SharePoint": 0.2, "Microsoft Dynamics 365 Sales": 0.15}},
                 {"name": "Freshchat", "category": "Customer Messaging", "functionality": 4.2, "easeOfUse": 4.3, "integration": 4.0, "scalability": 4.1, "reliability": 4.2, "security": 4.1, "support": 4.0, "cost": 4.3, "notes": "AI-powered; integrates with CRM; good for SMBs", "overallScore": 4.16},
                 {"name": "RingCentral", "category": "Unified Communications", "functionality": 4.4, "easeOfUse": 4.1, "integration": 4.3, "scalability": 4.5, "reliability": 4.4, "security": 4.3, "support": 4.2, "cost": 4.0, "notes": "Messaging, video, and voice; hybrid teams", "overallScore": 4.30},
                 {"name": "Crisp", "category": "Customer Messaging", "functionality": 4.1, "easeOfUse": 4.2, "integration": 4.0, "scalability": 4.0, "reliability": 4.1, "security": 4.0, "support": 3.9, "cost": 4.4, "notes": "CRM integration; good for startups; limited features", "overallScore": 4.10},
@@ -1149,10 +1149,10 @@
                 {"name": "Jitsi", "category": "Audio and Video", "functionality": 3.8, "easeOfUse": 3.5, "integration": 4.1, "scalability": 3.5, "reliability": 3.8, "security": 4.2, "support": 3.0, "cost": 4.7, "notes": "Open-source, free, self-hosting complexity", "overallScore": 3.83}
             ],
             "Data Storage": [
-                {"name": "Microsoft OneDrive (Office 365)", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Seamless with Microsoft 365, enterprise security", "overallScore": 4.50},
+                {"name": "Microsoft OneDrive (Office 365)", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Seamless with Microsoft 365, enterprise security", "overallScore": 4.50, "synergyWith": {"Microsoft 365 (Outlook/Exchange)": 0.2, "Microsoft Teams": 0.25, "SharePoint": 0.15, "Microsoft Dynamics 365 Sales": 0.1}},
                 {"name": "Microsoft Azure Blob Storage", "category": "Data Storage", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Flexible, secure, best in Azure ecosystem, more technical", "overallScore": 4.50},
                 {"name": "Amazon S3 (AWS)", "category": "Data Storage", "functionality": 5.0, "easeOfUse": 2.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 4.0, "notes": "Highly scalable, pay-as-you-go, requires technical setup", "overallScore": 4.38},
-                {"name": "Google Drive (Google Workspace)", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 4.0, "reliability": 5.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Simple UI, strong collaboration, bundled in Workspace", "overallScore": 4.25},
+                {"name": "Google Drive (Google Workspace)", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 4.0, "reliability": 5.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Simple UI, strong collaboration, bundled in Workspace", "overallScore": 4.25, "synergyWith": {"Google Workspace (Gmail)": 0.2, "Google Chat": 0.15, "Google Meet": 0.15, "Asana": 0.1}},
                 {"name": "Box Business", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 4.0, "cost": 3.0, "notes": "Strong compliance & governance, widely used in enterprises", "overallScore": 4.25},
                 {"name": "Dropbox Business", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 5.0, "integration": 4.0, "scalability": 4.0, "reliability": 5.0, "security": 4.0, "support": 4.0, "cost": 3.0, "notes": "Best UX, strong third-party integrations, slightly pricier", "overallScore": 4.12},
                 {"name": "Egnyte Business", "category": "Data Storage", "functionality": 4.0, "easeOfUse": 4.0, "integration": 5.0, "scalability": 4.0, "reliability": 4.0, "security": 5.0, "support": 4.0, "cost": 3.0, "notes": "Hybrid storage, security-focused, good for regulated industries", "overallScore": 4.12},
@@ -1165,13 +1165,13 @@
             "CRM": [
                 {"name": "HubSpot CRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 5.0, "integration": 5.0, "scalability": 4.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 4.0, "notes": "Free tier available, very user-friendly, easy integrations, good scaling options", "overallScore": 4.62},
                 {"name": "Salesforce Sales Cloud", "category": "CRM", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 3.0, "notes": "Market leader, highly customizable, more complex setup and costly", "overallScore": 4.50},
-                {"name": "Microsoft Dynamics 365 Sales", "category": "CRM", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 3.0, "notes": "Best for Microsoft-centric enterprises, flexible but complex", "overallScore": 4.50},
+                {"name": "Microsoft Dynamics 365 Sales", "category": "CRM", "functionality": 5.0, "easeOfUse": 3.0, "integration": 5.0, "scalability": 5.0, "reliability": 5.0, "security": 5.0, "support": 5.0, "cost": 3.0, "notes": "Best for Microsoft-centric enterprises, flexible but complex", "overallScore": 4.50, "synergyWith": {"Microsoft 365 (Outlook/Exchange)": 0.15, "Microsoft Teams": 0.15, "OneDrive": 0.1, "SharePoint": 0.2}},
                 {"name": "Pipedrive", "category": "CRM", "functionality": 4.0, "easeOfUse": 5.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Very intuitive, affordable, quick to implement, strong for SMBs", "overallScore": 4.25},
                 {"name": "Zoho CRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 5.0, "notes": "Highly cost-effective, broad feature set, best for SMBs", "overallScore": 4.12},
                 {"name": "Freshsales (Freshworks)", "category": "CRM", "functionality": 4.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 4.0, "notes": "Easy to use, AI features, affordable, good automation", "overallScore": 4.00},
                 {"name": "SugarCRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 3.0, "integration": 4.0, "scalability": 4.0, "reliability": 4.0, "security": 4.0, "support": 4.0, "cost": 3.0, "notes": "Flexible open platform, more technical and higher cost for advanced use", "overallScore": 3.75},
                 {"name": "Close CRM", "category": "CRM", "functionality": 4.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Built for sales teams, strong calling/SMS/email features", "overallScore": 3.62},
-                {"name": "Copper CRM", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Seamless with Google Workspace, simple setup, user-friendly", "overallScore": 3.62},
+                {"name": "Copper CRM", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 4.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Seamless with Google Workspace, simple setup, user-friendly", "overallScore": 3.62, "synergyWith": {"Google Workspace (Gmail)": 0.2, "Google Drive": 0.15, "Google Chat": 0.1, "Asana": 0.1}},
                 {"name": "Insightly", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 4.0, "security": 4.0, "support": 3.0, "cost": 4.0, "notes": "Good balance of features and cost, integrates with GSuite/MS365", "overallScore": 3.50},
                 {"name": "Keap (Infusionsoft)", "category": "CRM", "functionality": 4.0, "easeOfUse": 3.0, "integration": 4.0, "scalability": 3.0, "reliability": 3.0, "security": 4.0, "support": 4.0, "cost": 3.0, "notes": "Strong automation/marketing CRM, but higher learning curve", "overallScore": 3.50},
                 {"name": "Nimble", "category": "CRM", "functionality": 3.0, "easeOfUse": 4.0, "integration": 3.0, "scalability": 3.0, "reliability": 3.0, "security": 3.0, "support": 3.0, "cost": 4.0, "notes": "Social CRM focus, easy to use, affordable", "overallScore": 3.25}
@@ -1229,7 +1229,20 @@
             }
         };
 
-        // DOM elements
+        // Synergy calculation function
+           function calculateCombinedScore(app, selectedApps) {
+               let synergyBonus = 0;
+               if (app.synergyWith) {
+                   selectedApps.forEach(selApp => {
+                       if (app.synergyWith[selApp.name]) {
+                           synergyBonus += app.synergyWith[selApp.name];
+                       }
+                   });
+               }
+               return Math.min(5, app.overallScore + synergyBonus); // cap at 5
+           }
+
+           // DOM elements
         const categorySelect = document.getElementById('category');
         const appSelect = document.getElementById('app');
         const addAppBtn = document.getElementById('add-app-btn');
@@ -2668,7 +2681,15 @@
                         <td>${result.app.security}/5</td>
                         <td>${result.app.support}/5</td>
                         <td>${result.app.cost}/5</td>
-                        <td><strong>${result.app.overallScore.toFixed(2)}/5</strong></td>
+                        <td><strong>${calculateCombinedScore(result.app, selectedApps).toFixed(2)}/5</strong>
+                               ${(() => {
+                                   const synergyBonus = calculateCombinedScore(result.app, selectedApps) - result.app.overallScore;
+                                   if (synergyBonus > 0) {
+                                       return `<br><small style="color: var(--primary);">+${synergyBonus.toFixed(2)} synergy bonus</small>`;
+                                   }
+                                   return '';
+                               })()}
+                           </td>
                     </tr>
                 `;
             });
@@ -2722,7 +2743,15 @@
                             <td>${alt.security}/5</td>
                             <td>${alt.support}/5</td>
                             <td>${alt.cost}/5</td>
-                            <td><strong>${alt.overallScore.toFixed(2)}/5</strong></td>
+                            <td><strong>${calculateCombinedScore(alt, selectedApps).toFixed(2)}/5</strong>
+                                   ${(() => {
+                                       const synergyBonus = calculateCombinedScore(alt, selectedApps) - alt.overallScore;
+                                       if (synergyBonus > 0) {
+                                           return `<br><small style="color: var(--primary);">+${synergyBonus.toFixed(2)} synergy bonus</small>`;
+                                       }
+                                       return '';
+                                   })()}
+                               </td>
                         </tr>
                     `;
                 });
