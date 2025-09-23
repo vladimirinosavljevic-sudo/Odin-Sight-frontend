@@ -1,8 +1,5 @@
 // Company Profile Management for Odin Sight
-
-// API URL - pointing to the Vercel backend
-const API_URL = 'https://odin-sight-backend.vercel.app/api';
-
+   
 // Function to save company profile
 async function saveCompanyProfile(profileData) {
   try {
