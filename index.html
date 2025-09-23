@@ -209,131 +209,552 @@
             text-decoration: underline;
         }
 
-        header {
-            background-color: var(--dark);
-            padding: 20px 0;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(74, 155, 215, 0.2);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .welcome-message {
-            max-width: 70%;
-        }
-
-        .welcome-message h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .welcome-message h2 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: var(--secondary);
-        }
-
-        .welcome-message p {
-            color: rgba(236, 240, 241, 0.8);
-            font-size: 14px;
-        }
-
-        .logout-container {
-            text-align: right;
-        }
-
-        .logout-btn {
-            background-color: transparent;
-            border: 1px solid var(--danger);
-            color: var(--danger);
-        }
-
-        .logout-btn:hover {
-            background-color: rgba(231, 76, 60, 0.1);
-        }
-
-        .tab-navigation {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(74, 155, 215, 0.2);
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: transparent;
-            border: none;
-            color: var(--text-light);
-            font-weight: 600;
-            position: relative;
-            transition: all 0.3s;
-            box-shadow: none;
-        }
-
-        .tab:hover {
-            color: var(--primary);
-        }
-
-        .tab.active {
-            color: var(--primary);
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--primary);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .app-selection-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .app-selection-form select {
-            flex: 1;
-        }
-
+        /* App selection styles */
         .selected-apps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
+            margin-top: 15px;
         }
 
-        .app-tag {
-            background-color: rgba(74, 155, 215, 0.1);
-            border: 1px solid rgba(74, 155, 215, 0.3);
-            padding: 8px 12px;
-            border-radius: var(--border-radius);
+        .selected-app-item {
             display: flex;
             align-items: center;
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
         }
 
-        .app-tag span {
-            margin-right: 8px;
+        .selected-app-item span {
+            flex-grow: 1;
         }
 
         .remove-app {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
             cursor: pointer;
-            color: var(--danger);
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .add-app-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .add-app-btn:disabled {
+            background-color: rgba(46, 204, 113, 0.3);
+            cursor: not-allowed;
+        }
+
+        #calculate-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .app-card {
+            display: flex;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+            background-color: rgba(10, 22, 34, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(74, 155, 215, 0.2);
+        }
+
+        .app-card-rank {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            background-color: var(--primary);
+            color: var(--text-light);
             font-weight: bold;
+            font-size: 24px;
+        }
+
+        .app-card-content {
+            padding: 15px;
+            flex-grow: 1;
+            color: var(--text-light);
+        }
+
+        .app-card h3 {
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .app-card-stats {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .stat {
+            margin-right: 20px;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+        }
+
+        .criteria-explanation {
+            margin-bottom: 20px;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .criteria-item {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .criteria-item h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .criteria-item p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .recommendations {
+            margin-top: 20px;
+        }
+
+        .recommendation-step {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .recommendation-step h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .recommendation-step ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .recommendation-step li {
+            margin-bottom: 5px;
+        }
+
+        .alternatives {
+            margin-top: 30px;
+        }
+        
+        /* Maturity Score Styles */
+        .maturity-score-container {
+            display: flex;
+            margin-bottom: 30px;
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            border-radius: 4px;
+            padding: 20px;
+        }
+        
+        .maturity-score {
+            flex: 0 0 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(74, 155, 215, 0.2);
+            padding-right: 20px;
+            margin-right: 20px;
+        }
+        
+        .score-value {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .score-label {
+            font-size: 14px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .maturity-explanation {
+            flex: 1;
+        }
+        
+        /* App Analysis Styles */
+        .app-analysis {
+            margin-bottom: 30px;
+        }
+        
+        .app-detail-card {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .app-detail-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(74, 155, 215, 0.2);
+            padding-bottom: 10px;
+        }
+        
+        .app-detail-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .app-detail-score {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .app-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .app-metric {
+            background-color: rgba(10, 22, 34, 0.9);
+            border: 1px solid rgba(74, 155, 215, 0.1);
+            border-radius: 4px;
+            padding: 10px;
+        }
+        
+        .metric-name {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .app-strengths-weaknesses {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .app-strengths, .app-weaknesses {
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .app-strengths h4, .app-weaknesses h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .app-strengths {
+            border-right: 1px solid rgba(74, 155, 215, 0.2);
+        }
+        
+        /* Synergy Analysis Styles */
+        .synergy-analysis {
+            margin-bottom: 30px;
+        }
+        
+        .synergy-matrix {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .synergy-pair {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(74, 155, 215, 0.1);
+        }
+        
+        .synergy-apps {
+            flex: 0 0 250px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .synergy-score {
+            flex: 0 0 80px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .synergy-description {
+            flex: 1;
+        }
+        
+        /* Implementation Plan Styles */
+        .implementation-plan {
+            margin-bottom: 30px;
+        }
+        
+        .implementation-phase {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(74, 155, 215, 0.2);
+            padding-bottom: 10px;
+        }
+        
+        .phase-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .phase-timeline {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .phase-tasks {
+            margin-bottom: 15px;
+        }
+        
+        .phase-resources {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .save-btn, .download-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .save-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .download-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+        }
+
+        .alternative-app {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .alternative-app h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: var(--secondary);
+        }
+
+        .alternative-app p {
+            margin: 5px 0;
+        }
+
+        .alternative-app .pros-cons {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .alternative-app .pros, .alternative-app .cons {
+            flex: 1;
+        }
+
+        .alternative-app h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .alternative-app ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .alternative-app li {
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+
+        .app-category {
+            margin-bottom: 20px;
+        }
+
+        .app-category-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .app-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .app-item {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .app-item:hover {
+            background-color: rgba(74, 155, 215, 0.2);
+        }
+
+        .app-item.selected {
+            background-color: rgba(74, 155, 215, 0.4);
+            border-color: var(--primary);
+        }
+
+        /* Admin panel styles */
+        .admin-panel {
+            display: none;
+        }
+
+        .user-list {
+            margin-top: 20px;
+        }
+
+        .user-item {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .user-item h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .user-actions {
+            margin-top: 10px;
+        }
+
+        .user-actions button {
+            margin-right: 10px;
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .delete-user {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-color: var(--danger);
+        }
+
+        .delete-user:hover {
+            background-color: rgba(231, 76, 60, 0.4);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .criteria-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-card {
+                flex-direction: column;
+            }
+
+            .app-card-rank {
+                width: 100%;
+                padding: 5px 0;
+            }
+
+            .alternative-app .pros-cons {
+                flex-direction: column;
+            }
+
+            .alternative-app .pros {
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Profile section styles */
+        .profile-section {
+            margin-top: 30px;
         }
 
         .profile-header {
@@ -349,260 +770,65 @@
         }
 
         .profile-info {
+            background-color: rgba(10, 22, 34, 0.8);
+            border: 1px solid rgba(74, 155, 215, 0.2);
+            padding: 20px;
+            border-radius: 4px;
             margin-bottom: 20px;
         }
 
-        .profile-info p {
-            margin-bottom: 10px;
-            display: flex;
+        .profile-info-item {
+            margin-bottom: 15px;
         }
 
-        .profile-info p strong {
-            min-width: 200px;
-            display: inline-block;
+        .profile-info-label {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .profile-info-value {
+            color: var(--text-light);
         }
 
         .edit-profile-form {
             display: none;
         }
 
-        .results-section {
-            margin-bottom: 30px;
-        }
-
-        .results-header {
+        /* Tab navigation */
+        .tab-navigation {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 20px;
+            border-bottom: 1px solid rgba(74, 155, 215, 0.2);
         }
 
-        .app-details {
-            background-color: rgba(10, 22, 34, 0.5);
-            border: 1px solid rgba(74, 155, 215, 0.2);
-            padding: 15px;
-            border-radius: var(--border-radius);
-            margin-bottom: 15px;
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
         }
 
-        .app-details h3 {
-            margin-bottom: 10px;
-        }
-
-        .score-bar {
-            height: 8px;
+        .tab:hover {
             background-color: rgba(74, 155, 215, 0.1);
-            border-radius: 4px;
-            margin: 5px 0 15px;
-            overflow: hidden;
         }
 
-        .score-fill {
-            height: 100%;
-            background-color: var(--primary);
-        }
-
-        .app-rankings {
-            list-style: none;
-            padding: 0;
-        }
-
-        .app-ranking-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid rgba(74, 155, 215, 0.1);
-        }
-
-        .app-score {
-            font-weight: bold;
+        .tab.active {
             color: var(--primary);
+            border-bottom: 3px solid var(--primary);
         }
 
-        .recommendations {
-            list-style: none;
-            padding: 0;
+        .tab-content {
+            display: none;
         }
 
-        .recommendation-item {
-            padding: 10px;
-            border-bottom: 1px solid rgba(74, 155, 215, 0.1);
-        }
-
-        .recommendation-priority {
-            font-weight: bold;
-            margin-right: 5px;
-        }
-
-        .priority-high {
-            color: var(--danger);
-        }
-
-        .priority-medium {
-            color: #f39c12;
-        }
-
-        .priority-low {
-            color: var(--secondary);
-        }
-
-        .maturity-score-container {
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 8px solid var(--primary);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-        }
-
-        .score-value {
-            font-size: 36px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .score-label {
-            font-size: 12px;
-            color: rgba(236, 240, 241, 0.7);
-        }
-
-        .score-level {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 5px;
-        }
-
-        .maturity-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .maturity-category {
-            background-color: rgba(10, 22, 34, 0.5);
-            border: 1px solid rgba(74, 155, 215, 0.2);
-            padding: 15px;
-            border-radius: var(--border-radius);
-        }
-
-        .category-score {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .timeline {
-            position: relative;
-            margin: 20px 0;
-            padding-left: 30px;
-        }
-
-        .timeline:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 2px;
-            background-color: rgba(74, 155, 215, 0.3);
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .timeline-item:before {
-            content: '';
-            position: absolute;
-            left: -36px;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--primary);
-        }
-
-        .timeline-date {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-
-        .timeline-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .timeline-tasks {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 10px;
-        }
-
-        .timeline-tasks li {
-            margin-bottom: 5px;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .timeline-tasks li:before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-        }
-
-        .user-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid rgba(74, 155, 215, 0.1);
-        }
-
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .welcome-message {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
-
-            .logout-container {
-                text-align: left;
-            }
-
-            .app-selection-form {
-                flex-direction: column;
-            }
-
-            .maturity-categories {
-                grid-template-columns: 1fr;
-            }
+        .tab-content.active {
+            display: block;
         }
     </style>
 <script src="https://sites.super.myninja.ai/_assets/ninja-daytona-script.js"></script>
@@ -637,15 +863,16 @@
                     <input type="text" id="reg-username" placeholder="Choose a username" required>
                 </div>
                 <div class="form-group">
+                    <label for="reg-email">Email:</label>
+                    <input type="email" id="reg-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
                     <label for="reg-password">Password:</label>
                     <input type="password" id="reg-password" placeholder="Choose a password" required>
                 </div>
                 <div class="form-group">
-                    <label for="reg-role">Role:</label>
-                    <select id="reg-role" required>
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
+                    <label for="reg-confirm-password">Confirm Password:</label>
+                    <input type="password" id="reg-confirm-password" placeholder="Confirm your password" required>
                 </div>
                 <div id="register-error" class="login-error"></div>
                 <button id="register-btn" class="login-btn">Register</button>
@@ -656,6 +883,7 @@
         </div>
     </div>
 
+    <!-- Main Content (initially hidden) -->
     <div id="main-content" style="display: none;">
         <header>
             <div class="container">
@@ -684,69 +912,241 @@
             <div id="assessment-tab" class="tab-content active">
                 <!-- App Selection Section -->
                 <div class="card">
-                    <h2>Select Applications</h2>
-                    <p>Select up to 8 applications to assess their maturity and optimization potential.</p>
-                    
-                    <div class="app-selection-form">
+                    <h2>Select Your Category and App</h2>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
                         <select id="category">
-                            <option value="">Select Category</option>
-                            <option value="Email">Email</option>
-                            <option value="Productivity">Productivity</option>
-                            <option value="Communication">Communication</option>
+                            <option value="">Select a category</option>
+                            <option value="Email">Email & Collaboration</option>
+                            <option value="Messaging">Messaging & Communication</option>
+                            <option value="Data Storage">Data Storage & File Sharing</option>
                             <option value="Project Management">Project Management</option>
-                            <option value="CRM">CRM</option>
-                            <option value="Analytics">Analytics</option>
-                            <option value="Finance">Finance</option>
-                            <option value="HR">HR</option>
+                            <option value="CRM">Customer Relationship Management</option>
+                            <option value="Development">Development Tools</option>
+                            <option value="Analytics">Analytics & Business Intelligence</option>
+                            <option value="Security">Security & Compliance</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="app">App:</label>
                         <select id="app" disabled>
-                            <option value="">Select App</option>
+                            <option value="">First select a category</option>
                         </select>
-                        <button id="add-app-btn" disabled>Add App</button>
+                        <button id="add-app-btn" class="add-app-btn" disabled>Add App</button>
+                    </div>
+                    <div class="selected-apps" id="selected-apps">
+                        <!-- Selected apps will be displayed here -->
+                        <p id="no-apps-message">No apps selected yet. You can select up to 8 apps.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Company Profile</h2>
+                    <div class="form-group">
+                        <label for="company-name">Company Name:</label>
+                        <input type="text" id="company-name" placeholder="Enter your company name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="team-size">Team Size:</label>
+                        <select id="team-size" required>
+                            <option value="1-10">1-10</option>
+                            <option value="11-50">11-50</option>
+                            <option value="51-200">51-200</option>
+                            <option value="200+">200+</option>
+                        </select>
                     </div>
                     
-                    <div id="selected-apps" class="selected-apps">
-                        <div id="no-apps-message">No apps selected. Please select up to 8 apps to assess.</div>
+                    <div class="form-group">
+                        <label for="infrastructure">Where is your infrastructure hosted?</label>
+                        <select id="infrastructure" required>
+                            <option value="On-premise">On-premise</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Cloud-first (AWS, Azure, GCP)">Cloud-first (AWS, Azure, GCP)</option>
+                            <option value="Fully automated cloud-native">Fully automated cloud-native</option>
+                        </select>
                     </div>
                     
-                    <button id="calculate-btn" disabled>Calculate Optimization Steps</button>
+                    <div class="form-group">
+                        <label for="disaster-recovery">Disaster Recovery / Backup Strategy:</label>
+                        <select id="disaster-recovery" required>
+                            <option value="No backups">No backups</option>
+                            <option value="Manual occasionally">Manual occasionally</option>
+                            <option value="Automated daily">Automated daily</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="security">Security Practices:</label>
+                        <select id="security" required>
+                            <option value="None">None</option>
+                            <option value="Ad-hoc">Ad-hoc</option>
+                            <option value="Regular vulnerability scans">Regular vulnerability scans</option>
+                            <option value="Formal framework (ISO 27001, SOC2)">Formal framework (ISO 27001, SOC2)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gdpr">GDPR / Data Privacy Compliance:</label>
+                        <select id="gdpr" required>
+                            <option value="None">None</option>
+                            <option value="In progress">In progress</option>
+                            <option value="Fully compliant with audits">Fully compliant with audits</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deployment">Deployment Process:</label>
+                        <select id="deployment" required>
+                            <option value="Manual">Manual</option>
+                            <option value="Basic CI/CD">Basic CI/CD</option>
+                            <option value="Automated CI/CD + testing">Automated CI/CD + testing</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="version-control">Version Control:</label>
+                        <select id="version-control" required>
+                            <option value="No">No</option>
+                            <option value="Yes, but inconsistently">Yes, but inconsistently</option>
+                            <option value="Yes, fully standardized">Yes, fully standardized</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cto">Technical Leadership:</label>
+                        <select id="cto" required>
+                            <option value="No dedicated tech leader">No dedicated tech leader</option>
+                            <option value="Part-time/fractional support">Part-time/fractional support</option>
+                            <option value="Dedicated CTO">Dedicated CTO</option>
+                            <option value="CTO + leadership team">CTO + leadership team</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roadmap">Technology Roadmap Review Frequency:</label>
+                        <select id="roadmap" required>
+                            <option value="Never">Never</option>
+                            <option value="Once a year">Once a year</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Continuous">Continuous</option>
+                        </select>
+                    </div>
+                    
+                    <h3>AI Readiness</h3>
+                    
+                    <div class="form-group">
+                        <label for="ai-usage">Current AI Usage:</label>
+                        <select id="ai-usage" required>
+                            <option value="Not at all">Not at all</option>
+                            <option value="Experimenting in some departments">Experimenting in some departments</option>
+                            <option value="Integrated into workflows (e.g., analytics, automation)">Integrated into workflows (e.g., analytics, automation)</option>
+                            <option value="Core part of products/services">Core part of products/services</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ai-strategy">AI Strategy:</label>
+                        <select id="ai-strategy" required>
+                            <option value="No strategy/policy">No strategy/policy</option>
+                            <option value="Some guidelines, not standardized">Some guidelines, not standardized</option>
+                            <option value="Formal AI strategy in progress">Formal AI strategy in progress</option>
+                            <option value="Comprehensive AI strategy with governance">Comprehensive AI strategy with governance</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ai-ethics">AI Ethics & Governance:</label>
+                        <select id="ai-ethics" required>
+                            <option value="Not considered">Not considered</option>
+                            <option value="Ad-hoc awareness">Ad-hoc awareness</option>
+                            <option value="Formal reviews & partial safeguards">Formal reviews & partial safeguards</option>
+                            <option value="Fully established AI governance framework">Fully established AI governance framework</option>
+                        </select>
+                    </div>
+                    
+                    <button id="calculate-btn">Calculate Optimization Steps</button>
                 </div>
                 
-                <!-- Results Section (initially hidden) -->
-                <div id="results" class="card" style="display: none;">
-                    <div class="results-header">
-                        <h2>Assessment Results</h2>
-                        <button id="download-pdf-btn">Download PDF Report</button>
-                    </div>
-                    
-                    <div class="results-section">
-                        <h3>Current App Details</h3>
+                <div class="results" id="results">
+                    <div class="card">
+                        <h2>Tech Maturity Assessment Results</h2>
+                        <div class="maturity-score-container">
+                            <div class="maturity-score" id="maturity-score">
+                                <!-- Maturity score will be displayed here -->
+                            </div>
+                            <div class="maturity-explanation">
+                                <p>Your Tech Maturity Score represents your organization's overall technological readiness across key dimensions including infrastructure, security, development practices, leadership, and AI readiness.</p>
+                                <p>This score serves as a benchmark for your current state and helps identify priority areas for improvement.</p>
+                            </div>
+                        </div>
+
+                        <h2>App Ranking Criteria</h2>
+                        <div class="criteria-explanation">
+                            <p>Our app ranking system evaluates software across seven key dimensions that are critical for business success:</p>
+                            <div class="criteria-grid">
+                                <div class="criteria-item">
+                                    <h3>Functionality / Features (1–5)</h3>
+                                    <p>How well the app meets core business needs with essential features and capabilities.</p>
+                                </div>
+                                <div class="criteria-item">
+                                    <h3>User Experience (1–5)</h3>
+                                    <p>Ease of use, interface design, and overall user satisfaction.</p>
+                                </div>
+                                <div class="criteria-item">
+                                    <h3>Integration Capabilities (1–5)</h3>
+                                    <p>How well the app connects with other tools in your tech stack.</p>
+                                </div>
+                                <div class="criteria-item">
+                                    <h3>Scalability (1–5)</h3>
+                                    <p>Ability to grow with your business without performance degradation.</p>
+                                </div>
+                                <div class="criteria-item">
+                                    <h3>Security & Compliance (1–5)</h3>
+                                    <p>Data protection, privacy features, and regulatory compliance.</p>
+                                </div>
+                                <div class="criteria-item">
+                                    <h3>Support & Reliability (1–5)</h3>
+                                    <p>Quality of customer support, uptime, and overall reliability.</p>
+                                </div>
+                                <div class="criteria-item">
+                                    <h3>Value for Money (1–5)</h3>
+                                    <p>Return on investment considering cost vs. benefits.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2>Your App Rankings</h2>
+                        <div id="app-rankings"></div>
+                        
                         <div id="current-app-details"></div>
-                    </div>
-                    
-                    <div class="results-section">
-                        <h3>App Rankings</h3>
-                        <ul id="app-rankings" class="app-rankings"></ul>
-                    </div>
-                    
-                    <div class="results-section">
-                        <h3>Optimization Recommendations</h3>
-                        <ul id="recommendations" class="recommendations"></ul>
-                    </div>
-                    
-                    <div class="results-section">
-                        <h3>Maturity Score</h3>
-                        <div id="maturity-score" class="maturity-score-container"></div>
-                        <div id="maturity-categories" class="maturity-categories"></div>
-                    </div>
-                    
-                    <div class="results-section">
-                        <h3>Implementation Plan</h3>
-                        <div id="implementation-plan" class="timeline"></div>
+                        
+                        <h2>Detailed Application Analysis</h2>
+                        <div class="app-analysis" id="app-analysis">
+                            <!-- Detailed app analysis will be displayed here -->
+                        </div>
+
+                        <h2>Synergy Analysis</h2>
+                        <div class="synergy-analysis" id="synergy-analysis">
+                            <p>This analysis examines how your selected applications work together to create additional value through integration and workflow optimization.</p>
+                            <!-- Synergy analysis will be displayed here -->
+                        </div>
+                        
+                        <h2>Recommended Optimization Steps</h2>
+                        <div class="recommendations" id="recommendations"></div>
+
+                        <h2>Detailed Implementation Plan</h2>
+                        <div class="implementation-plan" id="implementation-plan">
+                            <!-- Implementation plan will be displayed here -->
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="save-assessment-btn" class="save-btn">Save Assessment Results</button>
+                            <button id="download-pdf-btn" class="download-btn">Download PDF Report</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
             <div id="profile-tab" class="tab-content">
                 <div class="card">
                     <div class="profile-header">
@@ -836,7 +1236,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="edit-roadmap">Technical Roadmap Review:</label>
+                            <label for="edit-roadmap">Roadmap Review:</label>
                             <select id="edit-roadmap" required>
                                 <option value="Never">Never</option>
                                 <option value="Once a year">Once a year</option>
@@ -863,7 +1263,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="edit-ai-ethics">AI Ethics & Governance:</label>
+                            <label for="edit-ai-ethics">AI Ethics:</label>
                             <select id="edit-ai-ethics" required>
                                 <option value="Not considered">Not considered</option>
                                 <option value="Ad-hoc awareness">Ad-hoc awareness</option>
@@ -874,11 +1274,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="admin-tab" class="tab-content">
                 <div class="card">
-                    <h2>User Management</h2>
-                    <div id="user-list" class="user-list">
+                    <h2>Admin Panel</h2>
+                    <div class="user-list" id="user-list">
+                        <!-- User list will be displayed here -->
                         <p>Loading users...</p>
                     </div>
                 </div>
@@ -922,9 +1323,6 @@
         const currentAppDetails = document.getElementById('current-app-details');
         const recommendationsDiv = document.getElementById('recommendations');
         const appRankingsDiv = document.getElementById('app-rankings');
-        const maturityScoreDiv = document.getElementById('maturity-score');
-        const maturityCategoriesDiv = document.getElementById('maturity-categories');
-        const implementationPlanDiv = document.getElementById('implementation-plan');
 
         // Array to store selected apps
         let selectedApps = [];
@@ -940,136 +1338,308 @@
                     functionality: 4,
                     userExperience: 5,
                     integration: 4,
-                    security: 5,
-                    cost: 4,
-                    description: "Google's email service with strong integration with other Google products."
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "Google Drive": 0.3,
+                        "Google Meet": 0.3,
+                        "Google Calendar": 0.3
+                    }
                 },
                 {
-                    name: "Outlook",
+                    name: "Microsoft Outlook",
                     category: "Email",
-                    overallScore: 4.3,
+                    overallScore: 4.2,
                     functionality: 5,
                     userExperience: 4,
                     integration: 5,
+                    scalability: 4,
                     security: 4,
-                    cost: 3,
-                    description: "Microsoft's email client with strong integration with Office 365."
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Microsoft Teams": 0.3,
+                        "OneDrive": 0.3,
+                        "Microsoft 365": 0.3
+                    }
                 },
                 {
                     name: "ProtonMail",
                     category: "Email",
-                    overallScore: 4.0,
+                    overallScore: 3.8,
                     functionality: 3,
                     userExperience: 4,
                     integration: 3,
+                    scalability: 4,
                     security: 5,
-                    cost: 3,
-                    description: "Secure email service with end-to-end encryption."
-                }
-            ],
-            "Productivity": [
+                    support: 3,
+                    value: 4
+                },
                 {
-                    name: "Microsoft Office",
-                    category: "Productivity",
-                    overallScore: 4.7,
-                    functionality: 5,
+                    name: "Zoho Mail",
+                    category: "Email",
+                    overallScore: 4.0,
+                    functionality: 4,
                     userExperience: 4,
-                    integration: 5,
+                    integration: 4,
+                    scalability: 4,
                     security: 4,
-                    cost: 3,
-                    description: "Comprehensive office suite with Word, Excel, PowerPoint, and more."
+                    support: 3,
+                    value: 5
                 },
                 {
                     name: "Google Workspace",
-                    category: "Productivity",
-                    overallScore: 4.5,
-                    functionality: 4,
-                    userExperience: 5,
-                    integration: 5,
-                    security: 4,
-                    cost: 4,
-                    description: "Cloud-based productivity suite with Docs, Sheets, Slides, and more."
-                },
-                {
-                    name: "LibreOffice",
-                    category: "Productivity",
-                    overallScore: 3.8,
-                    functionality: 4,
-                    userExperience: 3,
-                    integration: 3,
-                    security: 4,
-                    cost: 5,
-                    description: "Free and open-source office suite."
-                }
-            ],
-            "Communication": [
-                {
-                    name: "Slack",
-                    category: "Communication",
+                    category: "Email",
                     overallScore: 4.6,
                     functionality: 5,
-                    userExperience: 4,
+                    userExperience: 5,
                     integration: 5,
+                    scalability: 5,
                     security: 4,
-                    cost: 3,
-                    description: "Channel-based messaging platform for teams."
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Google Drive": 0.4,
+                        "Google Meet": 0.4,
+                        "Google Calendar": 0.4
+                    }
+                }
+            ],
+            "Messaging": [
+                {
+                    name: "Slack",
+                    category: "Messaging",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 5,
+                    integration: 5,
+                    scalability: 4,
+                    security: 4,
+                    support: 5,
+                    value: 4,
+                    synergyWith: {
+                        "Google Drive": 0.2,
+                        "Trello": 0.2,
+                        "GitHub": 0.2
+                    }
                 },
                 {
                     name: "Microsoft Teams",
-                    category: "Communication",
+                    category: "Messaging",
+                    overallScore: 4.3,
+                    functionality: 5,
+                    userExperience: 3,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Microsoft Outlook": 0.3,
+                        "OneDrive": 0.3,
+                        "Microsoft 365": 0.3
+                    }
+                },
+                {
+                    name: "Discord",
+                    category: "Messaging",
+                    overallScore: 3.9,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 3,
+                    scalability: 4,
+                    security: 3,
+                    support: 3,
+                    value: 5
+                },
+                {
+                    name: "Zoom",
+                    category: "Messaging",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "Google Meet",
+                    category: "Messaging",
+                    overallScore: 4.3,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "Gmail": 0.3,
+                        "Google Drive": 0.3,
+                        "Google Calendar": 0.3
+                    }
+                },
+                {
+                    name: "Intercom",
+                    category: "Messaging",
                     overallScore: 4.4,
                     functionality: 5,
                     userExperience: 4,
                     integration: 5,
+                    scalability: 4,
                     security: 4,
-                    cost: 3,
-                    description: "Unified communication and collaboration platform."
-                },
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Salesforce": 0.3,
+                        "HubSpot": 0.3
+                    }
+                }
+            ],
+            "Data Storage": [
                 {
-                    name: "Discord",
-                    category: "Communication",
-                    overallScore: 4.2,
+                    name: "Google Drive",
+                    category: "Data Storage",
+                    overallScore: 4.5,
                     functionality: 4,
                     userExperience: 5,
-                    integration: 3,
-                    security: 3,
-                    cost: 5,
-                    description: "Voice, video, and text communication platform."
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "Gmail": 0.3,
+                        "Google Meet": 0.3,
+                        "Google Calendar": 0.3
+                    }
+                },
+                {
+                    name: "Dropbox",
+                    category: "Data Storage",
+                    overallScore: 4.3,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "OneDrive",
+                    category: "Data Storage",
+                    overallScore: 4.2,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Microsoft Outlook": 0.3,
+                        "Microsoft Teams": 0.3,
+                        "Microsoft 365": 0.3
+                    }
+                },
+                {
+                    name: "Box",
+                    category: "Data Storage",
+                    overallScore: 4.1,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 5,
+                    support: 4,
+                    value: 3
+                },
+                {
+                    name: "AWS S3",
+                    category: "Data Storage",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 3,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4
                 }
             ],
             "Project Management": [
                 {
-                    name: "Jira",
+                    name: "Asana",
                     category: "Project Management",
                     overallScore: 4.5,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "Trello",
+                    category: "Project Management",
+                    overallScore: 4.2,
+                    functionality: 3,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "Slack": 0.2,
+                        "Google Drive": 0.2
+                    }
+                },
+                {
+                    name: "Jira",
+                    category: "Project Management",
+                    overallScore: 4.4,
                     functionality: 5,
                     userExperience: 3,
                     integration: 5,
+                    scalability: 5,
                     security: 4,
-                    cost: 3,
-                    description: "Issue tracking and project management tool for software teams."
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Confluence": 0.4,
+                        "Bitbucket": 0.3
+                    }
                 },
                 {
-                    name: "Asana",
+                    name: "Monday.com",
                     category: "Project Management",
                     overallScore: 4.3,
                     functionality: 4,
                     userExperience: 5,
                     integration: 4,
+                    scalability: 4,
                     security: 4,
-                    cost: 3,
-                    description: "Work management platform for teams."
+                    support: 4,
+                    value: 3
                 },
                 {
-                    name: "Trello",
+                    name: "ClickUp",
                     category: "Project Management",
-                    overallScore: 4.1,
-                    functionality: 3,
-                    userExperience: 5,
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 4,
                     integration: 4,
+                    scalability: 4,
                     security: 4,
-                    cost: 4,
-                    description: "Visual tool for organizing work with boards, lists, and cards."
+                    support: 4,
+                    value: 5
                 }
             ],
             "CRM": [
@@ -1080,207 +1650,405 @@
                     functionality: 5,
                     userExperience: 4,
                     integration: 5,
+                    scalability: 5,
                     security: 5,
-                    cost: 2,
-                    description: "Customer relationship management platform with extensive customization."
+                    support: 4,
+                    value: 3,
+                    synergyWith: {
+                        "Slack": 0.3,
+                        "Tableau": 0.3
+                    }
                 },
                 {
                     name: "HubSpot",
                     category: "CRM",
-                    overallScore: 4.4,
+                    overallScore: 4.5,
                     functionality: 4,
                     userExperience: 5,
                     integration: 4,
+                    scalability: 4,
                     security: 4,
-                    cost: 3,
-                    description: "CRM platform with marketing, sales, and service hubs."
+                    support: 5,
+                    value: 4,
+                    synergyWith: {
+                        "Gmail": 0.2,
+                        "Outlook": 0.2
+                    }
                 },
                 {
                     name: "Zoho CRM",
                     category: "CRM",
-                    overallScore: 4.2,
+                    overallScore: 4.3,
                     functionality: 4,
                     userExperience: 4,
                     integration: 4,
+                    scalability: 4,
                     security: 4,
-                    cost: 4,
-                    description: "Web-based CRM solution for managing sales, marketing, and support."
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "Pipedrive",
+                    category: "CRM",
+                    overallScore: 4.2,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "Microsoft Dynamics",
+                    category: "CRM",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 3,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 3,
+                    synergyWith: {
+                        "Microsoft Teams": 0.3,
+                        "Office 365": 0.3
+                    }
+                }
+            ],
+            "Development": [
+                {
+                    name: "GitHub",
+                    category: "Development",
+                    overallScore: 4.8,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "VS Code": 0.3,
+                        "Jira": 0.2
+                    }
+                },
+                {
+                    name: "GitLab",
+                    category: "Development",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "VS Code",
+                    category: "Development",
+                    overallScore: 4.9,
+                    functionality: 5,
+                    userExperience: 5,
+                    integration: 5,
+                    scalability: 4,
+                    security: 4,
+                    support: 5,
+                    value: 5
+                },
+                {
+                    name: "IntelliJ IDEA",
+                    category: "Development",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "Docker",
+                    category: "Development",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 5
                 }
             ],
             "Analytics": [
                 {
                     name: "Google Analytics",
                     category: "Analytics",
-                    overallScore: 4.6,
+                    overallScore: 4.5,
                     functionality: 5,
                     userExperience: 4,
                     integration: 5,
+                    scalability: 5,
                     security: 4,
-                    cost: 5,
-                    description: "Web analytics service that tracks and reports website traffic."
+                    support: 3,
+                    value: 5
                 },
                 {
                     name: "Tableau",
                     category: "Analytics",
-                    overallScore: 4.5,
+                    overallScore: 4.7,
                     functionality: 5,
                     userExperience: 4,
-                    integration: 4,
+                    integration: 5,
+                    scalability: 5,
                     security: 4,
-                    cost: 2,
-                    description: "Interactive data visualization software focused on business intelligence."
+                    support: 4,
+                    value: 3,
+                    synergyWith: {
+                        "Salesforce": 0.3
+                    }
                 },
                 {
                     name: "Power BI",
                     category: "Analytics",
-                    overallScore: 4.4,
-                    functionality: 5,
-                    userExperience: 4,
-                    integration: 5,
-                    security: 4,
-                    cost: 3,
-                    description: "Business analytics service by Microsoft for interactive visualizations."
-                }
-            ],
-            "Finance": [
-                {
-                    name: "QuickBooks",
-                    category: "Finance",
-                    overallScore: 4.5,
-                    functionality: 5,
-                    userExperience: 4,
-                    integration: 4,
-                    security: 5,
-                    cost: 3,
-                    description: "Accounting software for small and medium-sized businesses."
-                },
-                {
-                    name: "Xero",
-                    category: "Finance",
-                    overallScore: 4.3,
-                    functionality: 4,
-                    userExperience: 5,
-                    integration: 4,
-                    security: 4,
-                    cost: 3,
-                    description: "Cloud-based accounting software for small businesses."
-                },
-                {
-                    name: "FreshBooks",
-                    category: "Finance",
-                    overallScore: 4.1,
-                    functionality: 4,
-                    userExperience: 5,
-                    integration: 3,
-                    security: 4,
-                    cost: 3,
-                    description: "Cloud-based accounting software designed for small businesses."
-                }
-            ],
-            "HR": [
-                {
-                    name: "BambooHR",
-                    category: "HR",
-                    overallScore: 4.4,
-                    functionality: 4,
-                    userExperience: 5,
-                    integration: 4,
-                    security: 4,
-                    cost: 3,
-                    description: "HR software for small and medium-sized businesses."
-                },
-                {
-                    name: "Workday",
-                    category: "HR",
                     overallScore: 4.6,
                     functionality: 5,
                     userExperience: 4,
                     integration: 5,
+                    scalability: 5,
                     security: 5,
-                    cost: 2,
-                    description: "Cloud-based HR and financial management software."
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Microsoft 365": 0.3,
+                        "Dynamics": 0.3
+                    }
                 },
                 {
-                    name: "Gusto",
-                    category: "HR",
+                    name: "Looker",
+                    category: "Analytics",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 3
+                },
+                {
+                    name: "Mixpanel",
+                    category: "Analytics",
+                    overallScore: 4.2,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                }
+            ],
+            "Security": [
+                {
+                    name: "Okta",
+                    category: "Security",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "LastPass",
+                    category: "Security",
                     overallScore: 4.3,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 5,
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "1Password",
+                    category: "Security",
+                    overallScore: 4.5,
                     functionality: 4,
                     userExperience: 5,
                     integration: 4,
-                    security: 4,
-                    cost: 3,
-                    description: "Payroll, benefits, and HR management software for small businesses."
+                    scalability: 4,
+                    security: 5,
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "CrowdStrike",
+                    category: "Security",
+                    overallScore: 4.8,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 5,
+                    value: 4
+                },
+                {
+                    name: "Cloudflare",
+                    category: "Security",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 5
                 }
             ]
         };
 
-        // Show register form
-        showRegisterLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-        });
+        // Scoring system for company profile
+        const scoringSystem = {
+            "team-size": {
+                "1-10": 1,
+                "11-50": 2,
+                "51-200": 3,
+                "200+": 4
+            },
+            "infrastructure": {
+                "On-premise": 1,
+                "Hybrid": 2,
+                "Cloud-first (AWS, Azure, GCP)": 3,
+                "Fully automated cloud-native": 5
+            },
+            "disaster-recovery": {
+                "No backups": 1,
+                "Manual occasionally": 2,
+                "Automated daily": 4
+            },
+            "security": {
+                "None": 1,
+                "Ad-hoc": 2,
+                "Regular vulnerability scans": 3,
+                "Formal framework (ISO 27001, SOC2)": 5
+            },
+            "gdpr": {
+                "None": 1,
+                "In progress": 3,
+                "Fully compliant with audits": 5
+            },
+            "deployment": {
+                "Manual": 1,
+                "Basic CI/CD": 3,
+                "Automated CI/CD + testing": 5
+            },
+            "version-control": {
+                "No": 1,
+                "Yes, but inconsistently": 3,
+                "Yes, fully standardized": 5
+            },
+            "cto": {
+                "No dedicated tech leader": 1,
+                "Part-time/fractional support": 2,
+                "Dedicated CTO": 4,
+                "CTO + leadership team": 5
+            },
+            "roadmap": {
+                "Never": 1,
+                "Once a year": 2,
+                "Quarterly": 4,
+                "Continuous": 5
+            },
+            "ai-usage": {
+                "Not at all": 1,
+                "Experimenting in some departments": 2,
+                "Integrated into workflows (e.g., analytics, automation)": 4,
+                "Core part of products/services": 5
+            },
+            "ai-strategy": {
+                "No strategy/policy": 1,
+                "Some guidelines, not standardized": 2,
+                "Formal AI strategy in progress": 4,
+                "Comprehensive AI strategy with governance": 5
+            },
+            "ai-ethics": {
+                "Not considered": 1,
+                "Ad-hoc awareness": 2,
+                "Formal reviews & partial safeguards": 4,
+                "Fully established AI governance framework": 5
+            }
+        };
 
-        // Show login form
-        showLoginLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            registerForm.style.display = 'none';
-            loginForm.style.display = 'block';
-        });
+        // Synergy calculation function
+        function calculateCombinedScore(app, selectedApps) {
+            let synergyBonus = 0;
+            if (app.synergyWith) {
+                selectedApps.forEach(selApp => {
+                    if (app.synergyWith[selApp.name]) {
+                        synergyBonus += app.synergyWith[selApp.name];
+                    }
+                });
+            }
+            return Math.min(5, app.overallScore + synergyBonus); // cap at 5
+        }
 
-        // Tab switching
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabId = this.getAttribute('data-tab');
-                
-                // Remove active class from all tabs and contents
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked tab and corresponding content
-                this.classList.add('active');
-                document.getElementById(tabId + '-tab').classList.add('active');
-            });
-        });
-
-        // Profile editing
-        editProfileBtn.addEventListener('click', function() {
-            profileInfo.style.display = 'none';
-            editProfileForm.style.display = 'block';
-        });
-
-        // Category selection
+        // Populate app dropdown based on category selection
         categorySelect.addEventListener('change', function() {
             const category = this.value;
-            appSelect.innerHTML = '<option value="">Select App</option>';
+            appSelect.innerHTML = '<option value="">Select an app</option>';
             
-            if (category) {
-                const apps = appData[category] || [];
-                apps.forEach(app => {
-                    const option = document.createElement('option');
-                    option.value = app.name;
-                    option.textContent = app.name;
-                    appSelect.appendChild(option);
-                });
-                appSelect.disabled = false;
-            } else {
+            if (!category) {
                 appSelect.disabled = true;
+                addAppBtn.disabled = true;
+                return;
             }
             
-            addAppBtn.disabled = true;
+            let apps = [];
+            
+            // Find apps for the selected category
+            if (appData[category]) {
+                apps = appData[category];
+            } else {
+                // Fallback for any category not in our data
+                apps = [
+                    { name: `${category} App 1`, category: category, overallScore: 4.2 },
+                    { name: `${category} App 2`, category: category, overallScore: 3.8 },
+                    { name: `${category} App 3`, category: category, overallScore: 4.5 }
+                ];
+            }
+            
+            // Add apps to dropdown
+            apps.forEach(app => {
+                const option = document.createElement('option');
+                option.value = app.name;
+                option.textContent = app.name;
+                appSelect.appendChild(option);
+            });
+            
+            appSelect.disabled = false;
+            
+            // Enable add button if an app is selected
+            appSelect.addEventListener('change', function() {
+                addAppBtn.disabled = !this.value;
+            });
         });
-
-        // App selection
-        appSelect.addEventListener('change', function() {
-            addAppBtn.disabled = !this.value;
-        });
-
-        // Add app
+        
+        // Add app button click handler
         addAppBtn.addEventListener('click', function() {
             const category = categorySelect.value;
             const appName = appSelect.value;
             
-            if (!category || !appName) return;
+            if (!category || !appName) {
+                return;
+            }
             
             // Check if app is already selected
             if (selectedApps.some(app => app.name === appName)) {
@@ -1288,211 +2056,597 @@
                 return;
             }
             
-            // Check if maximum apps reached
+            // Check if maximum number of apps is reached
             if (selectedApps.length >= MAX_APPS) {
                 alert(`You can select a maximum of ${MAX_APPS} apps.`);
                 return;
             }
             
-            // Find app data
-            const app = appData[category].find(a => a.name === appName);
+            // Find the selected app
+            let selectedApp;
+            if (appData[category]) {
+                selectedApp = appData[category].find(app => app.name === appName);
+            }
             
-            // Add to selected apps
-            selectedApps.push(app);
+            // If app not found, create a placeholder
+            if (!selectedApp) {
+                selectedApp = {
+                    name: appName,
+                    category: category,
+                    overallScore: 4.0,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                };
+            }
+            
+            // Add app to selected apps
+            selectedApps.push(selectedApp);
             
             // Update UI
             updateSelectedAppsUI();
             
-            // Reset selections
+            // Reset app dropdown
             appSelect.value = '';
             addAppBtn.disabled = true;
         });
-
+        
         // Update selected apps UI
         function updateSelectedAppsUI() {
-            if (selectedApps.length === 0) {
-                noAppsMessage.style.display = 'block';
-                calculateBtn.disabled = true;
-            } else {
-                noAppsMessage.style.display = 'none';
-                calculateBtn.disabled = false;
-                
-                // Clear and rebuild selected apps
-                selectedAppsDiv.innerHTML = '';
-                selectedApps.forEach((app, index) => {
-                    const appTag = document.createElement('div');
-                    appTag.className = 'app-tag';
-                    appTag.innerHTML = `
-                        <span>${app.name} (${app.category})</span>
-                        <span class="remove-app" data-index="${index}">✕</span>
-                    `;
-                    selectedAppsDiv.appendChild(appTag);
-                });
-                
-                // Add remove event listeners
-                document.querySelectorAll('.remove-app').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const index = parseInt(this.getAttribute('data-index'));
-                        selectedApps.splice(index, 1);
-                        updateSelectedAppsUI();
-                    });
-                });
-                
-                // Add no apps message back if needed
-                if (selectedApps.length === 0) {
-                    selectedAppsDiv.appendChild(noAppsMessage);
-                }
-            }
-        }
-
-        // Calculate optimization steps
-        calculateBtn.addEventListener('click', function() {
-            if (selectedApps.length === 0) return;
+            // Clear selected apps div
+            selectedAppsDiv.innerHTML = '';
             
-            // Sort apps by overall score
-            const rankedApps = [...selectedApps].sort((a, b) => b.overallScore - a.overallScore);
+            // Show message if no apps selected
+            if (selectedApps.length === 0) {
+                selectedAppsDiv.innerHTML = '<p id="no-apps-message">No apps selected yet. You can select up to 8 apps.</p>';
+                return;
+            }
+            
+            // Add selected apps to UI
+            selectedApps.forEach((app, index) => {
+                const appItem = document.createElement('div');
+                appItem.className = 'selected-app-item';
+                appItem.innerHTML = `
+                    <span>${app.name} (${app.category})</span>
+                    <button class="remove-app" data-index="${index}">Remove</button>
+                `;
+                selectedAppsDiv.appendChild(appItem);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-app').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    selectedApps.splice(index, 1);
+                    updateSelectedAppsUI();
+                });
+            });
+        }
+        
+        // Calculate button click handler
+        calculateBtn.addEventListener('click', function() {
+            // Check if at least one app is selected
+            if (selectedApps.length === 0) {
+                alert('Please select at least one app to calculate optimization steps.');
+                return;
+            }
+            
+            // Get company profile data
+            const companyProfile = {
+                companyName: document.getElementById('company-name').value,
+                teamSize: document.getElementById('team-size').value,
+                infrastructure: document.getElementById('infrastructure').value,
+                disasterRecovery: document.getElementById('disaster-recovery').value,
+                security: document.getElementById('security').value,
+                gdpr: document.getElementById('gdpr').value,
+                deployment: document.getElementById('deployment').value,
+                versionControl: document.getElementById('version-control').value,
+                cto: document.getElementById('cto').value,
+                roadmap: document.getElementById('roadmap').value,
+                aiUsage: document.getElementById('ai-usage').value,
+                aiStrategy: document.getElementById('ai-strategy').value,
+                aiEthics: document.getElementById('ai-ethics').value
+            };
             
             // Calculate maturity score
-            const maturityScore = calculateMaturityScore();
+            const maturityScore = calculateMaturityScore(companyProfile);
             
-            // Generate recommendations
-            const recommendations = generateRecommendations();
-            
-            // Generate implementation plan
-            const implementationPlan = generateImplementationPlan();
+            // Calculate app rankings
+            const rankedApps = calculateAppRankings(selectedApps);
             
             // Display results
-            displayResults(rankedApps, maturityScore, recommendations, implementationPlan);
+            displayResults(rankedApps, companyProfile, maturityScore);
             
-            // Show results container
+            // Show results section
             resultsDiv.style.display = 'block';
-        });
-
-        // Calculate maturity score
-        function calculateMaturityScore() {
-            // Base score from selected apps
-            const appScoreAvg = selectedApps.reduce((sum, app) => sum + app.overallScore, 0) / selectedApps.length;
-            const appScore = (appScoreAvg / 5) * 100;
             
-            // Get profile data if available
-            let profileScore = 50; // Default if no profile
-            try {
-                const infrastructure = document.getElementById('edit-infrastructure').value;
-                const security = document.getElementById('edit-security').value;
-                const deployment = document.getElementById('edit-deployment').value;
-                
-                // Calculate profile score based on key technical factors
-                let infraScore = 0;
-                if (infrastructure === 'Fully automated cloud-native') infraScore = 100;
-                else if (infrastructure === 'Cloud-first (AWS, Azure, GCP)') infraScore = 75;
-                else if (infrastructure === 'Hybrid') infraScore = 50;
-                else infraScore = 25;
-                
-                let secScore = 0;
-                if (security === 'Formal framework (ISO 27001, SOC2)') secScore = 100;
-                else if (security === 'Regular vulnerability scans') secScore = 75;
-                else if (security === 'Ad-hoc') secScore = 50;
-                else secScore = 25;
-                
-                let deployScore = 0;
-                if (deployment === 'Automated CI/CD + testing') deployScore = 100;
-                else if (deployment === 'Basic CI/CD') deployScore = 60;
-                else deployScore = 30;
-                
-                profileScore = (infraScore + secScore + deployScore) / 3;
-            } catch (e) {
-                console.log('Could not calculate profile score, using default', e);
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+            
+            // Store assessment data in session storage for later use
+            const assessmentData = {
+                profile: companyProfile,
+                maturityScore: maturityScore,
+                apps: selectedApps,
+                rankedApps: rankedApps,
+                date: new Date().toISOString()
+            };
+            
+            sessionStorage.setItem('currentAssessment', JSON.stringify(assessmentData));
+        });
+        
+        // Calculate maturity score
+        function calculateMaturityScore(profile) {
+            let score = 0;
+            let maxScore = 0;
+            
+            // Calculate score based on company profile
+            for (const [key, value] of Object.entries(profile)) {
+                if (key !== 'companyName' && scoringSystem[key]) {
+                    score += scoringSystem[key][value] || 0;
+                    maxScore += 5; // Maximum score for each category is 5
+                }
             }
             
-            // Combine scores (60% app selection, 40% profile)
-            return Math.round((appScore * 0.6) + (profileScore * 0.4));
+            // Calculate percentage
+            return Math.round((score / maxScore) * 100);
         }
-
-        // Generate recommendations
-        function generateRecommendations() {
+        
+        // Calculate app rankings
+        function calculateAppRankings(apps) {
+            // Calculate combined scores with synergy
+            apps.forEach(app => {
+                app.combinedScore = calculateCombinedScore(app, apps.filter(a => a.name !== app.name));
+            });
+            
+            // Sort apps by combined score
+            return [...apps].sort((a, b) => b.combinedScore - a.combinedScore);
+        }
+        
+        // Display results
+        function displayResults(rankedApps, profile, maturityScore) {
+            // Display maturity score
+            displayMaturityScore(maturityScore);
+            
+            // Display app rankings
+            displayAppRankings(rankedApps);
+            
+            // Display detailed app analysis
+            displayAppAnalysis(rankedApps);
+            
+            // Display synergy analysis
+            displaySynergyAnalysis(rankedApps);
+            
+            // Display recommendations
+            displayRecommendations(rankedApps, profile, maturityScore);
+            
+            // Display implementation plan
+            displayImplementationPlan(rankedApps, profile, maturityScore);
+        }
+        
+        // Display maturity score
+        function displayMaturityScore(score) {
+            const maturityScoreDiv = document.getElementById('maturity-score');
+            
+            let maturityLevel = "Beginner";
+            let maturityColor = "#e74c3c";
+            
+            if (score >= 80) {
+                maturityLevel = "Advanced";
+                maturityColor = "#2ecc71";
+            } else if (score >= 60) {
+                maturityLevel = "Established";
+                maturityColor = "#3498db";
+            } else if (score >= 40) {
+                maturityLevel = "Developing";
+                maturityColor = "#f39c12";
+            }
+            
+            maturityScoreDiv.innerHTML = `
+                <div class="score-value" style="color: ${maturityColor}">${score}</div>
+                <div class="score-label">Tech Maturity Score</div>
+                <div class="score-level" style="color: ${maturityColor}">${maturityLevel}</div>
+            `;
+        }
+        
+        // Display app rankings
+        function displayAppRankings(rankedApps) {
+            appRankingsDiv.innerHTML = '';
+            
+            rankedApps.forEach((app, index) => {
+                const appCard = document.createElement('div');
+                appCard.className = 'app-card';
+                appCard.innerHTML = `
+                    <div class="app-card-rank">${index + 1}</div>
+                    <div class="app-card-content">
+                        <h3>${app.name}</h3>
+                        <p>${app.category}</p>
+                        <div class="app-card-stats">
+                            <div class="stat">
+                                <div class="stat-label">Overall Score</div>
+                                <div class="stat-value">${app.combinedScore.toFixed(1)}</div>
+                            </div>
+                            ${app.functionality ? `
+                            <div class="stat">
+                                <div class="stat-label">Functionality</div>
+                                <div class="stat-value">${app.functionality}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">UX</div>
+                                <div class="stat-value">${app.userExperience}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Integration</div>
+                                <div class="stat-value">${app.integration}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                appRankingsDiv.appendChild(appCard);
+            });
+        }
+        
+        // Display detailed app analysis
+        function displayAppAnalysis(rankedApps) {
+            const appAnalysisDiv = document.getElementById('app-analysis');
+            appAnalysisDiv.innerHTML = '';
+            
+            rankedApps.forEach(app => {
+                // Generate strengths and weaknesses based on app scores
+                const strengths = [];
+                const weaknesses = [];
+                
+                if (app.functionality >= 4) strengths.push("Strong feature set that meets business needs");
+                if (app.functionality < 3) weaknesses.push("Limited functionality compared to alternatives");
+                
+                if (app.userExperience >= 4) strengths.push("Excellent user interface and experience");
+                if (app.userExperience < 3) weaknesses.push("User interface may be challenging for new users");
+                
+                if (app.integration >= 4) strengths.push("Robust integration capabilities with other tools");
+                if (app.integration < 3) weaknesses.push("Limited integration options with other systems");
+                
+                if (app.scalability >= 4) strengths.push("Scales well with business growth");
+                if (app.scalability < 3) weaknesses.push("May face performance issues as usage increases");
+                
+                if (app.security >= 4) strengths.push("Strong security features and compliance capabilities");
+                if (app.security < 3) weaknesses.push("Security features may need enhancement");
+                
+                if (app.support >= 4) strengths.push("Excellent customer support and reliability");
+                if (app.support < 3) weaknesses.push("Support response times may be inconsistent");
+                
+                if (app.value >= 4) strengths.push("Excellent value for the investment");
+                if (app.value < 3) weaknesses.push("Cost may outweigh benefits for some organizations");
+                
+                // If we don't have enough strengths or weaknesses, add generic ones
+                if (strengths.length < 2) {
+                    strengths.push("Provides core functionality needed for business operations");
+                    strengths.push("Established product with regular updates");
+                }
+                
+                if (weaknesses.length < 2) {
+                    weaknesses.push("May benefit from additional customization for specific workflows");
+                    weaknesses.push("Training may be required for optimal use");
+                }
+                
+                // Create app detail card
+                const appDetailCard = document.createElement('div');
+                appDetailCard.className = 'app-detail-card';
+                appDetailCard.innerHTML = `
+                    <div class="app-detail-header">
+                        <div class="app-detail-name">${app.name}</div>
+                        <div class="app-detail-score">Overall Score: ${app.combinedScore.toFixed(1)}/5</div>
+                    </div>
+                    <div class="app-metrics">
+                        ${app.functionality ? `
+                        <div class="app-metric">
+                            <div class="metric-name">Functionality</div>
+                            <div class="metric-value">${app.functionality}/5</div>
+                        </div>
+                        <div class="app-metric">
+                            <div class="metric-name">User Experience</div>
+                            <div class="metric-value">${app.userExperience}/5</div>
+                        </div>
+                        <div class="app-metric">
+                            <div class="metric-name">Integration</div>
+                            <div class="metric-value">${app.integration}/5</div>
+                        </div>
+                        <div class="app-metric">
+                            <div class="metric-name">Scalability</div>
+                            <div class="metric-value">${app.scalability}/5</div>
+                        </div>
+                        <div class="app-metric">
+                            <div class="metric-name">Security</div>
+                            <div class="metric-value">${app.security}/5</div>
+                        </div>
+                        <div class="app-metric">
+                            <div class="metric-name">Support</div>
+                            <div class="metric-value">${app.support}/5</div>
+                        </div>
+                        <div class="app-metric">
+                            <div class="metric-name">Value</div>
+                            <div class="metric-value">${app.value}/5</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="app-strengths-weaknesses">
+                        <div class="app-strengths">
+                            <h4>Strengths</h4>
+                            <ul>
+                                ${strengths.map(strength => `<li>${strength}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="app-weaknesses">
+                            <h4>Areas for Improvement</h4>
+                            <ul>
+                                ${weaknesses.map(weakness => `<li>${weakness}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="app-recommendations">
+                        <h4>Key Recommendations</h4>
+                        <ul>
+                            <li>Regularly review ${app.name} usage patterns to optimize workflows</li>
+                            <li>Schedule quarterly training sessions for team members</li>
+                            <li>Establish clear governance policies for ${app.name} usage</li>
+                        </ul>
+                    </div>
+                `;
+                
+                appAnalysisDiv.appendChild(appDetailCard);
+            });
+        }
+        
+        // Display synergy analysis
+        function displaySynergyAnalysis(rankedApps) {
+            const synergyAnalysisDiv = document.getElementById('synergy-analysis');
+            
+            // Only show synergy analysis if there are multiple apps
+            if (rankedApps.length <= 1) {
+                synergyAnalysisDiv.innerHTML = '<p>Synergy analysis requires at least two applications to be selected.</p>';
+                return;
+            }
+            
+            // Create synergy matrix
+            const synergyMatrix = document.createElement('div');
+            synergyMatrix.className = 'synergy-matrix';
+            
+            // Generate synergy pairs
+            const synergyPairs = [];
+            
+            for (let i = 0; i < rankedApps.length; i++) {
+                for (let j = i + 1; j < rankedApps.length; j++) {
+                    const app1 = rankedApps[i];
+                    const app2 = rankedApps[j];
+                    
+                    // Calculate synergy score
+                    let synergyScore = 0;
+                    let synergyDescription = "These applications have limited direct integration capabilities.";
+                    
+                    if (app1.synergyWith && app1.synergyWith[app2.name]) {
+                        synergyScore = app1.synergyWith[app2.name] * 10; // Convert to scale of 10
+                        synergyDescription = `These applications have strong integration capabilities, enhancing overall workflow efficiency by approximately ${(app1.synergyWith[app2.name] * 100).toFixed(0)}%.`;
+                    } else if (app2.synergyWith && app2.synergyWith[app1.name]) {
+                        synergyScore = app2.synergyWith[app1.name] * 10; // Convert to scale of 10
+                        synergyDescription = `These applications have strong integration capabilities, enhancing overall workflow efficiency by approximately ${(app2.synergyWith[app1.name] * 100).toFixed(0)}%.`;
+                    } else if (app1.category === app2.category) {
+                        // Apps in the same category might have some synergy
+                        synergyScore = 2;
+                        synergyDescription = "These applications serve similar purposes and may have overlapping functionality. Consider consolidating to reduce complexity.";
+                    } else {
+                        // Generic synergy based on integration scores
+                        const avgIntegration = (app1.integration + app2.integration) / 2;
+                        synergyScore = avgIntegration / 2;
+                        synergyDescription = "These applications may have limited direct integration but can be connected through middleware or API solutions.";
+                    }
+                    
+                    synergyPairs.push({
+                        app1: app1.name,
+                        app2: app2.name,
+                        score: synergyScore,
+                        description: synergyDescription
+                    });
+                }
+            }
+            
+            // Sort synergy pairs by score
+            synergyPairs.sort((a, b) => b.score - a.score);
+            
+            // Display synergy pairs
+            synergyPairs.forEach(pair => {
+                const synergyPairDiv = document.createElement('div');
+                synergyPairDiv.className = 'synergy-pair';
+                synergyPairDiv.innerHTML = `
+                    <div class="synergy-apps">${pair.app1} + ${pair.app2}</div>
+                    <div class="synergy-score">${pair.score.toFixed(1)}/10</div>
+                    <div class="synergy-description">${pair.description}</div>
+                `;
+                
+                synergyMatrix.appendChild(synergyPairDiv);
+            });
+            
+            synergyAnalysisDiv.appendChild(synergyMatrix);
+        }
+        
+        // Display recommendations
+        function displayRecommendations(rankedApps, profile, maturityScore) {
+            recommendationsDiv.innerHTML = '';
+            
+            // Generate recommendations based on maturity score and apps
             const recommendations = [];
             
-            // Check for missing categories
-            const selectedCategories = new Set(selectedApps.map(app => app.category));
-            const allCategories = Object.keys(appData);
-            const missingCategories = allCategories.filter(cat => !selectedCategories.has(cat));
-            
-            if (missingCategories.length > 0) {
-                missingCategories.forEach(category => {
-                    const bestApp = appData[category].reduce((best, app) => 
-                        app.overallScore > best.overallScore ? app : best, appData[category][0]);
-                    
-                    recommendations.push({
-                        priority: 'High',
-                        text: `Add ${bestApp.name} to cover the ${category} category in your tech stack.`
-                    });
+            // Basic recommendations based on maturity score
+            if (maturityScore < 30) {
+                recommendations.push({
+                    category: "Foundation Building",
+                    tasks: [
+                        "Establish basic backup procedures for critical data",
+                        "Implement standard security practices (password policies, access controls)",
+                        "Document current technology stack and identify critical gaps",
+                        "Consider fractional CTO support for strategic guidance",
+                        "Create a simple technology roadmap with 6-month horizon"
+                    ]
+                });
+            } else if (maturityScore < 60) {
+                recommendations.push({
+                    category: "Process Improvement",
+                    tasks: [
+                        "Implement automated backup solutions for all business data",
+                        "Establish basic CI/CD pipeline for development projects",
+                        "Standardize version control practices across all projects",
+                        "Conduct quarterly technology review meetings",
+                        "Begin formal security assessment program"
+                    ]
+                });
+            } else {
+                recommendations.push({
+                    category: "Advanced Optimization",
+                    tasks: [
+                        "Implement comprehensive disaster recovery testing",
+                        "Establish formal security compliance program (ISO 27001, SOC2)",
+                        "Create cross-functional technology governance committee",
+                        "Develop AI ethics framework and governance model",
+                        "Implement continuous technology innovation program"
+                    ]
                 });
             }
             
-            // Check for low-scoring apps
-            selectedApps.forEach(app => {
-                if (app.overallScore < 4.0) {
-                    // Find better alternative in same category
-                    const betterApps = appData[app.category].filter(a => 
-                        a.name !== app.name && a.overallScore > app.overallScore);
-                    
-                    if (betterApps.length > 0) {
-                        const bestAlternative = betterApps.reduce((best, current) => 
-                            current.overallScore > best.overallScore ? current : best, betterApps[0]);
-                        
-                        recommendations.push({
-                            priority: 'Medium',
-                            text: `Consider replacing ${app.name} with ${bestAlternative.name} for better performance in ${app.category}.`
-                        });
-                    }
+            // App-specific recommendations
+            if (rankedApps.length > 0) {
+                const topApp = rankedApps[0];
+                
+                recommendations.push({
+                    category: "App Optimization",
+                    tasks: [
+                        `Maximize ${topApp.name} integration with other tools in your stack`,
+                        `Schedule regular training sessions for team members on ${topApp.name}`,
+                        `Review ${topApp.name} security settings and permissions`,
+                        `Explore premium features of ${topApp.name} that align with business goals`,
+                        `Document ${topApp.name} best practices for your organization`
+                    ]
+                });
+                
+                // If there are multiple apps, add integration recommendation
+                if (rankedApps.length > 1) {
+                    recommendations.push({
+                        category: "Integration Strategy",
+                        tasks: [
+                            `Create data flow diagram between ${rankedApps[0].name} and ${rankedApps[1].name}`,
+                            "Identify automation opportunities between your top applications",
+                            "Establish API connection protocols and documentation",
+                            "Implement single sign-on across your application stack",
+                            "Create integration testing procedures for critical workflows"
+                        ]
+                    });
                 }
-            });
+            }
             
-            // Add general recommendations
-            recommendations.push({
-                priority: 'Medium',
-                text: 'Implement single sign-on (SSO) across all applications to improve security and user experience.'
-            });
+            // Infrastructure recommendations based on profile
+            if (profile.infrastructure === "On-premise") {
+                recommendations.push({
+                    category: "Infrastructure Modernization",
+                    tasks: [
+                        "Assess cloud migration opportunities for non-critical systems",
+                        "Implement hybrid backup solution with cloud storage",
+                        "Document current infrastructure with disaster recovery considerations",
+                        "Evaluate virtualization opportunities for on-premise servers",
+                        "Create cloud migration roadmap with cost-benefit analysis"
+                    ]
+                });
+            } else if (profile.infrastructure === "Hybrid") {
+                recommendations.push({
+                    category: "Cloud Optimization",
+                    tasks: [
+                        "Standardize deployment processes across cloud and on-premise",
+                        "Implement unified monitoring solution for all infrastructure",
+                        "Optimize cloud resource allocation and cost management",
+                        "Create cloud-first evaluation criteria for new systems",
+                        "Develop comprehensive disaster recovery plan spanning all environments"
+                    ]
+                });
+            }
             
-            recommendations.push({
-                priority: 'Low',
-                text: 'Schedule quarterly reviews of your tech stack to ensure it continues to meet your business needs.'
-            });
+            // AI recommendations based on profile
+            if (profile.aiUsage === "Not at all" || profile.aiUsage === "Experimenting in some departments") {
+                recommendations.push({
+                    category: "AI Adoption",
+                    tasks: [
+                        "Identify 3-5 processes that could benefit from AI automation",
+                        "Conduct AI readiness assessment for data quality and availability",
+                        "Develop basic AI ethics guidelines for your organization",
+                        "Pilot a small-scale AI project with measurable outcomes",
+                        "Create AI skills development plan for key team members"
+                    ]
+                });
+            } else {
+                recommendations.push({
+                    category: "AI Advancement",
+                    tasks: [
+                        "Establish formal AI governance framework with oversight committee",
+                        "Implement AI model monitoring and performance tracking",
+                        "Develop comprehensive AI ethics training program",
+                        "Create AI innovation pipeline with regular evaluation process",
+                        "Establish AI center of excellence to share best practices"
+                    ]
+                });
+            }
             
-            return recommendations;
+            // Display recommendations
+            recommendations.forEach(rec => {
+                const recStep = document.createElement('div');
+                recStep.className = 'recommendation-step';
+                recStep.innerHTML = `
+                    <h3>${rec.category}</h3>
+                    <ul>
+                        ${rec.tasks.map(task => `<li>${task}</li>`).join('')}
+                    </ul>
+                `;
+                recommendationsDiv.appendChild(recStep);
+            });
         }
-
-        // Generate implementation plan
-        function generateImplementationPlan() {
-            return [
+        
+        // Display implementation plan
+        function displayImplementationPlan(rankedApps, profile, maturityScore) {
+            const implementationPlanDiv = document.getElementById('implementation-plan');
+            implementationPlanDiv.innerHTML = '';
+            
+            // Generate implementation phases
+            const phases = [
                 {
-                    title: "Phase 1: Assessment & Planning (1-2 weeks)",
-                    timeline: "Weeks 1-2",
+                    title: "Phase 1: Immediate Actions (0-30 days)",
+                    timeline: "Next 30 days",
                     tasks: [
-                        "Document current tech stack and processes",
-                        "Identify key stakeholders and form implementation team",
-                        "Define success metrics and KPIs",
-                        "Create detailed implementation roadmap"
+                        "Conduct comprehensive technology audit",
+                        "Document current application usage and pain points",
+                        "Establish baseline metrics for key systems",
+                        "Identify quick wins for immediate implementation",
+                        "Form technology steering committee"
                     ],
-                    resources: "Internal team time, potentially external consultant for assessment"
+                    resources: "Requires involvement from IT team and department heads"
                 },
                 {
-                    title: "Phase 2: Foundation Building (2-4 weeks)",
-                    timeline: "Weeks 3-6",
+                    title: "Phase 2: Foundation Building (1-3 months)",
+                    timeline: "Months 1-3",
                     tasks: [
-                        "Set up core infrastructure improvements",
-                        "Implement security enhancements",
-                        "Establish governance framework",
-                        "Begin staff training on new systems"
+                        "Implement priority security improvements",
+                        "Standardize backup and recovery procedures",
+                        "Begin user training on core applications",
+                        "Develop integration strategy for key systems",
+                        "Establish technology governance policies"
                     ],
-                    resources: "IT team time, training resources, potential infrastructure costs"
+                    resources: "Budget allocation required for security tools and training resources"
                 },
                 {
-                    title: "Phase 3: Implementation & Integration (1-3 months)",
-                    timeline: "Months 2-4",
+                    title: "Phase 3: Optimization & Integration (3-6 months)",
+                    timeline: "Months 3-6",
                     tasks: [
-                        "Deploy new applications in staged rollout",
-                        "Integrate systems and establish data flows",
+                        "Implement automation for repetitive processes",
+                        "Enhance integration between core applications",
+                        "Optimize infrastructure for performance and cost",
                         "Develop metrics dashboard for technology performance",
                         "Begin pilot projects for new technologies"
                     ],
@@ -1504,199 +2658,61 @@
                     tasks: [
                         "Evaluate emerging technologies for business impact",
                         "Scale successful pilot projects across organization",
-                        "Optimize processes based on performance data",
-                        "Develop long-term technology roadmap"
+                        "Implement advanced security measures",
+                        "Develop long-term technology roadmap",
+                        "Establish continuous improvement framework"
                     ],
-                    resources: "Innovation budget, R&D resources, potential new hires"
+                    resources: "Requires executive sponsorship and dedicated innovation budget"
                 }
             ];
-        }
-
-        // Display results
-        function displayResults(rankedApps, maturityScore, recommendations, implementationPlan) {
-            // Display app rankings
-            appRankingsDiv.innerHTML = '';
-            rankedApps.forEach(app => {
-                const li = document.createElement('li');
-                li.className = 'app-ranking-item';
-                li.innerHTML = `
-                    <div>${app.name} (${app.category})</div>
-                    <div class="app-score">${app.overallScore}/5</div>
-                `;
-                appRankingsDiv.appendChild(li);
-            });
             
-            // Display recommendations
-            recommendationsDiv.innerHTML = '';
-            recommendations.forEach(rec => {
-                const li = document.createElement('li');
-                li.className = 'recommendation-item';
-                li.innerHTML = `
-                    <span class="recommendation-priority priority-${rec.priority.toLowerCase()}">${rec.priority}:</span>
-                    ${rec.text}
-                `;
-                recommendationsDiv.appendChild(li);
-            });
-            
-            // Display maturity score
-            let maturityLevel, maturityColor;
-            if (maturityScore >= 80) {
-                maturityLevel = "Advanced";
-                maturityColor = "#2ecc71";
-            } else if (maturityScore >= 60) {
-                maturityLevel = "Established";
-                maturityColor = "#3498db";
-            } else if (maturityScore >= 40) {
-                maturityLevel = "Developing";
-                maturityColor = "#f39c12";
-            } else {
-                maturityLevel = "Basic";
-                maturityColor = "#e74c3c";
-            }
-            
-            maturityScoreDiv.innerHTML = `
-                <div class="score-circle" style="border-color: ${maturityColor}">
-                    <div class="score-value" style="color: ${maturityColor}">${maturityScore}</div>
-                    <div class="score-label">Tech Maturity Score</div>
-                    <div class="score-level" style="color: ${maturityColor}">${maturityLevel}</div>
-                </div>
-            `;
-            
-            // Display maturity categories
-            maturityCategoriesDiv.innerHTML = '';
-            
-            // Create category scores
-            const categories = [
-                { name: 'Application Selection', score: calculateCategoryScore('apps') },
-                { name: 'Infrastructure', score: calculateCategoryScore('infrastructure') },
-                { name: 'Security', score: calculateCategoryScore('security') },
-                { name: 'Development Practices', score: calculateCategoryScore('development') }
-            ];
-            
-            categories.forEach(category => {
-                const div = document.createElement('div');
-                div.className = 'maturity-category';
-                div.innerHTML = `
-                    <h4>${category.name}</h4>
-                    <div class="category-score">${category.score}/100</div>
-                    <div class="score-bar">
-                        <div class="score-fill" style="width: ${category.score}%"></div>
+            // Display implementation phases
+            phases.forEach(phase => {
+                const phaseDiv = document.createElement('div');
+                phaseDiv.className = 'implementation-phase';
+                phaseDiv.innerHTML = `
+                    <div class="phase-header">
+                        <div class="phase-title">${phase.title}</div>
+                        <div class="phase-timeline">${phase.timeline}</div>
                     </div>
-                `;
-                maturityCategoriesDiv.appendChild(div);
-            });
-            
-            // Display app details
-            currentAppDetails.innerHTML = '';
-            selectedApps.forEach(app => {
-                const div = document.createElement('div');
-                div.className = 'app-details';
-                div.innerHTML = `
-                    <h3>${app.name} (${app.category})</h3>
-                    <p>${app.description}</p>
-                    <div>
-                        <strong>Functionality:</strong> ${app.functionality}/5
-                        <div class="score-bar">
-                            <div class="score-fill" style="width: ${app.functionality * 20}%"></div>
-                        </div>
+                    <div class="phase-tasks">
+                        <ul>
+                            ${phase.tasks.map(task => `<li>${task}</li>`).join('')}
+                        </ul>
                     </div>
-                    <div>
-                        <strong>User Experience:</strong> ${app.userExperience}/5
-                        <div class="score-bar">
-                            <div class="score-fill" style="width: ${app.userExperience * 20}%"></div>
-                        </div>
+                    <div class="phase-resources">
+                        <strong>Resources:</strong> ${phase.resources}
                     </div>
-                    <div>
-                        <strong>Integration:</strong> ${app.integration}/5
-                        <div class="score-bar">
-                            <div class="score-fill" style="width: ${app.integration * 20}%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <strong>Security:</strong> ${app.security}/5
-                        <div class="score-bar">
-                            <div class="score-fill" style="width: ${app.security * 20}%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <strong>Cost Efficiency:</strong> ${app.cost}/5
-                        <div class="score-bar">
-                            <div class="score-fill" style="width: ${app.cost * 20}%"></div>
-                        </div>
-                    </div>
-                `;
-                currentAppDetails.appendChild(div);
-            });
-            
-            // Display implementation plan
-            implementationPlanDiv.innerHTML = '';
-            implementationPlan.forEach(phase => {
-                const div = document.createElement('div');
-                div.className = 'timeline-item';
-                
-                let tasksHTML = '';
-                phase.tasks.forEach(task => {
-                    tasksHTML += `<li>${task}</li>`;
-                });
-                
-                div.innerHTML = `
-                    <div class="timeline-date">${phase.timeline}</div>
-                    <div class="timeline-title">${phase.title}</div>
-                    <ul class="timeline-tasks">
-                        ${tasksHTML}
-                    </ul>
-                    <div class="timeline-resources"><strong>Resources:</strong> ${phase.resources}</div>
                 `;
                 
-                implementationPlanDiv.appendChild(div);
+                implementationPlanDiv.appendChild(phaseDiv);
             });
         }
-
-        // Helper function to calculate category scores
-        function calculateCategoryScore(category) {
-            switch (category) {
-                case 'apps':
-                    return Math.round((selectedApps.reduce((sum, app) => sum + app.overallScore, 0) / selectedApps.length) * 20);
-                case 'infrastructure':
-                    try {
-                        const infrastructure = document.getElementById('edit-infrastructure').value;
-                        if (infrastructure === 'Fully automated cloud-native') return 90;
-                        if (infrastructure === 'Cloud-first (AWS, Azure, GCP)') return 75;
-                        if (infrastructure === 'Hybrid') return 50;
-                        return 30;
-                    } catch (e) {
-                        return 50;
-                    }
-                case 'security':
-                    try {
-                        const security = document.getElementById('edit-security').value;
-                        if (security === 'Formal framework (ISO 27001, SOC2)') return 90;
-                        if (security === 'Regular vulnerability scans') return 70;
-                        if (security === 'Ad-hoc') return 40;
-                        return 20;
-                    } catch (e) {
-                        return 50;
-                    }
-                case 'development':
-                    try {
-                        const deployment = document.getElementById('edit-deployment').value;
-                        if (deployment === 'Automated CI/CD + testing') return 90;
-                        if (deployment === 'Basic CI/CD') return 60;
-                        return 30;
-                    } catch (e) {
-                        return 50;
-                    }
-                default:
-                    return 50;
-            }
-        }
-
-        // Download PDF button
-        document.getElementById('download-pdf-btn').addEventListener('click', function() {
-            alert('PDF download functionality will be available in the next update. Your assessment results have been saved to your profile.');
-        });
 
         // Authentication functions
+        async function register(username, email, password) {
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Registration failed');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Registration error:', error);
+                throw error;
+            }
+        }
+        
         async function login(username, password) {
             try {
                 const response = await fetch(`${API_URL}/auth/login`, {
@@ -1713,43 +2729,23 @@
                     throw new Error(data.message || 'Login failed');
                 }
                 
+                // Store token and user info
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
                 return data;
             } catch (error) {
                 console.error('Login error:', error);
                 throw error;
             }
         }
-
-        async function register(username, password, role) {
-            try {
-                const response = await fetch(`${API_URL}/auth/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password, role })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Registration failed');
-                }
-                
-                return data;
-            } catch (error) {
-                console.error('Registration error:', error);
-                throw error;
-            }
-        }
-
-        async function getCurrentUser() {
+        
+        async function checkAuth() {
             try {
                 const token = localStorage.getItem('token');
                 
                 if (!token) {
-                    throw new Error('No authentication token found');
+                    return false;
                 }
                 
                 const response = await fetch(`${API_URL}/auth/me`, {
@@ -1759,77 +2755,25 @@
                     }
                 });
                 
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Failed to get user data');
-                    }
-                    
-                    return data;
-                } else {
-                    // Handle non-JSON response
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to get user data: Server returned non-JSON response');
-                    }
-                    
-                    // Return a default user object
-                    return { user: { username: 'User', role: 'user' } };
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Authentication failed');
                 }
+                
+                // Update user info
+                localStorage.setItem('user', JSON.stringify(data));
+                
+                return data;
             } catch (error) {
-                console.error('Get current user error:', error);
-                throw error;
+                console.error('Auth check error:', error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                return false;
             }
         }
-
-        async function getUsers() {
-            try {
-                const token = localStorage.getItem('token');
-                
-                if (!token) {
-                    throw new Error('No authentication token found');
-                }
-                
-                const response = await fetch(`${API_URL}/auth/users`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Failed to get users');
-                    }
-                    
-                    return data;
-                } else {
-                    // Handle non-JSON response
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to get users: Server returned non-JSON response');
-                    }
-                    
-                    // Return a default response
-                    return { users: [] };
-                }
-            } catch (error) {
-                console.error('Get users error:', error);
-                throw error;
-            }
-        }
-
+        
+        // Profile functions
         async function getProfile() {
             try {
                 const token = localStorage.getItem('token');
@@ -1864,15 +2808,45 @@
                         throw new Error('Failed to get profile: Server returned non-JSON response');
                     }
                     
-                    // Return a default response
-                    return { profile: null };
+                    // Return an empty profile
+                    return {
+                        companyName: '',
+                        teamSize: '1-10',
+                        infrastructure: 'On-premise',
+                        disasterRecovery: 'No backups',
+                        security: 'None',
+                        gdpr: 'None',
+                        deployment: 'Manual',
+                        versionControl: 'No',
+                        cto: 'No dedicated tech leader',
+                        roadmap: 'Never',
+                        aiUsage: 'Not at all',
+                        aiStrategy: 'No strategy/policy',
+                        aiEthics: 'Not considered'
+                    };
                 }
             } catch (error) {
                 console.error('Get profile error:', error);
-                throw error;
+                
+                // Return an empty profile on error
+                return {
+                    companyName: '',
+                    teamSize: '1-10',
+                    infrastructure: 'On-premise',
+                    disasterRecovery: 'No backups',
+                    security: 'None',
+                    gdpr: 'None',
+                    deployment: 'Manual',
+                    versionControl: 'No',
+                    cto: 'No dedicated tech leader',
+                    roadmap: 'Never',
+                    aiUsage: 'Not at all',
+                    aiStrategy: 'No strategy/policy',
+                    aiEthics: 'Not considered'
+                };
             }
         }
-
+        
         async function updateProfile(profileData) {
             try {
                 const token = localStorage.getItem('token');
@@ -1917,7 +2891,7 @@
                 throw error;
             }
         }
-
+        
         async function createProfile(profileData) {
             try {
                 const token = localStorage.getItem('token');
@@ -1935,35 +2909,61 @@
                     body: JSON.stringify(profileData)
                 });
                 
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Failed to create profile');
-                    }
-                    
-                    return data;
-                } else {
-                    // Handle non-JSON response
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to create profile: Server returned non-JSON response');
-                    }
-                    
-                    // Return a default success response
-                    return { success: true, message: 'Profile created successfully' };
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to create profile');
                 }
+                
+                return data;
             } catch (error) {
                 console.error('Create profile error:', error);
                 throw error;
             }
         }
-
+        
+        // Admin functions
+        async function getAllProfiles() {
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+                
+                const response = await fetch(`${API_URL}/profile/all`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to get profiles');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Get all profiles error:', error);
+                throw error;
+            }
+        }
+        
         // Event listeners
+        showRegisterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+        
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+        
         loginBtn.addEventListener('click', async function() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
@@ -1974,58 +2974,95 @@
             }
             
             try {
-                loginError.textContent = '';
+                loginError.textContent = 'Logging in...';
                 const data = await login(username, password);
+                
+                // Check if user is admin
+                const user = data.user;
+                if (user.role === 'admin') {
+                    adminTabContainer.style.display = 'block';
+                    loadAllProfiles();
+                }
                 
                 // Show main content
                 loginContainer.style.display = 'none';
                 mainContent.style.display = 'block';
                 
-                // Load user data
-                loadUserData();
+                // Load profile
+                loadProfile();
             } catch (error) {
-                loginError.textContent = error.message;
+                loginError.textContent = error.message || 'Login failed. Please check your credentials.';
             }
         });
-
+        
         registerBtn.addEventListener('click', async function() {
             const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
             const password = document.getElementById('reg-password').value;
-            const role = document.getElementById('reg-role').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
             
-            if (!username || !password) {
-                registerError.textContent = 'Please enter both username and password';
+            if (!username || !email || !password || !confirmPassword) {
+                registerError.textContent = 'Please fill in all fields';
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                registerError.textContent = 'Passwords do not match';
                 return;
             }
             
             try {
-                registerError.textContent = '';
-                await register(username, password, role);
+                registerError.textContent = 'Registering...';
+                await register(username, email, password);
                 
-                // Switch to login
+                // Show login form
                 registerForm.style.display = 'none';
                 loginForm.style.display = 'block';
-                document.getElementById('username').value = username;
-                document.getElementById('password').value = password;
-                
-                // Show success message
-                loginError.textContent = 'Registration successful! You can now log in.';
-                loginError.style.color = '#2ecc71';
+                loginError.textContent = 'Registration successful. Please log in.';
             } catch (error) {
-                registerError.textContent = error.message;
+                registerError.textContent = error.message || 'Registration failed. Please try again.';
             }
         });
-
+        
         logoutBtn.addEventListener('click', function() {
+            // Clear local storage
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            
+            // Show login container
             mainContent.style.display = 'none';
             loginContainer.style.display = 'flex';
+            
+            // Reset forms
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             loginError.textContent = '';
-            loginError.style.color = '';
+            
+            // Hide admin tab
+            adminTabContainer.style.display = 'none';
         });
-
+        
+        // Tab navigation
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                this.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Profile tab functionality
+        editProfileBtn.addEventListener('click', function() {
+            profileInfo.style.display = 'none';
+            editProfileForm.style.display = 'block';
+        });
+        
         saveProfileBtn.addEventListener('click', async function() {
             const profileData = {
                 companyName: document.getElementById('edit-company-name').value,
@@ -2040,193 +3077,436 @@
                 roadmap: document.getElementById('edit-roadmap').value,
                 aiUsage: document.getElementById('edit-ai-usage').value,
                 aiStrategy: document.getElementById('edit-ai-strategy').value,
-                aiEthics: document.getElementById('edit-ai-ethics').value,
-                selectedApps: selectedApps.map(app => ({ name: app.name, category: app.category }))
+                aiEthics: document.getElementById('edit-ai-ethics').value
             };
-            
-            console.log('Saving profile data:', profileData);
             
             try {
                 // Try to update profile first
                 try {
                     await updateProfile(profileData);
-                    console.log('Profile updated successfully');
                 } catch (error) {
-                    console.error('Update profile error:', error);
                     // If update fails, try to create profile
                     if (error.message.includes('not found')) {
                         await createProfile(profileData);
-                        console.log('Profile created successfully');
                     } else {
                         throw error;
                     }
                 }
                 
                 // Reload profile
-                await loadProfile();
+                loadProfile();
                 
-                // Hide edit form
-                profileInfo.style.display = 'block';
+                // Show profile info
                 editProfileForm.style.display = 'none';
-                
-                alert('Profile saved successfully!');
+                profileInfo.style.display = 'block';
             } catch (error) {
-                console.error('Save profile error:', error);
                 alert('Failed to save profile: ' + error.message);
             }
         });
-
-        // Load user data
-        async function loadUserData() {
+        
+        // Load profile
+        async function loadProfile() {
             try {
-                const userData = await getCurrentUser();
+                const profile = await getProfile();
                 
-                // Update welcome message
-                document.querySelector('.welcome-message h1').textContent = `Welcome, ${userData.user.username}!`;
+                // Display profile info
+                profileInfo.innerHTML = `
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Company Name</div>
+                        <div class="profile-info-value">${profile.companyName || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Team Size</div>
+                        <div class="profile-info-value">${profile.teamSize || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Infrastructure</div>
+                        <div class="profile-info-value">${profile.infrastructure || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Disaster Recovery</div>
+                        <div class="profile-info-value">${profile.disasterRecovery || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Security</div>
+                        <div class="profile-info-value">${profile.security || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">GDPR Compliance</div>
+                        <div class="profile-info-value">${profile.gdpr || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Deployment Process</div>
+                        <div class="profile-info-value">${profile.deployment || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Version Control</div>
+                        <div class="profile-info-value">${profile.versionControl || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Technical Leadership</div>
+                        <div class="profile-info-value">${profile.cto || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Roadmap Review</div>
+                        <div class="profile-info-value">${profile.roadmap || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Usage</div>
+                        <div class="profile-info-value">${profile.aiUsage || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Strategy</div>
+                        <div class="profile-info-value">${profile.aiStrategy || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Ethics</div>
+                        <div class="profile-info-value">${profile.aiEthics || 'Not set'}</div>
+                    </div>
+                `;
                 
-                // Show admin tab if admin
-                if (userData.user.role === 'admin') {
+                // Fill edit form
+                document.getElementById('edit-company-name').value = profile.companyName || '';
+                document.getElementById('edit-team-size').value = profile.teamSize || '1-10';
+                document.getElementById('edit-infrastructure').value = profile.infrastructure || 'On-premise';
+                document.getElementById('edit-disaster-recovery').value = profile.disasterRecovery || 'No backups';
+                document.getElementById('edit-security').value = profile.security || 'None';
+                document.getElementById('edit-gdpr').value = profile.gdpr || 'None';
+                document.getElementById('edit-deployment').value = profile.deployment || 'Manual';
+                document.getElementById('edit-version-control').value = profile.versionControl || 'No';
+                document.getElementById('edit-cto').value = profile.cto || 'No dedicated tech leader';
+                document.getElementById('edit-roadmap').value = profile.roadmap || 'Never';
+                document.getElementById('edit-ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('edit-ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
+                document.getElementById('edit-ai-ethics').value = profile.aiEthics || 'Not considered';
+                
+                // Also update the assessment form
+                document.getElementById('company-name').value = profile.companyName || '';
+                document.getElementById('team-size').value = profile.teamSize || '1-10';
+                document.getElementById('infrastructure').value = profile.infrastructure || 'On-premise';
+                document.getElementById('disaster-recovery').value = profile.disasterRecovery || 'No backups';
+                document.getElementById('security').value = profile.security || 'None';
+                document.getElementById('gdpr').value = profile.gdpr || 'None';
+                document.getElementById('deployment').value = profile.deployment || 'Manual';
+                document.getElementById('version-control').value = profile.versionControl || 'No';
+                document.getElementById('cto').value = profile.cto || 'No dedicated tech leader';
+                document.getElementById('roadmap').value = profile.roadmap || 'Never';
+                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
+                document.getElementById('ai-ethics').value = profile.aiEthics || 'Not considered';
+            } catch (error) {
+                // If profile not found, show empty form
+                if (error.message.includes('not found')) {
+                    profileInfo.innerHTML = `<p>No profile found. Please create one.</p>`;
+                    editProfileBtn.click(); // Show edit form
+                } else {
+                    profileInfo.innerHTML = `<p>Failed to load profile: ${error.message}</p>`;
+                }
+            }
+        }
+        
+        // Load all profiles (admin only)
+        async function loadAllProfiles() {
+            try {
+                const profiles = await getAllProfiles();
+                
+                userList.innerHTML = '';
+                
+                if (profiles.length === 0) {
+                    userList.innerHTML = '<p>No profiles found.</p>';
+                    return;
+                }
+                
+                profiles.forEach(profile => {
+                    const userItem = document.createElement('div');
+                    userItem.className = 'user-item';
+                    userItem.innerHTML = `
+                        <h3>${profile.user?.username || 'Unknown User'}</h3>
+                        <p>Company: ${profile.companyName || 'Not set'}</p>
+                        <p>Team Size: ${profile.teamSize || 'Not set'}</p>
+                        <p>Infrastructure: ${profile.infrastructure || 'Not set'}</p>
+                    `;
+                    userList.appendChild(userItem);
+                });
+            } catch (error) {
+                userList.innerHTML = `<p>Failed to load profiles: ${error.message}</p>`;
+            }
+        }
+        
+        // Check if user is already logged in
+        async function init() {
+            const user = await checkAuth();
+            
+            if (user) {
+                // Show main content
+                loginContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Check if user is admin
+                if (user.role === 'admin') {
                     adminTabContainer.style.display = 'block';
-                    loadUsers();
+                    loadAllProfiles();
                 }
                 
                 // Load profile
                 loadProfile();
-            } catch (error) {
-                console.error('Load user data error:', error);
-                alert('Failed to load user data. Please log in again.');
-                logoutBtn.click();
             }
         }
-
-        // Load users (admin only)
-        async function loadUsers() {
+        
+        // Save assessment button click handler
+        document.getElementById('save-assessment-btn').addEventListener('click', async function() {
             try {
-                const data = await getUsers();
+                const currentAssessment = JSON.parse(sessionStorage.getItem('currentAssessment'));
                 
-                if (data.users && data.users.length > 0) {
-                    userList.innerHTML = '';
-                    
-                    data.users.forEach(user => {
-                        const li = document.createElement('li');
-                        li.className = 'user-item';
-                        li.innerHTML = `
-                            <div>${user.username} (${user.role})</div>
-                            <div class="user-actions">
-                                <button class="view-user-btn" data-id="${user._id}">View</button>
-                                <button class="delete-user-btn" data-id="${user._id}">Delete</button>
-                            </div>
-                        `;
-                        userList.appendChild(li);
-                    });
-                } else {
-                    userList.innerHTML = '<p>No users found.</p>';
+                if (!currentAssessment) {
+                    alert('No assessment data found. Please run the assessment first.');
+                    return;
                 }
-            } catch (error) {
-                console.error('Load users error:', error);
-                userList.innerHTML = '<p>Failed to load users.</p>';
-            }
-        }
-
-        // Load profile
-        async function loadProfile() {
-            try {
-                const data = await getProfile();
                 
-                if (data.profile) {
-                    // Display profile info
-                    profileInfo.innerHTML = `
-                        <p><strong>Company Name:</strong> ${data.profile.companyName}</p>
-                        <p><strong>Team Size:</strong> ${data.profile.teamSize}</p>
-                        <p><strong>Infrastructure:</strong> ${data.profile.infrastructure}</p>
-                        <p><strong>Disaster Recovery:</strong> ${data.profile.disasterRecovery}</p>
-                        <p><strong>Security:</strong> ${data.profile.security}</p>
-                        <p><strong>GDPR Compliance:</strong> ${data.profile.gdpr}</p>
-                        <p><strong>Deployment Process:</strong> ${data.profile.deployment}</p>
-                        <p><strong>Version Control:</strong> ${data.profile.versionControl}</p>
-                        <p><strong>Technical Leadership:</strong> ${data.profile.cto}</p>
-                        <p><strong>Technical Roadmap Review:</strong> ${data.profile.roadmap}</p>
-                        <p><strong>AI Usage:</strong> ${data.profile.aiUsage}</p>
-                        <p><strong>AI Strategy:</strong> ${data.profile.aiStrategy}</p>
-                        <p><strong>AI Ethics & Governance:</strong> ${data.profile.aiEthics}</p>
-                    `;
-                    
-                    // Set form values
-                    document.getElementById('edit-company-name').value = data.profile.companyName;
-                    document.getElementById('edit-team-size').value = data.profile.teamSize;
-                    document.getElementById('edit-infrastructure').value = data.profile.infrastructure;
-                    document.getElementById('edit-disaster-recovery').value = data.profile.disasterRecovery;
-                    document.getElementById('edit-security').value = data.profile.security;
-                    document.getElementById('edit-gdpr').value = data.profile.gdpr;
-                    document.getElementById('edit-deployment').value = data.profile.deployment;
-                    document.getElementById('edit-version-control').value = data.profile.versionControl;
-                    document.getElementById('edit-cto').value = data.profile.cto;
-                    document.getElementById('edit-roadmap').value = data.profile.roadmap;
-                    document.getElementById('edit-ai-usage').value = data.profile.aiUsage;
-                    document.getElementById('edit-ai-strategy').value = data.profile.aiStrategy;
-                    document.getElementById('edit-ai-ethics').value = data.profile.aiEthics;
-                    
-                    // Load selected apps if available
-                    if (data.profile.selectedApps && data.profile.selectedApps.length > 0) {
-                        selectedApps = [];
-                        
-                        data.profile.selectedApps.forEach(appData => {
-                            // Find the full app data from our appData object
-                            const category = appData.category;
-                            const appName = appData.name;
-                            
-                            if (appData[category]) {
-                                const app = appData[category].find(a => a.name === appName);
-                                if (app) {
-                                    selectedApps.push(app);
-                                } else {
-                                    // If we can't find the exact app, create a placeholder
-                                    selectedApps.push({
-                                        name: appName,
-                                        category: category,
-                                        overallScore: 3.5,
-                                        functionality: 3,
-                                        userExperience: 3,
-                                        integration: 3,
-                                        security: 3,
-                                        cost: 3,
-                                        description: `${appName} from ${category} category.`
-                                    });
-                                }
-                            }
-                        });
-                        
-                        updateSelectedAppsUI();
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    alert('You must be logged in to save assessment results.');
+                    return;
+                }
+                
+                // Save assessment data to profile
+                const profileData = {
+                    ...currentAssessment.profile,
+                    assessmentResults: {
+                        maturityScore: currentAssessment.maturityScore,
+                        apps: currentAssessment.apps.map(app => ({
+                            name: app.name,
+                            category: app.category,
+                            score: app.combinedScore || app.overallScore
+                        })),
+                        date: currentAssessment.date
                     }
-                } else {
-                    profileInfo.innerHTML = '<p>No profile found. Please create one.</p>';
-                    
-                    // Clear form values
-                    document.getElementById('edit-company-name').value = '';
-                }
-            } catch (error) {
-                console.error('Load profile error:', error);
-                
-                // Simplified error for display
-                const simplifiedError = {
-                    message: error.message || 'Unknown error'
                 };
                 
-                if (simplifiedError.message.includes('not found')) {
-                    profileInfo.innerHTML = '<p>No profile found. Please create one.</p>';
-                } else {
-                    profileInfo.innerHTML = `<p>Failed to load profile: ${simplifiedError.message}</p>`;
-                    throw new Error('Could not load profile data: ' + simplifiedError.message);
+                try {
+                    // Update profile with assessment results
+                    await updateProfile(profileData);
+                    
+                    alert('Assessment results saved successfully!');
+                    
+                    // Update profile display
+                    loadProfile();
+                } catch (saveError) {
+                    console.error('Error saving assessment:', saveError);
+                    
+                    // Try a simplified version without the assessment results
+                    const simplifiedData = {
+                        companyName: profileData.companyName,
+                        teamSize: profileData.teamSize,
+                        infrastructure: profileData.infrastructure,
+                        disasterRecovery: profileData.disasterRecovery,
+                        security: profileData.security,
+                        gdpr: profileData.gdpr,
+                        deployment: profileData.deployment,
+                        versionControl: profileData.versionControl,
+                        cto: profileData.cto,
+                        roadmap: profileData.roadmap,
+                        aiUsage: profileData.aiUsage,
+                        aiStrategy: profileData.aiStrategy,
+                        aiEthics: profileData.aiEthics
+                    };
+                    
+                    try {
+                        await updateProfile(simplifiedData);
+                        alert('Profile information saved successfully, but assessment results could not be saved.');
+                        loadProfile();
+                    } catch (simplifiedError) {
+                        throw new Error('Could not save profile data: ' + simplifiedError.message);
+                    }
                 }
+            } catch (error) {
+                alert('Failed to save assessment: ' + error.message);
+                console.error('Save assessment error:', error);
+            }
+        });
+        
+        // Download PDF button click handler
+        document.getElementById('download-pdf-btn').addEventListener('click', function() {
+            const currentAssessment = JSON.parse(sessionStorage.getItem('currentAssessment'));
+            
+            if (!currentAssessment) {
+                alert('No assessment data found. Please run the assessment first.');
+                return;
+            }
+            
+            // Alert user that this feature is coming soon
+            alert('PDF download functionality will be available in the next update. Your assessment results have been saved to your profile.');
+        });
+        
+        // Enhanced profile loading to show assessment history
+        async function loadProfile() {
+            try {
+                const profile = await getProfile();
+                
+                // Display profile info
+                let profileHTML = `
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Company Name</div>
+                        <div class="profile-info-value">${profile.companyName || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Team Size</div>
+                        <div class="profile-info-value">${profile.teamSize || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Infrastructure</div>
+                        <div class="profile-info-value">${profile.infrastructure || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Disaster Recovery</div>
+                        <div class="profile-info-value">${profile.disasterRecovery || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Security</div>
+                        <div class="profile-info-value">${profile.security || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">GDPR Compliance</div>
+                        <div class="profile-info-value">${profile.gdpr || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Deployment Process</div>
+                        <div class="profile-info-value">${profile.deployment || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Version Control</div>
+                        <div class="profile-info-value">${profile.versionControl || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Technical Leadership</div>
+                        <div class="profile-info-value">${profile.cto || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Roadmap Review</div>
+                        <div class="profile-info-value">${profile.roadmap || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Usage</div>
+                        <div class="profile-info-value">${profile.aiUsage || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Strategy</div>
+                        <div class="profile-info-value">${profile.aiStrategy || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Ethics</div>
+                        <div class="profile-info-value">${profile.aiEthics || 'Not set'}</div>
+                    </div>
+                `;
+                
+                // Add assessment history if available
+                if (profile.assessmentResults) {
+                    const date = new Date(profile.assessmentResults.date);
+                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+                    
+                    profileHTML += `
+                        <div class="profile-info-item assessment-history">
+                            <div class="profile-info-label">Latest Assessment</div>
+                            <div class="profile-info-value">
+                                <div class="assessment-date">Date: ${formattedDate}</div>
+                                <div class="assessment-score">Maturity Score: ${profile.assessmentResults.maturityScore}</div>
+                                <div class="assessment-apps">
+                                    <strong>Assessed Apps:</strong>
+                                    <ul>
+                                        ${profile.assessmentResults.apps.map(app => `
+                                            <li>${app.name} (${app.category}) - Score: ${app.score.toFixed(1)}</li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                                <button id="view-last-assessment-btn" class="view-btn">View Full Assessment</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                profileInfo.innerHTML = profileHTML;
+                
+                // Add event listener for view assessment button if it exists
+                const viewAssessmentBtn = document.getElementById('view-last-assessment-btn');
+                if (viewAssessmentBtn) {
+                    viewAssessmentBtn.addEventListener('click', function() {
+                        // Load the saved assessment data
+                        const assessmentData = {
+                            profile: {
+                                companyName: profile.companyName,
+                                teamSize: profile.teamSize,
+                                infrastructure: profile.infrastructure,
+                                disasterRecovery: profile.disasterRecovery,
+                                security: profile.security,
+                                gdpr: profile.gdpr,
+                                deployment: profile.deployment,
+                                versionControl: profile.versionControl,
+                                cto: profile.cto,
+                                roadmap: profile.roadmap,
+                                aiUsage: profile.aiUsage,
+                                aiStrategy: profile.aiStrategy,
+                                aiEthics: profile.aiEthics
+                            },
+                            maturityScore: profile.assessmentResults.maturityScore,
+                            apps: profile.assessmentResults.apps,
+                            rankedApps: profile.assessmentResults.apps.sort((a, b) => b.score - a.score),
+                            date: profile.assessmentResults.date
+                        };
+                        
+                        // Store in session storage
+                        sessionStorage.setItem('currentAssessment', JSON.stringify(assessmentData));
+                        
+                        // Switch to assessment tab
+                        document.querySelector('.tab[data-tab="assessment"]').click();
+                        
+                        // Show results section
+                        resultsDiv.style.display = 'block';
+                        
+                        // Display results
+                        displayResults(assessmentData.rankedApps, assessmentData.profile, assessmentData.maturityScore);
+                        
+                        // Scroll to results
+                        resultsDiv.scrollIntoView({ behavior: 'smooth' });
+                    });
+                }
+                
+                // Fill edit form
+                document.getElementById('edit-company-name').value = profile.companyName || '';
+                document.getElementById('edit-team-size').value = profile.teamSize || '1-10';
+                document.getElementById('edit-infrastructure').value = profile.infrastructure || 'On-premise';
+                document.getElementById('edit-disaster-recovery').value = profile.disasterRecovery || 'No backups';
+                document.getElementById('edit-security').value = profile.security || 'None';
+                document.getElementById('edit-gdpr').value = profile.gdpr || 'None';
+                document.getElementById('edit-deployment').value = profile.deployment || 'Manual';
+                document.getElementById('edit-version-control').value = profile.versionControl || 'No';
+                document.getElementById('edit-cto').value = profile.cto || 'No dedicated tech leader';
+                document.getElementById('edit-roadmap').value = profile.roadmap || 'Never';
+                document.getElementById('edit-ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('edit-ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
+                document.getElementById('edit-ai-ethics').value = profile.aiEthics || 'Not considered';
+                
+                // Also update the assessment form
+                document.getElementById('company-name').value = profile.companyName || '';
+                document.getElementById('team-size').value = profile.teamSize || '1-10';
+                document.getElementById('infrastructure').value = profile.infrastructure || 'On-premise';
+                document.getElementById('disaster-recovery').value = profile.disasterRecovery || 'No backups';
+                document.getElementById('security').value = profile.security || 'None';
+                document.getElementById('gdpr').value = profile.gdpr || 'None';
+                document.getElementById('deployment').value = profile.deployment || 'Manual';
+                document.getElementById('version-control').value = profile.versionControl || 'No';
+                document.getElementById('cto').value = profile.cto || 'No dedicated tech leader';
+                document.getElementById('roadmap').value = profile.roadmap || 'Never';
+                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
+                document.getElementById('ai-ethics').value = profile.aiEthics || 'Not considered';
+            } catch (error) {
+                profileInfo.innerHTML = `<p>Failed to load profile: ${error.message}</p>`;
             }
         }
 
-        // Check if user is already logged in
-        if (localStorage.getItem('token')) {
-            loginContainer.style.display = 'none';
-            mainContent.style.display = 'block';
-            loadUserData();
-        }
+        // Initialize
+        init();
     </script>
 </body>
 </html>
