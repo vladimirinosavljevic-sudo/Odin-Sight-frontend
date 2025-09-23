@@ -2,12 +2,16 @@
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM fully loaded - initializing application');
+  
   // Check if user is already logged in
   if (isLoggedIn()) {
+    console.log('User is logged in - showing main content');
     showMainContent();
     setupLogoutHandler();
     loadUserData();
   } else {
+    console.log('User is not logged in - showing login screen');
     showLoginScreen();
     setupLoginHandler();
   }
@@ -48,8 +52,12 @@ function setupLoginHandler() {
       loginBtn.disabled = true;
       loginBtn.textContent = 'Logging in...';
       
+      console.log('Attempting to login with username:', username);
+      
       // Try to login
       await loginUser(username, password);
+      
+      console.log('Login successful');
       
       // If successful, show main content
       showMainContent();
@@ -57,6 +65,7 @@ function setupLoginHandler() {
       loadUserData();
       
     } catch (error) {
+      console.error('Login failed:', error);
       loginError.textContent = error.message || 'Login failed. Please check your credentials.';
     } finally {
       loginBtn.disabled = false;
@@ -70,6 +79,7 @@ function setupLogoutHandler() {
   const logoutBtn = document.getElementById('logout-btn');
   
   logoutBtn.addEventListener('click', function() {
+    console.log('Logging out user');
     logoutUser();
     showLoginScreen();
   });
@@ -78,16 +88,22 @@ function setupLogoutHandler() {
 // Function to load user data
 async function loadUserData() {
   try {
+    console.log('Loading user data');
+    
     // Get user profile
     const profile = await getCompanyProfile();
     
     // If profile exists, populate form fields
     if (profile) {
+      console.log('User profile found - populating form fields');
       populateProfileForm(profile);
+    } else {
+      console.log('No user profile found');
     }
     
     // If user is admin, load additional admin features
     if (isAdmin()) {
+      console.log('Admin user detected - loading admin features');
       loadAdminFeatures();
     }
   } catch (error) {
@@ -197,11 +213,13 @@ function loadAdminFeatures() {
     const allProfilesContainer = document.getElementById('all-profiles-container');
     
     try {
+      console.log('Fetching all user profiles');
       const profiles = await getAllProfiles();
       
       if (profiles.length === 0) {
         allProfilesContainer.innerHTML = '<p>No profiles found.</p>';
       } else {
+        console.log(`Found ${profiles.length} profiles`);
         let profilesHTML = '<h3>All User Profiles</h3>';
         profilesHTML += '<div class="table-responsive"><table class="ranking-table">';
         profilesHTML += '<thead><tr><th>Username</th><th>Company</th><th>Team Size</th><th>Created</th><th>Actions</th></tr></thead>';
@@ -236,6 +254,7 @@ function loadAdminFeatures() {
       
       allProfilesContainer.style.display = 'block';
     } catch (error) {
+      console.error('Error loading profiles:', error);
       allProfilesContainer.innerHTML = `<p>Error loading profiles: ${error.message}</p>`;
       allProfilesContainer.style.display = 'block';
     }
@@ -250,6 +269,8 @@ function viewProfileDetails(profileId, profiles) {
     alert('Profile not found');
     return;
   }
+  
+  console.log('Viewing profile details for:', profile.companyName);
   
   // Create modal to display profile details
   const modal = document.createElement('div');
@@ -320,67 +341,89 @@ function viewProfileDetails(profileId, profiles) {
 
 // Function to set up event handlers for the main application
 function setupEventHandlers() {
+  console.log('Setting up event handlers');
+  
   // Category selection handler
   const categorySelect = document.getElementById('category');
   const appSelect = document.getElementById('app');
   const addAppBtn = document.getElementById('add-app-btn');
   
-  categorySelect.addEventListener('change', function() {
-    const category = this.value;
-    
-    if (!category) {
-      appSelect.innerHTML = '<option value="">First select a category</option>';
-      appSelect.disabled = true;
-      addAppBtn.disabled = true;
-      return;
-    }
-    
-    // Populate apps based on selected category
-    populateAppOptions(category);
-    appSelect.disabled = false;
-  });
+  if (categorySelect) {
+    categorySelect.addEventListener('change', function() {
+      const category = this.value;
+      
+      if (!category) {
+        appSelect.innerHTML = '<option value="">First select a category</option>';
+        appSelect.disabled = true;
+        addAppBtn.disabled = true;
+        return;
+      }
+      
+      console.log('Category selected:', category);
+      
+      // Populate apps based on selected category
+      populateAppOptions(category);
+      appSelect.disabled = false;
+    });
+  }
   
   // App selection handler
-  appSelect.addEventListener('change', function() {
-    addAppBtn.disabled = !this.value;
-  });
+  if (appSelect) {
+    appSelect.addEventListener('change', function() {
+      addAppBtn.disabled = !this.value;
+    });
+  }
   
   // Add app button handler
-  addAppBtn.addEventListener('click', function() {
-    const appSelect = document.getElementById('app');
-    const selectedAppName = appSelect.options[appSelect.selectedIndex].text;
-    const selectedAppCategory = document.getElementById('category').value;
-    
-    // Add app to selected list
-    addAppToSelectedList(selectedAppName, selectedAppCategory);
-    
-    // Reset app selection
-    appSelect.selectedIndex = 0;
-    addAppBtn.disabled = true;
-  });
+  if (addAppBtn) {
+    addAppBtn.addEventListener('click', function() {
+      const appSelect = document.getElementById('app');
+      const selectedAppName = appSelect.options[appSelect.selectedIndex].text;
+      const selectedAppCategory = document.getElementById('category').value;
+      
+      console.log('Adding app:', selectedAppName, selectedAppCategory);
+      
+      // Add app to selected list
+      addAppToSelectedList(selectedAppName, selectedAppCategory);
+      
+      // Reset app selection
+      appSelect.selectedIndex = 0;
+      addAppBtn.disabled = true;
+    });
+  }
   
   // Calculate button handler
-  document.getElementById('calculate-btn').addEventListener('click', async function() {
-    try {
-      // Prepare profile data
-      const profileData = prepareProfileDataFromForm();
-      
-      // Save profile to database
-      await saveCompanyProfile(profileData);
-      
-      // Show results
-      document.getElementById('results').classList.add('active');
-      
-      // Scroll to results
-      document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
-      
-      // Calculate and display results (this would use your existing calculation logic)
-      calculateAndDisplayResults(profileData);
-      
-    } catch (error) {
-      alert(`Error saving profile: ${error.message}`);
-    }
-  });
+  const calculateBtn = document.getElementById('calculate-btn');
+  if (calculateBtn) {
+    calculateBtn.addEventListener('click', async function() {
+      try {
+        console.log('Calculating optimization steps');
+        
+        // Prepare profile data
+        const profileData = prepareProfileDataFromForm();
+        
+        console.log('Saving profile data:', profileData);
+        
+        // Save profile to database
+        await saveCompanyProfile(profileData);
+        
+        console.log('Profile saved successfully');
+        
+        // Show results
+        document.getElementById('results').classList.add('active');
+        
+        // Scroll to results
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        
+        // Calculate and display results (this would use your existing calculation logic)
+        calculateAndDisplayResults(profileData);
+        
+      } catch (error) {
+        console.error('Error saving profile:', error);
+        alert(`Error saving profile: ${error.message}`);
+      }
+    });
+  }
 }
 
 // Function to populate app options based on selected category
@@ -392,6 +435,8 @@ function populateAppOptions(category) {
   
   // Get apps for the selected category
   const categoryApps = getAppsByCategory(category);
+  
+  console.log(`Populating ${categoryApps.length} apps for category: ${category}`);
   
   // Add options for each app
   categoryApps.forEach(app => {
@@ -426,8 +471,31 @@ function getAppsByCategory(category) {
       { name: 'Tidio', category: 'Customer Messaging' },
       { name: 'Freshchat', category: 'Customer Messaging' },
       { name: 'Crisp', category: 'Customer Messaging' }
+    ],
+    'Audio/Video Calls': [
+      { name: 'Microsoft Teams', category: 'Audio/Video Calls' },
+      { name: 'Zoom', category: 'Audio/Video Calls' },
+      { name: 'Google Meet', category: 'Audio/Video Calls' },
+      { name: 'Cisco Webex', category: 'Audio/Video Calls' }
+    ],
+    'Data Storage': [
+      { name: 'Microsoft OneDrive', category: 'Data Storage' },
+      { name: 'Google Drive', category: 'Data Storage' },
+      { name: 'Dropbox Business', category: 'Data Storage' },
+      { name: 'Box', category: 'Data Storage' }
+    ],
+    'CRM': [
+      { name: 'Salesforce', category: 'CRM' },
+      { name: 'HubSpot', category: 'CRM' },
+      { name: 'Zoho CRM', category: 'CRM' },
+      { name: 'Microsoft Dynamics 365', category: 'CRM' }
+    ],
+    'PM Tools': [
+      { name: 'Asana', category: 'PM Tools' },
+      { name: 'Trello', category: 'PM Tools' },
+      { name: 'Monday.com', category: 'PM Tools' },
+      { name: 'Jira', category: 'PM Tools' }
     ]
-    // Add other categories as needed
   };
   
   return appsByCategory[category] || [];
@@ -435,8 +503,7 @@ function getAppsByCategory(category) {
 
 // Function to calculate and display results
 function calculateAndDisplayResults(profileData) {
-  // This function would use your existing calculation logic
-  // For now, we'll just display some placeholder content
+  console.log('Calculating and displaying results');
   
   // Display company name
   document.querySelectorAll('.company-name').forEach(el => {
@@ -445,6 +512,8 @@ function calculateAndDisplayResults(profileData) {
   
   // Calculate a placeholder maturity score
   const maturityScore = calculateMaturityScore(profileData);
+  
+  console.log('Calculated maturity score:', maturityScore);
   
   // Display current app details
   displayCurrentAppDetails(profileData.selectedApps, maturityScore);
@@ -487,10 +556,17 @@ function calculateMaturityScore(profileData) {
 function displayCurrentAppDetails(selectedApps, maturityScore) {
   const currentAppDetailsContainer = document.getElementById('current-app-details');
   
+  if (!currentAppDetailsContainer) {
+    console.error('current-app-details element not found');
+    return;
+  }
+  
   if (!selectedApps || selectedApps.length === 0) {
     currentAppDetailsContainer.innerHTML = '<p>No apps selected.</p>';
     return;
   }
+  
+  console.log('Displaying details for', selectedApps.length, 'apps');
   
   let detailsHTML = `
     <div style="margin-bottom: 20px;">
@@ -524,6 +600,11 @@ function displayCurrentAppDetails(selectedApps, maturityScore) {
 function displayRecommendations(profileData) {
   const recommendationsContainer = document.getElementById('recommendations');
   
+  if (!recommendationsContainer) {
+    console.error('recommendations element not found');
+    return;
+  }
+  
   // Generate recommendations based on profile data
   const recommendations = generateRecommendations(profileData);
   
@@ -531,6 +612,8 @@ function displayRecommendations(profileData) {
     recommendationsContainer.innerHTML = '<p>No recommendations available.</p>';
     return;
   }
+  
+  console.log('Displaying', recommendations.length, 'recommendations');
   
   let recommendationsHTML = '';
   
@@ -644,6 +727,41 @@ function generateRecommendations(profileData) {
             'Develop incident response procedures',
             'Establish data classification guidelines',
             'Create security standards for systems and applications'
+          ]
+        }
+      ]
+    });
+  }
+  
+  // Example recommendation based on AI strategy
+  if (profileData.aiStrategy === 'No strategy/policy' || profileData.aiStrategy === 'Some guidelines, not standardized') {
+    recommendations.push({
+      title: 'Develop AI Governance Framework',
+      steps: [
+        'Create a formal AI strategy aligned with business objectives',
+        'Establish AI ethics guidelines and principles',
+        'Develop data governance policies for AI training data',
+        'Implement AI risk assessment procedures',
+        'Create an AI review board for oversight'
+      ],
+      improvement: 'AI project success rate +55%, Regulatory compliance +70%',
+      detailedTasks: [
+        {
+          category: 'Strategy Development',
+          tasks: [
+            'Conduct an AI strategy workshop with leadership',
+            'Define AI vision and principles for the organization',
+            'Align AI initiatives with business strategic objectives',
+            'Create a 2-year AI implementation roadmap'
+          ]
+        },
+        {
+          category: 'Governance Structure',
+          tasks: [
+            'Define AI roles and responsibilities across the organization',
+            'Establish an AI steering committee',
+            'Create AI project approval processes',
+            'Develop AI performance monitoring standards'
           ]
         }
       ]
