@@ -632,8 +632,8 @@
             <div id="login-tab-content" class="tab-content active">
                 <div class="login-form">
                     <div class="form-group">
-                        <label for="login-email">Email:</label>
-                        <input type="email" id="login-email" placeholder="Enter your email">
+                        <label for="login-email">Username:</label>
+                        <input type="text" id="login-email" placeholder="Enter your username">
                     </div>
                     <div class="form-group">
                         <label for="login-password">Password:</label>
@@ -647,12 +647,8 @@
             <div id="register-tab-content" class="tab-content">
                 <div class="login-form">
                     <div class="form-group">
-                        <label for="register-name">Full Name:</label>
-                        <input type="text" id="register-name" placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="register-email">Email:</label>
-                        <input type="email" id="register-email" placeholder="Enter your email">
+                        <label for="register-name">Username:</label>
+                        <input type="text" id="register-name" placeholder="Enter your username">
                     </div>
                     <div class="form-group">
                         <label for="register-password">Password:</label>
@@ -958,14 +954,15 @@
         // Authentication Functions
         
         // Function to register a new user
-        async function register(name, email, password) {
+        async function register(username, password) {
           try {
+            console.log('Registering with:', { username, password });
             const response = await fetch(`${API_URL}/auth/register`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ name, email, password })
+              body: JSON.stringify({ username, password })
             });
         
             const data = await response.json();
@@ -982,14 +979,15 @@
         }
         
         // Function to login a user
-        async function login(email, password) {
+        async function login(username, password) {
           try {
+            console.log('Logging in with:', { username, password });
             const response = await fetch(`${API_URL}/auth/login`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
-              body: JSON.stringify({ email, password })
+              body: JSON.stringify({ username, password })
             });
         
             const data = await response.json();
@@ -1262,11 +1260,11 @@
           document.getElementById('login-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('login-email').value;
+            const username = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
             try {
-              await login(email, password);
+              await login(username, password);
               showMainContent();
               setupLogoutHandler();
               loadUserData();
@@ -1295,8 +1293,7 @@
           document.getElementById('register-btn').addEventListener('click', async function(e) {
             e.preventDefault();
             
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
+            const username = document.getElementById('register-name').value;
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
             
@@ -1306,7 +1303,7 @@
             }
             
             try {
-              await register(name, email, password);
+              await register(username, password);
               // Switch to login tab after successful registration
               document.getElementById('login-tab').click();
               document.getElementById('login-error').textContent = 'Registration successful! Please log in.';
@@ -1375,13 +1372,13 @@
             // Display user name
             const userNameElement = document.getElementById('user-name');
             if (userNameElement) {
-              userNameElement.textContent = user.name;
+              userNameElement.textContent = user.username;
             }
             
             // Update user avatar with first letter of name
             const userAvatarElement = document.querySelector('.user-avatar');
-            if (userAvatarElement && user.name) {
-              userAvatarElement.textContent = user.name.charAt(0).toUpperCase();
+            if (userAvatarElement && user.username) {
+              userAvatarElement.textContent = user.username.charAt(0).toUpperCase();
             }
             
             // Get and display company profile if it exists
@@ -1490,8 +1487,7 @@
             profileElement.innerHTML = `
               <h3>${profile.companyName || 'Unnamed Company'}</h3>
               <p><strong>Team Size:</strong> ${profile.teamSize || 'N/A'}</p>
-              <p><strong>User:</strong> ${profile.userId.name || 'Unknown'}</p>
-              <p><strong>Email:</strong> ${profile.userId.email || 'N/A'}</p>
+              <p><strong>User:</strong> ${profile.userId.username || 'Unknown'}</p>
               <button class="view-profile-btn" data-profile-id="${profile._id}">View Details</button>
             `;
             
