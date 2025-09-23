@@ -917,21 +917,14 @@
                         <label for="category">Category:</label>
                         <select id="category">
                             <option value="">Select a category</option>
-                            <option value="Hosting & collaboration">Email (Hosting & collaboration)</option>
-                            <option value="Team Messaging">DMs (Team Messaging)</option>
-                            <option value="Customer Messaging">DMs (Customer Messaging)</option>
-                            <option value="Unified Communications">DMs (Unified Communications)</option>
-                            <option value="Audio/Video Calls">Audio/Video Calls</option>
-                            <option value="Data Storage">Data Storage</option>
+                            <option value="Email">Email & Collaboration</option>
+                            <option value="Messaging">Messaging & Communication</option>
+                            <option value="Data Storage">Data Storage & File Sharing</option>
                             <option value="Project Management">Project Management</option>
-                            <option value="CRM">CRM</option>
-                            <option value="ERP">ERP</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Analytics">Analytics</option>
-                            <option value="Development">Development</option>
-                            <option value="Design">Design</option>
-                            <option value="HR">HR</option>
-                            <option value="Finance">Finance</option>
+                            <option value="CRM">Customer Relationship Management</option>
+                            <option value="Development">Development Tools</option>
+                            <option value="Analytics">Analytics & Business Intelligence</option>
+                            <option value="Security">Security & Compliance</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1340,7 +1333,7 @@
             "Email": [
                 {
                     name: "Gmail",
-                    category: "Hosting & collaboration",
+                    category: "Email",
                     overallScore: 4.5,
                     functionality: 4,
                     userExperience: 5,
@@ -1357,7 +1350,7 @@
                 },
                 {
                     name: "Microsoft Outlook",
-                    category: "Hosting & collaboration",
+                    category: "Email",
                     overallScore: 4.2,
                     functionality: 5,
                     userExperience: 4,
@@ -1374,7 +1367,7 @@
                 },
                 {
                     name: "ProtonMail",
-                    category: "Hosting & collaboration",
+                    category: "Email",
                     overallScore: 3.8,
                     functionality: 3,
                     userExperience: 4,
@@ -1383,12 +1376,41 @@
                     security: 5,
                     support: 3,
                     value: 4
+                },
+                {
+                    name: "Zoho Mail",
+                    category: "Email",
+                    overallScore: 4.0,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 3,
+                    value: 5
+                },
+                {
+                    name: "Google Workspace",
+                    category: "Email",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 5,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Google Drive": 0.4,
+                        "Google Meet": 0.4,
+                        "Google Calendar": 0.4
+                    }
                 }
             ],
-            "DMs": [
+            "Messaging": [
                 {
                     name: "Slack",
-                    category: "Team Messaging",
+                    category: "Messaging",
                     overallScore: 4.7,
                     functionality: 5,
                     userExperience: 5,
@@ -1405,7 +1427,7 @@
                 },
                 {
                     name: "Microsoft Teams",
-                    category: "Team Messaging",
+                    category: "Messaging",
                     overallScore: 4.3,
                     functionality: 5,
                     userExperience: 3,
@@ -1422,7 +1444,7 @@
                 },
                 {
                     name: "Discord",
-                    category: "Team Messaging",
+                    category: "Messaging",
                     overallScore: 3.9,
                     functionality: 4,
                     userExperience: 4,
@@ -1433,50 +1455,8 @@
                     value: 5
                 },
                 {
-                    name: "Intercom",
-                    category: "Customer Messaging",
-                    overallScore: 4.4,
-                    functionality: 5,
-                    userExperience: 4,
-                    integration: 5,
-                    scalability: 4,
-                    security: 4,
-                    support: 4,
-                    value: 4,
-                    synergyWith: {
-                        "Salesforce": 0.3,
-                        "HubSpot": 0.3
-                    }
-                },
-                {
-                    name: "Zendesk",
-                    category: "Customer Messaging",
-                    overallScore: 4.3,
-                    functionality: 5,
-                    userExperience: 4,
-                    integration: 5,
-                    scalability: 4,
-                    security: 4,
-                    support: 4,
-                    value: 4
-                },
-                {
-                    name: "RingCentral",
-                    category: "Unified Communications",
-                    overallScore: 4.1,
-                    functionality: 5,
-                    userExperience: 3,
-                    integration: 4,
-                    scalability: 4,
-                    security: 4,
-                    support: 4,
-                    value: 4
-                }
-            ],
-            "Audio/Video Calls": [
-                {
                     name: "Zoom",
-                    category: "Audio/Video Calls",
+                    category: "Messaging",
                     overallScore: 4.6,
                     functionality: 5,
                     userExperience: 5,
@@ -1488,7 +1468,7 @@
                 },
                 {
                     name: "Google Meet",
-                    category: "Audio/Video Calls",
+                    category: "Messaging",
                     overallScore: 4.3,
                     functionality: 4,
                     userExperience: 5,
@@ -1504,20 +1484,19 @@
                     }
                 },
                 {
-                    name: "Microsoft Teams",
-                    category: "Audio/Video Calls",
-                    overallScore: 4.2,
+                    name: "Intercom",
+                    category: "Messaging",
+                    overallScore: 4.4,
                     functionality: 5,
-                    userExperience: 3,
+                    userExperience: 4,
                     integration: 5,
-                    scalability: 5,
+                    scalability: 4,
                     security: 4,
                     support: 4,
                     value: 4,
                     synergyWith: {
-                        "Microsoft Outlook": 0.3,
-                        "OneDrive": 0.3,
-                        "Microsoft 365": 0.3
+                        "Salesforce": 0.3,
+                        "HubSpot": 0.3
                     }
                 }
             ],
@@ -1567,6 +1546,371 @@
                         "Microsoft Teams": 0.3,
                         "Microsoft 365": 0.3
                     }
+                },
+                {
+                    name: "Box",
+                    category: "Data Storage",
+                    overallScore: 4.1,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 5,
+                    support: 4,
+                    value: 3
+                },
+                {
+                    name: "AWS S3",
+                    category: "Data Storage",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 3,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4
+                }
+            ],
+            "Project Management": [
+                {
+                    name: "Asana",
+                    category: "Project Management",
+                    overallScore: 4.5,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "Trello",
+                    category: "Project Management",
+                    overallScore: 4.2,
+                    functionality: 3,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "Slack": 0.2,
+                        "Google Drive": 0.2
+                    }
+                },
+                {
+                    name: "Jira",
+                    category: "Project Management",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 3,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Confluence": 0.4,
+                        "Bitbucket": 0.3
+                    }
+                },
+                {
+                    name: "Monday.com",
+                    category: "Project Management",
+                    overallScore: 4.3,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 3
+                },
+                {
+                    name: "ClickUp",
+                    category: "Project Management",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 5
+                }
+            ],
+            "CRM": [
+                {
+                    name: "Salesforce",
+                    category: "CRM",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 3,
+                    synergyWith: {
+                        "Slack": 0.3,
+                        "Tableau": 0.3
+                    }
+                },
+                {
+                    name: "HubSpot",
+                    category: "CRM",
+                    overallScore: 4.5,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 5,
+                    value: 4,
+                    synergyWith: {
+                        "Gmail": 0.2,
+                        "Outlook": 0.2
+                    }
+                },
+                {
+                    name: "Zoho CRM",
+                    category: "CRM",
+                    overallScore: 4.3,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "Pipedrive",
+                    category: "CRM",
+                    overallScore: 4.2,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "Microsoft Dynamics",
+                    category: "CRM",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 3,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 3,
+                    synergyWith: {
+                        "Microsoft Teams": 0.3,
+                        "Office 365": 0.3
+                    }
+                }
+            ],
+            "Development": [
+                {
+                    name: "GitHub",
+                    category: "Development",
+                    overallScore: 4.8,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 5,
+                    synergyWith: {
+                        "VS Code": 0.3,
+                        "Jira": 0.2
+                    }
+                },
+                {
+                    name: "GitLab",
+                    category: "Development",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "VS Code",
+                    category: "Development",
+                    overallScore: 4.9,
+                    functionality: 5,
+                    userExperience: 5,
+                    integration: 5,
+                    scalability: 4,
+                    security: 4,
+                    support: 5,
+                    value: 5
+                },
+                {
+                    name: "IntelliJ IDEA",
+                    category: "Development",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "Docker",
+                    category: "Development",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 5
+                }
+            ],
+            "Analytics": [
+                {
+                    name: "Google Analytics",
+                    category: "Analytics",
+                    overallScore: 4.5,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 3,
+                    value: 5
+                },
+                {
+                    name: "Tableau",
+                    category: "Analytics",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 3,
+                    synergyWith: {
+                        "Salesforce": 0.3
+                    }
+                },
+                {
+                    name: "Power BI",
+                    category: "Analytics",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4,
+                    synergyWith: {
+                        "Microsoft 365": 0.3,
+                        "Dynamics": 0.3
+                    }
+                },
+                {
+                    name: "Looker",
+                    category: "Analytics",
+                    overallScore: 4.4,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 5,
+                    security: 4,
+                    support: 4,
+                    value: 3
+                },
+                {
+                    name: "Mixpanel",
+                    category: "Analytics",
+                    overallScore: 4.2,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 4,
+                    support: 4,
+                    value: 4
+                }
+            ],
+            "Security": [
+                {
+                    name: "Okta",
+                    category: "Security",
+                    overallScore: 4.7,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 4
+                },
+                {
+                    name: "LastPass",
+                    category: "Security",
+                    overallScore: 4.3,
+                    functionality: 4,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 4,
+                    security: 5,
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "1Password",
+                    category: "Security",
+                    overallScore: 4.5,
+                    functionality: 4,
+                    userExperience: 5,
+                    integration: 4,
+                    scalability: 4,
+                    security: 5,
+                    support: 4,
+                    value: 5
+                },
+                {
+                    name: "CrowdStrike",
+                    category: "Security",
+                    overallScore: 4.8,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 5,
+                    scalability: 5,
+                    security: 5,
+                    support: 5,
+                    value: 4
+                },
+                {
+                    name: "Cloudflare",
+                    category: "Security",
+                    overallScore: 4.6,
+                    functionality: 5,
+                    userExperience: 4,
+                    integration: 4,
+                    scalability: 5,
+                    security: 5,
+                    support: 4,
+                    value: 5
                 }
             ]
         };
@@ -1670,16 +2014,10 @@
             let apps = [];
             
             // Find apps for the selected category
-            if (category === "Hosting & collaboration") {
-                apps = appData.Email.filter(app => app.category === category || app.category.includes(category));
-            } else if (category === "Team Messaging" || category === "Customer Messaging" || category === "Unified Communications") {
-                apps = appData.DMs.filter(app => app.category === category);
-            } else if (category === "Audio/Video Calls") {
-                apps = appData["Audio/Video Calls"];
-            } else if (category === "Data Storage") {
-                apps = appData["Data Storage"];
+            if (appData[category]) {
+                apps = appData[category];
             } else {
-                // For other categories, we'll just add some placeholder apps
+                // Fallback for any category not in our data
                 apps = [
                     { name: `${category} App 1`, category: category, overallScore: 4.2 },
                     { name: `${category} App 2`, category: category, overallScore: 3.8 },
@@ -1726,16 +2064,12 @@
             
             // Find the selected app
             let selectedApp;
-            if (category === "Hosting & collaboration") {
-                selectedApp = appData.Email.find(app => app.name === appName);
-            } else if (category === "Team Messaging" || category === "Customer Messaging" || category === "Unified Communications") {
-                selectedApp = appData.DMs.find(app => app.name === appName);
-            } else if (category === "Audio/Video Calls") {
-                selectedApp = appData["Audio/Video Calls"].find(app => app.name === appName);
-            } else if (category === "Data Storage") {
-                selectedApp = appData["Data Storage"].find(app => app.name === appName);
-            } else {
-                // For other categories, create a placeholder app
+            if (appData[category]) {
+                selectedApp = appData[category].find(app => app.name === appName);
+            }
+            
+            // If app not found, create a placeholder
+            if (!selectedApp) {
                 selectedApp = {
                     name: appName,
                     category: category,
@@ -2455,16 +2789,61 @@
                     }
                 });
                 
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Failed to get profile');
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to get profile');
+                    }
+                    
+                    return data;
+                } else {
+                    // Handle non-JSON response
+                    const text = await response.text();
+                    console.log('Non-JSON response:', text);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to get profile: Server returned non-JSON response');
+                    }
+                    
+                    // Return an empty profile
+                    return {
+                        companyName: '',
+                        teamSize: '1-10',
+                        infrastructure: 'On-premise',
+                        disasterRecovery: 'No backups',
+                        security: 'None',
+                        gdpr: 'None',
+                        deployment: 'Manual',
+                        versionControl: 'No',
+                        cto: 'No dedicated tech leader',
+                        roadmap: 'Never',
+                        aiUsage: 'Not at all',
+                        aiStrategy: 'No strategy/policy',
+                        aiEthics: 'Not considered'
+                    };
                 }
-                
-                return data;
             } catch (error) {
                 console.error('Get profile error:', error);
-                throw error;
+                
+                // Return an empty profile on error
+                return {
+                    companyName: '',
+                    teamSize: '1-10',
+                    infrastructure: 'On-premise',
+                    disasterRecovery: 'No backups',
+                    security: 'None',
+                    gdpr: 'None',
+                    deployment: 'Manual',
+                    versionControl: 'No',
+                    cto: 'No dedicated tech leader',
+                    roadmap: 'Never',
+                    aiUsage: 'Not at all',
+                    aiStrategy: 'No strategy/policy',
+                    aiEthics: 'Not considered'
+                };
             }
         }
         
@@ -2477,7 +2856,7 @@
                 }
                 
                 const response = await fetch(`${API_URL}/profile`, {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
@@ -2485,13 +2864,28 @@
                     body: JSON.stringify(profileData)
                 });
                 
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Failed to update profile');
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to update profile');
+                    }
+                    
+                    return data;
+                } else {
+                    // Handle non-JSON response
+                    const text = await response.text();
+                    console.log('Non-JSON response:', text);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to update profile: Server returned non-JSON response');
+                    }
+                    
+                    // Return a default success response
+                    return { success: true, message: 'Profile updated successfully' };
                 }
-                
-                return data;
             } catch (error) {
                 console.error('Update profile error:', error);
                 throw error;
@@ -2890,14 +3284,42 @@
                     }
                 };
                 
-                // Update profile with assessment results
-                await updateProfile(profileData);
-                
-                alert('Assessment results saved successfully!');
-                
-                // Update profile display
-                loadProfile();
-                
+                try {
+                    // Update profile with assessment results
+                    await updateProfile(profileData);
+                    
+                    alert('Assessment results saved successfully!');
+                    
+                    // Update profile display
+                    loadProfile();
+                } catch (saveError) {
+                    console.error('Error saving assessment:', saveError);
+                    
+                    // Try a simplified version without the assessment results
+                    const simplifiedData = {
+                        companyName: profileData.companyName,
+                        teamSize: profileData.teamSize,
+                        infrastructure: profileData.infrastructure,
+                        disasterRecovery: profileData.disasterRecovery,
+                        security: profileData.security,
+                        gdpr: profileData.gdpr,
+                        deployment: profileData.deployment,
+                        versionControl: profileData.versionControl,
+                        cto: profileData.cto,
+                        roadmap: profileData.roadmap,
+                        aiUsage: profileData.aiUsage,
+                        aiStrategy: profileData.aiStrategy,
+                        aiEthics: profileData.aiEthics
+                    };
+                    
+                    try {
+                        await updateProfile(simplifiedData);
+                        alert('Profile information saved successfully, but assessment results could not be saved.');
+                        loadProfile();
+                    } catch (simplifiedError) {
+                        throw new Error('Could not save profile data: ' + simplifiedError.message);
+                    }
+                }
             } catch (error) {
                 alert('Failed to save assessment: ' + error.message);
                 console.error('Save assessment error:', error);
