@@ -1,21 +1,14 @@
-// Authentication functions for Odin Sight
+// Authentication Functions for Odin Sight
 
-// API URL - pointing to the Vercel backend
-const API_URL = 'https://odin-sight-backend.vercel.app/api';
-
-// Function to handle user registration
-async function registerUser(username, password, role = 'user') {
+// Function to register a new user
+async function register(name, email, password) {
   try {
     const response = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        username,
-        password,
-        role
-      })
+      body: JSON.stringify({ name, email, password })
     });
 
     const data = await response.json();
@@ -24,10 +17,6 @@ async function registerUser(username, password, role = 'user') {
       throw new Error(data.message || 'Registration failed');
     }
     
-    // Store token in localStorage
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
-    
     return data;
   } catch (error) {
     console.error('Registration error:', error);
@@ -35,18 +24,15 @@ async function registerUser(username, password, role = 'user') {
   }
 }
 
-// Function to handle user login
-async function loginUser(username, password) {
+// Function to login a user
+async function login(email, password) {
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        username,
-        password
-      })
+      body: JSON.stringify({ email, password })
     });
 
     const data = await response.json();
@@ -55,7 +41,7 @@ async function loginUser(username, password) {
       throw new Error(data.message || 'Login failed');
     }
     
-    // Store token in localStorage
+    // Store token and user data in localStorage
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
     
@@ -66,7 +52,7 @@ async function loginUser(username, password) {
   }
 }
 
-// Function to get current user
+// Function to get current user information
 async function getCurrentUser() {
   try {
     const token = localStorage.getItem('token');
@@ -88,35 +74,12 @@ async function getCurrentUser() {
       throw new Error(data.message || 'Failed to get user information');
     }
     
+    // Update stored user data
+    localStorage.setItem('user', JSON.stringify(data.user));
+    
     return data.user;
   } catch (error) {
-    console.error('Get current user error:', error);
+    console.error('Get user error:', error);
     throw error;
   }
-}
-
-// Function to logout user
-function logoutUser() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  localStorage.removeItem('companyProfile');
-  
-  // Redirect to login page
-  window.location.href = '/';
-}
-
-// Function to check if user is logged in
-function isLoggedIn() {
-  return localStorage.getItem('token') !== null;
-}
-
-// Function to get user role
-function getUserRole() {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  return user.role || null;
-}
-
-// Function to check if user is admin
-function isAdmin() {
-  return getUserRole() === 'admin';
 }
