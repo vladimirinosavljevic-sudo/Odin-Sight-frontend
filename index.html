@@ -2713,72 +2713,70 @@
             }
         }
         
-        async function login(username, password) {
-            try {
-                const response = await fetch(`${API_URL}/auth/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, password })
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Login failed');
-                }
-                
-                // Store token and user info
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                
-                return data;
-            } catch (error) {
-                console.error('Login error:', error);
-                throw error;
-            }
-        }
-        
-        async function checkAuth() {
-            try {
-                const token = localStorage.getItem('token');
-                
-                if (!token) {
-                    return false;
-                }
-                
-                const response = await fetch(`${API_URL}/auth/me`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Authentication failed');
-                }
-                
-                // Update user info
-                localStorage.setItem('user', JSON.stringify(data));
-                
-                return data;
-            } catch (error) {
-                console.error('Auth check error:', error);
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                return false;
-            }
-        }
-        
-        // Profile functions
-        async function getProfile() {
-            try {
-                const token = localStorage.getItem('token');
-                
-                if (!token) {
+async function login(username, password) {
+               try {
+                   const response = await fetch(`${API_URL}/auth/login`, {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json'
+                       },
+                       body: JSON.stringify({ username, password })
+                   });
+                   
+                   console.log('Login API Response Status:', response.status);
+                   console.log('Login API Response Headers:', [...response.headers.entries()]);
+                   
+                   const data = await response.json();
+                   console.log('Login API Response Data:', data);
+                   
+                   if (!response.ok) {
+                       throw new Error(data.message || 'Login failed');
+                   }
+                   
+                   // Store token and user info
+                   localStorage.setItem('token', data.token);
+                   localStorage.setItem('user', JSON.stringify(data.user));
+                   console.log('User data stored in localStorage:', data.user);
+                   
+                   return data;
+               } catch (error) {
+                   console.error('Login error:', error);
+                   throw error;
+               }
+           }
+           
+           async function checkAuth() {
+               try {
+                   const token = localStorage.getItem('token');
+                   
+                   if (!token) {
+                       return false;
+                   }
+                   
+                   const response = await fetch(`${API_URL}/auth/me`, {
+                       method: 'GET',
+                       headers: {
+                           'Authorization': `Bearer ${token}`
+                       }
+                   });
+                   
+                   const data = await response.json();
+                   
+                   if (!response.ok) {
+                       throw new Error(data.message || 'Authentication failed');
+                   }
+                   
+                   // Update user info
+                   localStorage.setItem('user', JSON.stringify(data));
+                   
+                   return data;
+               } catch (error) {
+                   console.error('Auth check error:', error);
+                   localStorage.removeItem('token');
+                   localStorage.removeItem('user');
+                   return false;
+               }
+           }                if (!token) {
                     throw new Error('No authentication token found');
                 }
                 
@@ -3271,7 +3269,25 @@ saveProfileBtn.addEventListener('click', async function() {
                 document.getElementById('version-control').value = profile.versionControl || 'No';
                 document.getElementById('cto').value = profile.cto || 'No dedicated tech leader';
                 document.getElementById('roadmap').value = profile.roadmap || 'Never';
-                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
+// Check if user is already logged in
+           async function init() {
+               const user = await checkAuth();
+               
+               if (user) {
+                   // Show main content
+                   loginContainer.style.display = 'none';
+                   mainContent.style.display = 'block';
+                   
+                   // Check if user is admin
+                   if (user.role === 'admin') {
+                       adminTabContainer.style.display = 'block';
+                       loadAllProfiles();
+                   }
+                   
+                   // Load profile
+                   loadProfile();
+               }
+           }                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
                 document.getElementById('ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
                 document.getElementById('ai-ethics').value = profile.aiEthics || 'Not considered';
             } catch (error) {
