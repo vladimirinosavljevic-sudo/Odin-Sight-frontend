@@ -3433,6 +3433,15 @@
         });
         
         // Download PDF button click handler
+        // Load jsPDF libraries
+        const jsPDFScript = document.createElement('script');
+        jsPDFScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        document.head.appendChild(jsPDFScript);
+        
+        const autoTableScript = document.createElement('script');
+        autoTableScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js';
+        document.head.appendChild(autoTableScript);
+        
         document.getElementById('download-pdf-btn').addEventListener('click', function() {
             const currentAssessment = JSON.parse(sessionStorage.getItem('currentAssessment'));
             
@@ -3441,8 +3450,179 @@
                 return;
             }
             
-            // Alert user that this feature is coming soon
-            alert('PDF download functionality will be available in the next update. Your assessment results have been saved to your profile.');
+            try {
+                // Check if jsPDF is loaded
+                if (typeof window.jspdf === 'undefined' || typeof window.jsPDF === 'undefined') {
+                    alert('PDF generation library is loading. Please try again in a few seconds.');
+                    return;
+                }
+                
+                // Create PDF document
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Add title
+                doc.setFontSize(22);
+                doc.setTextColor(44, 62, 80);
+                doc.text('Tech Maturity Assessment Report', 105, 20, { align: 'center' });
+                
+                // Add company info
+                doc.setFontSize(14);
+                doc.text(`Company: ${currentAssessment.profile.companyName || 'Not specified'}`, 20, 40);
+                doc.text(`Date: ${new Date(currentAssessment.date).toLocaleDateString()}`, 20, 50);
+                doc.text(`Maturity Score: ${currentAssessment.maturityScore.toFixed(1)} / 10`, 20, 60);
+                
+                // Add maturity level description
+                let maturityLevel = '';
+                let maturityDescription = '';
+                
+                if (currentAssessment.maturityScore < 3) {
+                    maturityLevel = 'Basic';
+                    maturityDescription = 'Your organization is in the early stages of tech maturity. Focus on establishing foundational elements and standardizing processes.';
+                } else if (currentAssessment.maturityScore < 6) {
+                    maturityLevel = 'Developing';
+                    maturityDescription = 'Your organization has established some good practices but has room for improvement in several areas.';
+                } else if (currentAssessment.maturityScore < 8) {
+                    maturityLevel = 'Advanced';
+                    maturityDescription = 'Your organization demonstrates strong tech maturity across most areas with a few opportunities for enhancement.';
+                } else {
+                    maturityLevel = 'Expert';
+                    maturityDescription = 'Your organization demonstrates excellent tech maturity across all areas. Focus on maintaining and refining your current practices.';
+                }
+                
+                doc.setFontSize(16);
+                doc.text(`Maturity Level: ${maturityLevel}`, 20, 75);
+                
+                doc.setFontSize(12);
+                const splitDescription = doc.splitTextToSize(maturityDescription, 170);
+                doc.text(splitDescription, 20, 85);
+                
+                // Add apps table
+                doc.setFontSize(16);
+                doc.text('Application Assessment', 20, 110);
+                
+                const tableData = currentAssessment.apps.map(app => [
+                    app.name,
+                    app.category,
+                    (app.combinedScore || app.overallScore).toFixed(1)
+                ]);
+                
+                doc.autoTable({
+                    startY: 115,
+                    head: [['Application', 'Category', 'Score']],
+                    body: tableData,
+                    theme: 'striped',
+                    headStyles: {
+                        fillColor: [44, 62, 80],
+                        textColor: [255, 255, 255]
+                    },
+                    alternateRowStyles: {
+                        fillColor: [240, 240, 240]
+                    }
+                });
+                
+                // Add optimization recommendations
+                const currentY = doc.lastAutoTable.finalY + 20;
+                doc.setFontSize(16);
+                doc.text('Optimization Recommendations', 20, currentY);
+                
+                // Generate recommendations based on scores
+                const recommendations = [];
+                
+                // Infrastructure recommendations
+                if (currentAssessment.profile.infrastructure === 'On-premise') {
+                    recommendations.push('Consider moving to a hybrid or cloud infrastructure to improve scalability and reduce maintenance costs.');
+                }
+                
+                // Disaster recovery recommendations
+                if (currentAssessment.profile.disasterRecovery === 'No backups' || currentAssessment.profile.disasterRecovery === 'Manual occasionally') {
+                    recommendations.push('Implement automated daily backups to improve disaster recovery capabilities.');
+                }
+                
+                // Security recommendations
+                if (currentAssessment.profile.security === 'None' || currentAssessment.profile.security === 'Ad-hoc') {
+                    recommendations.push('Establish regular security vulnerability scans and consider implementing a formal security framework.');
+                }
+                
+                // GDPR recommendations
+                if (currentAssessment.profile.gdpr === 'None') {
+                    recommendations.push('Begin GDPR compliance process to protect user data and avoid potential penalties.');
+                }
+                
+                // Deployment recommendations
+                if (currentAssessment.profile.deployment === 'Manual') {
+                    recommendations.push('Implement basic CI/CD to improve deployment efficiency and reduce errors.');
+                }
+                
+                // Version control recommendations
+                if (currentAssessment.profile.versionControl === 'No') {
+                    recommendations.push('Adopt version control practices to improve code management and collaboration.');
+                }
+                
+                // CTO recommendations
+                if (currentAssessment.profile.cto === 'No dedicated tech leader') {
+                    recommendations.push('Consider hiring a part-time or fractional CTO to provide technical leadership.');
+                }
+                
+                // Roadmap recommendations
+                if (currentAssessment.profile.roadmap === 'Never') {
+                    recommendations.push('Establish an annual technology roadmap to guide development efforts.');
+                }
+                
+                // AI recommendations
+                if (currentAssessment.profile.aiUsage === 'Not at all') {
+                    recommendations.push('Begin experimenting with AI in specific departments to improve efficiency.');
+                }
+                
+                if (currentAssessment.profile.aiStrategy === 'No strategy/policy') {
+                    recommendations.push('Develop basic AI guidelines to ensure consistent and ethical use of AI technologies.');
+                }
+                
+                // Add app-specific recommendations
+                const lowScoringApps = currentAssessment.apps
+                    .filter(app => (app.combinedScore || app.overallScore) < 5)
+                    .sort((a, b) => (a.combinedScore || a.overallScore) - (b.combinedScore || b.overallScore));
+                
+                if (lowScoringApps.length > 0) {
+                    recommendations.push(`Prioritize improvements to ${lowScoringApps[0].name} as it has the lowest score in your assessment.`);
+                }
+                
+                // Add recommendations to PDF
+                doc.setFontSize(12);
+                let recommendationY = currentY + 10;
+                
+                recommendations.forEach((recommendation, index) => {
+                    const splitRecommendation = doc.splitTextToSize(`${index + 1}. ${recommendation}`, 170);
+                    
+                    // Check if we need a new page
+                    if (recommendationY + splitRecommendation.length * 7 > 280) {
+                        doc.addPage();
+                        recommendationY = 20;
+                    }
+                    
+                    doc.text(splitRecommendation, 20, recommendationY);
+                    recommendationY += splitRecommendation.length * 7 + 5;
+                });
+                
+                // Add footer
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(10);
+                    doc.setTextColor(150);
+                    doc.text(`Generated by OdinSight Tech Maturity Assessment Tool - Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
+                }
+                
+                // Save the PDF
+                doc.save(`Tech_Maturity_Assessment_${currentAssessment.profile.companyName || 'Report'}_${new Date().toISOString().split('T')[0]}.pdf`);
+                
+                // Show success message
+                alert('PDF report has been generated and downloaded successfully!');
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                alert('There was an error generating the PDF. Please try again later.');
+            }
         });
         
         // Enhanced profile loading to show assessment history
