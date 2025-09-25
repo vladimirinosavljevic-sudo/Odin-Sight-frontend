@@ -2713,148 +2713,252 @@
             }
         }
         
-// Mock authentication system
-           async function login(username, password) {
-               try {
-                   console.log('Mock login attempt with:', { username, password });
-                   
-                   // For demo purposes, accept any username/password combination
-                   // In a real app, you would validate against a database
-                   const mockUser = {
-                       id: '12345',
-                       username: username,
-                       email: `${username}@example.com`,
-                       role: username.toLowerCase() === 'admin' ? 'admin' : 'user'
-                   };
-                   
-                   const mockToken = 'mock_token_' + Math.random().toString(36).substring(2);
-                   
-                   // Store token and user info
-                   localStorage.setItem('token', mockToken);
-                   localStorage.setItem('user', JSON.stringify(mockUser));
-                   console.log('Mock user data stored in localStorage:', mockUser);
-                   
-                   return {
-                       token: mockToken,
-                       user: mockUser,
-                       message: 'Login successful'
-                   };
-               } catch (error) {
-                   console.error('Login error:', error);
-                   throw error;
-               }
-           }
-           
-           async function checkAuth() {
-               try {
-                   const token = localStorage.getItem('token');
-                   const userJson = localStorage.getItem('user');
-                   
-                   if (!token || !userJson) {
-                       return false;
-                   }
-                   
-                   // In a real app, you would validate the token with the server
-                   // For demo purposes, just check if it exists
-                   const user = JSON.parse(userJson);
-                   console.log('Mock auth check - user found:', user);
-                   
-                   return user;
-               } catch (error) {
-                   console.error('Auth check error:', error);
-                   localStorage.removeItem('token');
-                   localStorage.removeItem('user');
-                   return false;
-               }
-           }
-           
-           // Mock profile data
-           const mockProfiles = {
-               defaultProfile: {
-                   companyName: 'Demo Company',
-                   teamSize: '11-50',
-                   infrastructure: 'Hybrid',
-                   disasterRecovery: 'Automated daily',
-                   security: 'Regular vulnerability scans',
-                   gdpr: 'In progress',
-                   deployment: 'Basic CI/CD',
-                   versionControl: 'Yes, but inconsistently',
-                   cto: 'Part-time/fractional support',
-                   roadmap: 'Quarterly',
-                   aiUsage: 'Experimenting in some departments',
-                   aiStrategy: 'Some guidelines, not standardized',
-                   aiEthics: 'Ad-hoc awareness'
-               }
-           };
-           
-           async function getProfile() {
-               try {
-                   const token = localStorage.getItem('token');
-                   
-                   if (!token) {
-                       throw new Error('No authentication token found');
-                   }
-                   
-                   // Get user from localStorage
-                   const userJson = localStorage.getItem('user');
-                   if (!userJson) {
-                       throw new Error('User data not found');
-                   }
-                   
-                   const user = JSON.parse(userJson);
-                   
-                   // Get profile from localStorage or use default
-                   const profileKey = `profile_${user.username}`;
-                   const profileJson = localStorage.getItem(profileKey);
-                   
-                   if (profileJson) {
-                       return JSON.parse(profileJson);
-                   } else {
-                       // Return default profile
-                       return mockProfiles.defaultProfile;
-                   }
-               } catch (error) {
-                   console.error('Get profile error:', error);
-                   throw error;
-               }
-           }
-           
-           async function updateProfile(profileData) {
-               try {
-                   const token = localStorage.getItem('token');
-                   
-                   if (!token) {
-                       throw new Error('No authentication token found');
-                   }
-                   
-                   // Get user from localStorage
-                   const userJson = localStorage.getItem('user');
-                   if (!userJson) {
-                       throw new Error('User data not found');
-                   }
-                   
-                   const user = JSON.parse(userJson);
-                   
-                   // Save profile to localStorage
-                   const profileKey = `profile_${user.username}`;
-                   localStorage.setItem(profileKey, JSON.stringify(profileData));
-                   
-                   console.log('Profile updated successfully:', profileData);
-                   
-                   return {
-                       success: true,
-                       message: 'Profile updated successfully'
-                   };
-               } catch (error) {
-                   console.error('Update profile error:', error);
-                   throw error;
-               }
-           }
-           
-           async function createProfile(profileData) {
-               // For mock purposes, createProfile is the same as updateProfile
-               return updateProfile(profileData);
-           }        showLoginLink.addEventListener('click', function(e) {
+        async function login(username, password) {
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+                
+                // Store token and user info
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                return data;
+            } catch (error) {
+                console.error('Login error:', error);
+                throw error;
+            }
+        }
+        
+        async function checkAuth() {
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    return false;
+                }
+                
+                const response = await fetch(`${API_URL}/auth/me`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Authentication failed');
+                }
+                
+                // Update user info
+                localStorage.setItem('user', JSON.stringify(data));
+                
+                return data;
+            } catch (error) {
+                console.error('Auth check error:', error);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                return false;
+            }
+        }
+        
+        // Profile functions
+        async function getProfile() {
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+                
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to get profile');
+                    }
+                    
+                    return data;
+                } else {
+                    // Handle non-JSON response
+                    const text = await response.text();
+                    console.log('Non-JSON response:', text);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to get profile: Server returned non-JSON response');
+                    }
+                    
+                    // Return an empty profile
+                    return {
+                        companyName: '',
+                        teamSize: '1-10',
+                        infrastructure: 'On-premise',
+                        disasterRecovery: 'No backups',
+                        security: 'None',
+                        gdpr: 'None',
+                        deployment: 'Manual',
+                        versionControl: 'No',
+                        cto: 'No dedicated tech leader',
+                        roadmap: 'Never',
+                        aiUsage: 'Not at all',
+                        aiStrategy: 'No strategy/policy',
+                        aiEthics: 'Not considered'
+                    };
+                }
+            } catch (error) {
+                console.error('Get profile error:', error);
+                
+                // Return an empty profile on error
+                return {
+                    companyName: '',
+                    teamSize: '1-10',
+                    infrastructure: 'On-premise',
+                    disasterRecovery: 'No backups',
+                    security: 'None',
+                    gdpr: 'None',
+                    deployment: 'Manual',
+                    versionControl: 'No',
+                    cto: 'No dedicated tech leader',
+                    roadmap: 'Never',
+                    aiUsage: 'Not at all',
+                    aiStrategy: 'No strategy/policy',
+                    aiEthics: 'Not considered'
+                };
+            }
+        }
+        
+        async function updateProfile(profileData) {
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+                
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to update profile');
+                    }
+                    
+                    return data;
+                } else {
+                    // Handle non-JSON response
+                    const text = await response.text();
+                    console.log('Non-JSON response:', text);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to update profile: Server returned non-JSON response');
+                    }
+                    
+                    // Return a default success response
+                    return { success: true, message: 'Profile updated successfully' };
+                }
+            } catch (error) {
+                console.error('Update profile error:', error);
+                throw error;
+            }
+        }
+        
+        async function createProfile(profileData) {
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+                
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to create profile');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Create profile error:', error);
+                throw error;
+            }
+        }
+        
+        // Admin functions
+        async function getAllProfiles() {
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
+                
+                const response = await fetch(`${API_URL}/profile/all`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to get profiles');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Get all profiles error:', error);
+                throw error;
+            }
+        }
+        
+        // Event listeners
+        showRegisterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+        
+        showLoginLink.addEventListener('click', function(e) {
             e.preventDefault();
             registerForm.style.display = 'none';
             loginForm.style.display = 'block';
@@ -2959,65 +3063,283 @@
             editProfileForm.style.display = 'block';
         });
         
-saveProfileBtn.addEventListener('click', async function() {
-               console.log('Save Profile button clicked');
-               
-               const profileData = {
-                   companyName: document.getElementById('edit-company-name').value,
-                   teamSize: document.getElementById('edit-team-size').value,
-                   infrastructure: document.getElementById('edit-infrastructure').value,
-                   disasterRecovery: document.getElementById('edit-disaster-recovery').value,
-                   security: document.getElementById('edit-security').value,
-                   gdpr: document.getElementById('edit-gdpr').value,
-                   deployment: document.getElementById('edit-deployment').value,
-                   versionControl: document.getElementById('edit-version-control').value,
-                   cto: document.getElementById('edit-cto').value,
-                   roadmap: document.getElementById('edit-roadmap').value,
-                   aiUsage: document.getElementById('edit-ai-usage').value,
-                   aiStrategy: document.getElementById('edit-ai-strategy').value,
-                   aiEthics: document.getElementById('edit-ai-ethics').value
-               };
-               
-               console.log('Profile data collected:', profileData);
-               
-               try {
-                   // Try to update profile first
-                   try {
-                       console.log('Attempting to update profile...');
-                       const result = await updateProfile(profileData);
-                       console.log('Update profile result:', result);
-                   } catch (error) {
-                       console.error('Error updating profile:', error);
-                       // If update fails, try to create profile
-                       if (error.message.includes('not found')) {
-                           console.log('Profile not found, attempting to create...');
-                           const createResult = await createProfile(profileData);
-                           console.log('Create profile result:', createResult);
-                       } else {
-                           throw error;
-                       }
-                   }
-                   
-                   console.log('Profile saved successfully, reloading profile...');
-                   // Reload profile
-                   loadProfile();
-                   
-                   // Show profile info
-                   editProfileForm.style.display = 'none';
-                   profileInfo.style.display = 'block';
-                   
-                   // Show success message
-                   alert('Profile saved successfully!');
-               } catch (error) {
-                   console.error('Failed to save profile:', error);
-                   alert('Failed to save profile: ' + error.message);
-               }                profileInfo.style.display = 'block';
+        saveProfileBtn.addEventListener('click', async function() {
+            const profileData = {
+                companyName: document.getElementById('edit-company-name').value,
+                teamSize: document.getElementById('edit-team-size').value,
+                infrastructure: document.getElementById('edit-infrastructure').value,
+                disasterRecovery: document.getElementById('edit-disaster-recovery').value,
+                security: document.getElementById('edit-security').value,
+                gdpr: document.getElementById('edit-gdpr').value,
+                deployment: document.getElementById('edit-deployment').value,
+                versionControl: document.getElementById('edit-version-control').value,
+                cto: document.getElementById('edit-cto').value,
+                roadmap: document.getElementById('edit-roadmap').value,
+                aiUsage: document.getElementById('edit-ai-usage').value,
+                aiStrategy: document.getElementById('edit-ai-strategy').value,
+                aiEthics: document.getElementById('edit-ai-ethics').value
+            };
+            
+            try {
+                // Try to update profile first
+                try {
+                    await updateProfile(profileData);
+                } catch (error) {
+                    // If update fails, try to create profile
+                    if (error.message.includes('not found')) {
+                        await createProfile(profileData);
+                    } else {
+                        throw error;
+                    }
+                }
+                
+                // Reload profile
+                loadProfile();
+                
+                // Show profile info
+                editProfileForm.style.display = 'none';
+                profileInfo.style.display = 'block';
             } catch (error) {
                 alert('Failed to save profile: ' + error.message);
             }
         });
         
         // Load profile
+        async function loadProfile() {
+            try {
+                const profile = await getProfile();
+                
+                // Display profile info
+                profileInfo.innerHTML = `
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Company Name</div>
+                        <div class="profile-info-value">${profile.companyName || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Team Size</div>
+                        <div class="profile-info-value">${profile.teamSize || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Infrastructure</div>
+                        <div class="profile-info-value">${profile.infrastructure || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Disaster Recovery</div>
+                        <div class="profile-info-value">${profile.disasterRecovery || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Security</div>
+                        <div class="profile-info-value">${profile.security || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">GDPR Compliance</div>
+                        <div class="profile-info-value">${profile.gdpr || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Deployment Process</div>
+                        <div class="profile-info-value">${profile.deployment || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Version Control</div>
+                        <div class="profile-info-value">${profile.versionControl || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Technical Leadership</div>
+                        <div class="profile-info-value">${profile.cto || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Roadmap Review</div>
+                        <div class="profile-info-value">${profile.roadmap || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Usage</div>
+                        <div class="profile-info-value">${profile.aiUsage || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Strategy</div>
+                        <div class="profile-info-value">${profile.aiStrategy || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Ethics</div>
+                        <div class="profile-info-value">${profile.aiEthics || 'Not set'}</div>
+                    </div>
+                `;
+                
+                // Fill edit form
+                document.getElementById('edit-company-name').value = profile.companyName || '';
+                document.getElementById('edit-team-size').value = profile.teamSize || '1-10';
+                document.getElementById('edit-infrastructure').value = profile.infrastructure || 'On-premise';
+                document.getElementById('edit-disaster-recovery').value = profile.disasterRecovery || 'No backups';
+                document.getElementById('edit-security').value = profile.security || 'None';
+                document.getElementById('edit-gdpr').value = profile.gdpr || 'None';
+                document.getElementById('edit-deployment').value = profile.deployment || 'Manual';
+                document.getElementById('edit-version-control').value = profile.versionControl || 'No';
+                document.getElementById('edit-cto').value = profile.cto || 'No dedicated tech leader';
+                document.getElementById('edit-roadmap').value = profile.roadmap || 'Never';
+                document.getElementById('edit-ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('edit-ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
+                document.getElementById('edit-ai-ethics').value = profile.aiEthics || 'Not considered';
+                
+                // Also update the assessment form
+                document.getElementById('company-name').value = profile.companyName || '';
+                document.getElementById('team-size').value = profile.teamSize || '1-10';
+                document.getElementById('infrastructure').value = profile.infrastructure || 'On-premise';
+                document.getElementById('disaster-recovery').value = profile.disasterRecovery || 'No backups';
+                document.getElementById('security').value = profile.security || 'None';
+                document.getElementById('gdpr').value = profile.gdpr || 'None';
+                document.getElementById('deployment').value = profile.deployment || 'Manual';
+                document.getElementById('version-control').value = profile.versionControl || 'No';
+                document.getElementById('cto').value = profile.cto || 'No dedicated tech leader';
+                document.getElementById('roadmap').value = profile.roadmap || 'Never';
+                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
+                document.getElementById('ai-ethics').value = profile.aiEthics || 'Not considered';
+            } catch (error) {
+                // If profile not found, show empty form
+                if (error.message.includes('not found')) {
+                    profileInfo.innerHTML = `<p>No profile found. Please create one.</p>`;
+                    editProfileBtn.click(); // Show edit form
+                } else {
+                    profileInfo.innerHTML = `<p>Failed to load profile: ${error.message}</p>`;
+                }
+            }
+        }
+        
+        // Load all profiles (admin only)
+        async function loadAllProfiles() {
+            try {
+                const profiles = await getAllProfiles();
+                
+                userList.innerHTML = '';
+                
+                if (profiles.length === 0) {
+                    userList.innerHTML = '<p>No profiles found.</p>';
+                    return;
+                }
+                
+                profiles.forEach(profile => {
+                    const userItem = document.createElement('div');
+                    userItem.className = 'user-item';
+                    userItem.innerHTML = `
+                        <h3>${profile.user?.username || 'Unknown User'}</h3>
+                        <p>Company: ${profile.companyName || 'Not set'}</p>
+                        <p>Team Size: ${profile.teamSize || 'Not set'}</p>
+                        <p>Infrastructure: ${profile.infrastructure || 'Not set'}</p>
+                    `;
+                    userList.appendChild(userItem);
+                });
+            } catch (error) {
+                userList.innerHTML = `<p>Failed to load profiles: ${error.message}</p>`;
+            }
+        }
+        
+        // Check if user is already logged in
+        async function init() {
+            const user = await checkAuth();
+            
+            if (user) {
+                // Show main content
+                loginContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                
+                // Check if user is admin
+                if (user.role === 'admin') {
+                    adminTabContainer.style.display = 'block';
+                    loadAllProfiles();
+                }
+                
+                // Load profile
+                loadProfile();
+            }
+        }
+        
+        // Save assessment button click handler
+        document.getElementById('save-assessment-btn').addEventListener('click', async function() {
+            try {
+                const currentAssessment = JSON.parse(sessionStorage.getItem('currentAssessment'));
+                
+                if (!currentAssessment) {
+                    alert('No assessment data found. Please run the assessment first.');
+                    return;
+                }
+                
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    alert('You must be logged in to save assessment results.');
+                    return;
+                }
+                
+                // Save assessment data to profile
+                const profileData = {
+                    ...currentAssessment.profile,
+                    assessmentResults: {
+                        maturityScore: currentAssessment.maturityScore,
+                        apps: currentAssessment.apps.map(app => ({
+                            name: app.name,
+                            category: app.category,
+                            score: app.combinedScore || app.overallScore
+                        })),
+                        date: currentAssessment.date
+                    }
+                };
+                
+                try {
+                    // Update profile with assessment results
+                    await updateProfile(profileData);
+                    
+                    alert('Assessment results saved successfully!');
+                    
+                    // Update profile display
+                    loadProfile();
+                } catch (saveError) {
+                    console.error('Error saving assessment:', saveError);
+                    
+                    // Try a simplified version without the assessment results
+                    const simplifiedData = {
+                        companyName: profileData.companyName,
+                        teamSize: profileData.teamSize,
+                        infrastructure: profileData.infrastructure,
+                        disasterRecovery: profileData.disasterRecovery,
+                        security: profileData.security,
+                        gdpr: profileData.gdpr,
+                        deployment: profileData.deployment,
+                        versionControl: profileData.versionControl,
+                        cto: profileData.cto,
+                        roadmap: profileData.roadmap,
+                        aiUsage: profileData.aiUsage,
+                        aiStrategy: profileData.aiStrategy,
+                        aiEthics: profileData.aiEthics
+                    };
+                    
+                    try {
+                        await updateProfile(simplifiedData);
+                        alert('Profile information saved successfully, but assessment results could not be saved.');
+                        loadProfile();
+                    } catch (simplifiedError) {
+                        throw new Error('Could not save profile data: ' + simplifiedError.message);
+                    }
+                }
+            } catch (error) {
+                alert('Failed to save assessment: ' + error.message);
+                console.error('Save assessment error:', error);
+            }
+        });
+        
+        // Download PDF button click handler
+        document.getElementById('download-pdf-btn').addEventListener('click', function() {
+            const currentAssessment = JSON.parse(sessionStorage.getItem('currentAssessment'));
+            
+            if (!currentAssessment) {
+                alert('No assessment data found. Please run the assessment first.');
+                return;
+            }
+            
+            // Alert user that this feature is coming soon
+            alert('PDF download functionality will be available in the next update. Your assessment results have been saved to your profile.');
+        });
+        
+        // Enhanced profile loading to show assessment history
         async function loadProfile() {
             try {
                 const profile = await getProfile();
@@ -3175,25 +3497,7 @@ saveProfileBtn.addEventListener('click', async function() {
                 document.getElementById('version-control').value = profile.versionControl || 'No';
                 document.getElementById('cto').value = profile.cto || 'No dedicated tech leader';
                 document.getElementById('roadmap').value = profile.roadmap || 'Never';
-// Check if user is already logged in
-           async function init() {
-               const user = await checkAuth();
-               
-               if (user) {
-                   // Show main content
-                   loginContainer.style.display = 'none';
-                   mainContent.style.display = 'block';
-                   
-                   // Check if user is admin
-                   if (user.role === 'admin') {
-                       adminTabContainer.style.display = 'block';
-                       loadAllProfiles();
-                   }
-                   
-                   // Load profile
-                   loadProfile();
-               }
-           }                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
+                document.getElementById('ai-usage').value = profile.aiUsage || 'Not at all';
                 document.getElementById('ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
                 document.getElementById('ai-ethics').value = profile.aiEthics || 'Not considered';
             } catch (error) {
