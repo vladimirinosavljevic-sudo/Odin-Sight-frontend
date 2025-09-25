@@ -2855,50 +2855,42 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(profileData)
-                });
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Failed to update profile');
-                    }
-                    
-                    return data;
-                } else {
-                    // Handle non-JSON response
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to update profile: Server returned non-JSON response');
-                    }
-                    
-                    // Return a default success response
-                    return { success: true, message: 'Profile updated successfully' };
-                }
-            } catch (error) {
-                console.error('Update profile error:', error);
-                throw error;
-            }
-        }
-        
-        async function createProfile(profileData) {
-            try {
-                const token = localStorage.getItem('token');
-                
-                if (!token) {
-                    throw new Error('No authentication token found');
-                }
+const response = await fetch(`${API_URL}/profile`, {
+                       method: 'PUT',  // Changed from POST to PUT for updating
+                       headers: {
+                           'Content-Type': 'application/json',
+                           'Authorization': `Bearer ${token}`
+                       },
+                       body: JSON.stringify(profileData)
+                   });
+                   
+                   console.log('API Response Status:', response.status);
+                   
+                   // Check if response is JSON
+                   const contentType = response.headers.get('content-type');
+                   console.log('Response Content-Type:', contentType);
+                   
+                   if (contentType && contentType.includes('application/json')) {
+                       const data = await response.json();
+                       console.log('Response JSON data:', data);
+                       
+                       if (!response.ok) {
+                           throw new Error(data.message || 'Failed to update profile');
+                       }
+                       
+                       return data;
+                   } else {
+                       // Handle non-JSON response
+                       const text = await response.text();
+                       console.log('Non-JSON response:', text);
+                       
+                       if (!response.ok) {
+                           throw new Error('Failed to update profile: Server returned non-JSON response');
+                       }
+                       
+                       // Return a default success response
+                       return { success: true, message: 'Profile updated successfully' };
+                   }                }
                 
                 const response = await fetch(`${API_URL}/profile`, {
                     method: 'POST',
@@ -3063,42 +3055,59 @@
             editProfileForm.style.display = 'block';
         });
         
-        saveProfileBtn.addEventListener('click', async function() {
-            const profileData = {
-                companyName: document.getElementById('edit-company-name').value,
-                teamSize: document.getElementById('edit-team-size').value,
-                infrastructure: document.getElementById('edit-infrastructure').value,
-                disasterRecovery: document.getElementById('edit-disaster-recovery').value,
-                security: document.getElementById('edit-security').value,
-                gdpr: document.getElementById('edit-gdpr').value,
-                deployment: document.getElementById('edit-deployment').value,
-                versionControl: document.getElementById('edit-version-control').value,
-                cto: document.getElementById('edit-cto').value,
-                roadmap: document.getElementById('edit-roadmap').value,
-                aiUsage: document.getElementById('edit-ai-usage').value,
-                aiStrategy: document.getElementById('edit-ai-strategy').value,
-                aiEthics: document.getElementById('edit-ai-ethics').value
-            };
-            
-            try {
-                // Try to update profile first
-                try {
-                    await updateProfile(profileData);
-                } catch (error) {
-                    // If update fails, try to create profile
-                    if (error.message.includes('not found')) {
-                        await createProfile(profileData);
-                    } else {
-                        throw error;
-                    }
-                }
-                
-                // Reload profile
-                loadProfile();
-                
-                // Show profile info
-                editProfileForm.style.display = 'none';
-                profileInfo.style.display = 'block';
+saveProfileBtn.addEventListener('click', async function() {
+               console.log('Save Profile button clicked');
+               
+               const profileData = {
+                   companyName: document.getElementById('edit-company-name').value,
+                   teamSize: document.getElementById('edit-team-size').value,
+                   infrastructure: document.getElementById('edit-infrastructure').value,
+                   disasterRecovery: document.getElementById('edit-disaster-recovery').value,
+                   security: document.getElementById('edit-security').value,
+                   gdpr: document.getElementById('edit-gdpr').value,
+                   deployment: document.getElementById('edit-deployment').value,
+                   versionControl: document.getElementById('edit-version-control').value,
+                   cto: document.getElementById('edit-cto').value,
+                   roadmap: document.getElementById('edit-roadmap').value,
+                   aiUsage: document.getElementById('edit-ai-usage').value,
+                   aiStrategy: document.getElementById('edit-ai-strategy').value,
+                   aiEthics: document.getElementById('edit-ai-ethics').value
+               };
+               
+               console.log('Profile data collected:', profileData);
+               
+               try {
+                   // Try to update profile first
+                   try {
+                       console.log('Attempting to update profile...');
+                       const result = await updateProfile(profileData);
+                       console.log('Update profile result:', result);
+                   } catch (error) {
+                       console.error('Error updating profile:', error);
+                       // If update fails, try to create profile
+                       if (error.message.includes('not found')) {
+                           console.log('Profile not found, attempting to create...');
+                           const createResult = await createProfile(profileData);
+                           console.log('Create profile result:', createResult);
+                       } else {
+                           throw error;
+                       }
+                   }
+                   
+                   console.log('Profile saved successfully, reloading profile...');
+                   // Reload profile
+                   loadProfile();
+                   
+                   // Show profile info
+                   editProfileForm.style.display = 'none';
+                   profileInfo.style.display = 'block';
+                   
+                   // Show success message
+                   alert('Profile saved successfully!');
+               } catch (error) {
+                   console.error('Failed to save profile:', error);
+                   alert('Failed to save profile: ' + error.message);
+               }                profileInfo.style.display = 'block';
             } catch (error) {
                 alert('Failed to save profile: ' + error.message);
             }
