@@ -3078,11 +3078,11 @@
                 aiUsage: document.getElementById('edit-ai-usage').value,
                 aiStrategy: document.getElementById('edit-ai-strategy').value,
                 aiEthics: document.getElementById('edit-ai-ethics').value,
-                selectedApps: selectedApps.map(app => ({ name: app.name, category: app.category }))
+                selectedApps: selectedApps || []
             };
             
             try {
-                console.log('Saving profile data:', profileData);
+                console.log('Saving profile data with selectedApps:', profileData);
                 // Try to update profile first
                 try {
                     await updateProfile(profileData);
@@ -3183,6 +3183,12 @@
                 document.getElementById('edit-ai-usage').value = profile.aiUsage || 'Not at all';
                 document.getElementById('edit-ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
                 document.getElementById('edit-ai-ethics').value = profile.aiEthics || 'Not considered';
+                // Load selected apps if available
+                if (profile.selectedApps && Array.isArray(profile.selectedApps) && profile.selectedApps.length > 0) {
+                    console.log("Loading selected apps from profile:", profile.selectedApps);
+                    selectedApps = profile.selectedApps;
+                    updateSelectedAppsUI();
+                }
                 
                 // Also update the assessment form
                 document.getElementById('company-name').value = profile.companyName || '';
@@ -3290,7 +3296,7 @@
                 };
                 
                 try {
-                    console.log('Saving assessment data to profile:', profileData);
+                    console.log('Saving assessment data to profile with selectedApps:', profileData);
                     // Update profile with assessment results
                     await updateProfile(profileData);
                     console.log('Assessment data saved to profile successfully');
@@ -3486,21 +3492,18 @@
                 document.getElementById('edit-security').value = profile.security || 'None';
                 document.getElementById('edit-gdpr').value = profile.gdpr || 'None';
                 document.getElementById('edit-deployment').value = profile.deployment || 'Manual';
+                // Load selected apps if available
+                if (profile.selectedApps && Array.isArray(profile.selectedApps) && profile.selectedApps.length > 0) {
+                    console.log("Loading selected apps from profile:", profile.selectedApps);
+                    selectedApps = profile.selectedApps;
+                    updateSelectedAppsUI();
+                }
                 document.getElementById('edit-version-control').value = profile.versionControl || 'No';
                 document.getElementById('edit-cto').value = profile.cto || 'No dedicated tech leader';
                 document.getElementById('edit-roadmap').value = profile.roadmap || 'Never';
                 document.getElementById('edit-ai-usage').value = profile.aiUsage || 'Not at all';
                 document.getElementById('edit-ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
                 document.getElementById('edit-ai-ethics').value = profile.aiEthics || 'Not considered';
-                // Load selected apps if available
-                if (profile.selectedApps && Array.isArray(profile.selectedApps) && profile.selectedApps.length > 0) {
-                    console.log("Loading selected apps from profile:", profile.selectedApps);
-                    selectedApps = profile.selectedApps.map(app => ({
-                        name: app.name,
-                        category: app.category
-                    }));
-                    updateSelectedAppsUI();
-                }
                 
                 // Also update the assessment form
                 document.getElementById('company-name').value = profile.companyName || '';
