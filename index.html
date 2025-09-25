@@ -3064,46 +3064,130 @@
         });
         
         saveProfileBtn.addEventListener('click', async function() {
-            const profileData = {
-                companyName: document.getElementById('edit-company-name').value,
-                teamSize: document.getElementById('edit-team-size').value,
-                infrastructure: document.getElementById('edit-infrastructure').value,
-                disasterRecovery: document.getElementById('edit-disaster-recovery').value,
-                security: document.getElementById('edit-security').value,
-                gdpr: document.getElementById('edit-gdpr').value,
-                deployment: document.getElementById('edit-deployment').value,
-                versionControl: document.getElementById('edit-version-control').value,
-                cto: document.getElementById('edit-cto').value,
-                roadmap: document.getElementById('edit-roadmap').value,
-                aiUsage: document.getElementById('edit-ai-usage').value,
-                aiStrategy: document.getElementById('edit-ai-strategy').value,
-                aiEthics: document.getElementById('edit-ai-ethics').value,
-                selectedApps: selectedApps || []
-            };
-            
             try {
-                console.log('Saving profile data with selectedApps:', profileData);
-                // Try to update profile first
-                try {
-                    await updateProfile(profileData);
-                    console.log('Profile updated successfully');
-                } catch (error) {
-                    // If update fails, try to create profile
-                    if (error.message.includes('not found')) {
-                        await createProfile(profileData);
-                        console.log('Profile created successfully');
-                    } else {
-                        throw error;
-                    }
+                // Get form values
+                const profileData = {
+                    companyName: document.getElementById('edit-company-name').value,
+                    teamSize: document.getElementById('edit-team-size').value,
+                    infrastructure: document.getElementById('edit-infrastructure').value,
+                    disasterRecovery: document.getElementById('edit-disaster-recovery').value,
+                    security: document.getElementById('edit-security').value,
+                    gdpr: document.getElementById('edit-gdpr').value,
+                    deployment: document.getElementById('edit-deployment').value,
+                    versionControl: document.getElementById('edit-version-control').value,
+                    cto: document.getElementById('edit-cto').value,
+                    roadmap: document.getElementById('edit-roadmap').value,
+                    aiUsage: document.getElementById('edit-ai-usage').value,
+                    aiStrategy: document.getElementById('edit-ai-strategy').value,
+                    aiEthics: document.getElementById('edit-ai-ethics').value,
+                    selectedApps: selectedApps || []
+                };
+                
+                console.log('Saving profile data:', profileData);
+                
+                // Get token
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('No authentication token found');
                 }
                 
-                // Reload profile
-                loadProfile();
+                // Send request directly to API
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                // Process response
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Failed to save profile: ${response.status}`);
+                }
+                
+                const data = await response.json().catch(() => ({ success: true }));
+                console.log('Profile saved successfully:', data);
+                
+                // Show success message
+                alert('Profile saved successfully!');
+                
+                // Update profile display directly
+                profileInfo.innerHTML = `
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Company Name</div>
+                        <div class="profile-info-value">${profileData.companyName || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Team Size</div>
+                        <div class="profile-info-value">${profileData.teamSize || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Infrastructure</div>
+                        <div class="profile-info-value">${profileData.infrastructure || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Disaster Recovery</div>
+                        <div class="profile-info-value">${profileData.disasterRecovery || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Security</div>
+                        <div class="profile-info-value">${profileData.security || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">GDPR Compliance</div>
+                        <div class="profile-info-value">${profileData.gdpr || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Deployment Process</div>
+                        <div class="profile-info-value">${profileData.deployment || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Version Control</div>
+                        <div class="profile-info-value">${profileData.versionControl || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Tech Leadership</div>
+                        <div class="profile-info-value">${profileData.cto || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">Tech Roadmap</div>
+                        <div class="profile-info-value">${profileData.roadmap || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Usage</div>
+                        <div class="profile-info-value">${profileData.aiUsage || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Strategy</div>
+                        <div class="profile-info-value">${profileData.aiStrategy || 'Not set'}</div>
+                    </div>
+                    <div class="profile-info-item">
+                        <div class="profile-info-label">AI Ethics</div>
+                        <div class="profile-info-value">${profileData.aiEthics || 'Not set'}</div>
+                    </div>
+                `;
                 
                 // Show profile info
                 editProfileForm.style.display = 'none';
                 profileInfo.style.display = 'block';
+                
+                // Force reload profile in background for next time
+                setTimeout(() => {
+                    try {
+                        fetch(`${API_URL}/profile?nocache=${Date.now()}`, {
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                    } catch (e) {
+                        console.log('Background refresh error:', e);
+                    }
+                }, 500);
+                
             } catch (error) {
+                console.error('Save profile error:', error);
                 alert('Failed to save profile: ' + error.message);
             }
         });
@@ -3296,42 +3380,51 @@
                 };
                 
                 try {
-                    console.log('Saving assessment data to profile with selectedApps:', profileData);
-                    // Update profile with assessment results
-                    await updateProfile(profileData);
-                    console.log('Assessment data saved to profile successfully');
+                    console.log('Saving assessment data to profile:', profileData);
+                    
+                    // Get token
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        throw new Error('No authentication token found');
+                    }
+                    
+                    // Send request directly to API
+                    const response = await fetch(`${API_URL}/profile`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(profileData)
+                    });
+                    
+                    // Process response
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || `Failed to save assessment: ${response.status}`);
+                    }
+                    
+                    const data = await response.json().catch(() => ({ success: true }));
+                    console.log('Assessment data saved successfully:', data);
                     
                     alert('Assessment results saved successfully!');
                     
-                    // Update profile display
-                    loadProfile();
-                } catch (saveError) {
-                    console.error('Error saving assessment:', saveError);
+                    // Force reload profile in background for next time
+                    setTimeout(() => {
+                        try {
+                            fetch(`${API_URL}/profile?nocache=${Date.now()}`, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+                        } catch (e) {
+                            console.log('Background refresh error:', e);
+                        }
+                    }, 500);
                     
-                    // Try a simplified version without the assessment results
-                    const simplifiedData = {
-                        companyName: profileData.companyName,
-                        teamSize: profileData.teamSize,
-                        infrastructure: profileData.infrastructure,
-                        disasterRecovery: profileData.disasterRecovery,
-                        security: profileData.security,
-                        gdpr: profileData.gdpr,
-                        deployment: profileData.deployment,
-                        versionControl: profileData.versionControl,
-                        cto: profileData.cto,
-                        roadmap: profileData.roadmap,
-                        aiUsage: profileData.aiUsage,
-                        aiStrategy: profileData.aiStrategy,
-                        aiEthics: profileData.aiEthics
-                    };
-                    
-                    try {
-                        await updateProfile(simplifiedData);
-                        alert('Profile information saved successfully, but assessment results could not be saved.');
-                        loadProfile();
-                    } catch (simplifiedError) {
-                        throw new Error('Could not save profile data: ' + simplifiedError.message);
-                    }
+                } catch (error) {
+                    console.error('Error saving assessment:', error);
+                    alert('Failed to save assessment: ' + error.message);
                 }
             } catch (error) {
                 alert('Failed to save assessment: ' + error.message);
