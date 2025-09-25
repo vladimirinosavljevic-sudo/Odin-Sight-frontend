@@ -3077,18 +3077,24 @@
                 roadmap: document.getElementById('edit-roadmap').value,
                 aiUsage: document.getElementById('edit-ai-usage').value,
                 aiStrategy: document.getElementById('edit-ai-strategy').value,
-                aiEthics: document.getElementById('edit-ai-ethics').value
+                aiEthics: document.getElementById('edit-ai-ethics').value,
+                selectedApps: selectedApps.map(app => ({ name: app.name, category: app.category }))
             };
+            
+            console.log('Saving profile data:', profileData);
             
             try {
                 // Try to update profile first
                 try {
                     await updateProfile(profileData);
+                    console.log('Profile updated successfully');
                 } catch (error) {
                     // If update fails, try to create profile
                     if (error.message.includes('not found')) {
                         await createProfile(profileData);
+                        console.log('Profile created successfully');
                     } else {
+                        console.error('Profile update error:', error);
                         throw error;
                     }
                 }
