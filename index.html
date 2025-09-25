@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OdinSight Tech Maturity Assessment</title>
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         :root {
             --primary: #4a9bd7;
@@ -2782,7 +2785,11 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile`, {
+                // Always add cache-busting parameter to prevent stale data
+                const cacheBuster = `?nocache=${Date.now()}`;
+                console.log('Fetching profile with cache-busting:', cacheBuster);
+                
+                const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -2822,7 +2829,8 @@
                         roadmap: 'Never',
                         aiUsage: 'Not at all',
                         aiStrategy: 'No strategy/policy',
-                        aiEthics: 'Not considered'
+                        aiEthics: 'Not considered',
+                        selectedApps: []
                     };
                 }
             } catch (error) {
@@ -2842,7 +2850,8 @@
                     roadmap: 'Never',
                     aiUsage: 'Not at all',
                     aiStrategy: 'No strategy/policy',
-                    aiEthics: 'Not considered'
+                    aiEthics: 'Not considered',
+                    selectedApps: []
                 };
             }
         }
@@ -3433,14 +3442,7 @@
         });
         
         // Download PDF button click handler
-        // Load jsPDF libraries
-        const jsPDFScript = document.createElement('script');
-        jsPDFScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-        document.head.appendChild(jsPDFScript);
-        
-        const autoTableScript = document.createElement('script');
-        autoTableScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js';
-        document.head.appendChild(autoTableScript);
+        // PDF libraries are now loaded in the head section
         
         document.getElementById('download-pdf-btn').addEventListener('click', function() {
             const currentAssessment = JSON.parse(sessionStorage.getItem('currentAssessment'));
@@ -3452,9 +3454,16 @@
             
             try {
                 // Check if jsPDF is loaded
-                if (typeof window.jspdf === 'undefined' || typeof window.jsPDF === 'undefined') {
-                    alert('PDF generation library is loading. Please try again in a few seconds.');
-                    return;
+                if (typeof window.jspdf === 'undefined') {
+                    console.log('jsPDF library not found under window.jspdf');
+                    // Try alternative global variable
+                    if (typeof jspdf === 'undefined') {
+                        alert('PDF generation library could not be loaded. Please refresh the page and try again.');
+                        return;
+                    } else {
+                        window.jspdf = jspdf;
+                        console.log('Using global jspdf variable');
+                    }
                 }
                 
                 // Create PDF document
