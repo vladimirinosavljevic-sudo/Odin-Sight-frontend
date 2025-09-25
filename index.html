@@ -3081,9 +3081,8 @@
                 selectedApps: selectedApps.map(app => ({ name: app.name, category: app.category }))
             };
             
-            console.log('Saving profile data:', profileData);
-            
             try {
+                console.log('Saving profile data:', profileData);
                 // Try to update profile first
                 try {
                     await updateProfile(profileData);
@@ -3094,7 +3093,6 @@
                         await createProfile(profileData);
                         console.log('Profile created successfully');
                     } else {
-                        console.error('Profile update error:', error);
                         throw error;
                     }
                 }
@@ -3287,12 +3285,15 @@
                             score: app.combinedScore || app.overallScore
                         })),
                         date: currentAssessment.date
-                    }
+                    },
+                    selectedApps: currentAssessment.apps.map(app => ({ name: app.name, category: app.category }))
                 };
                 
                 try {
+                    console.log('Saving assessment data to profile:', profileData);
                     // Update profile with assessment results
                     await updateProfile(profileData);
+                    console.log('Assessment data saved to profile successfully');
                     
                     alert('Assessment results saved successfully!');
                     
@@ -3491,6 +3492,15 @@
                 document.getElementById('edit-ai-usage').value = profile.aiUsage || 'Not at all';
                 document.getElementById('edit-ai-strategy').value = profile.aiStrategy || 'No strategy/policy';
                 document.getElementById('edit-ai-ethics').value = profile.aiEthics || 'Not considered';
+                // Load selected apps if available
+                if (profile.selectedApps && Array.isArray(profile.selectedApps) && profile.selectedApps.length > 0) {
+                    console.log("Loading selected apps from profile:", profile.selectedApps);
+                    selectedApps = profile.selectedApps.map(app => ({
+                        name: app.name,
+                        category: app.category
+                    }));
+                    updateSelectedAppsUI();
+                }
                 
                 // Also update the assessment form
                 document.getElementById('company-name').value = profile.companyName || '';
