@@ -2713,32 +2713,32 @@
             }
         }
         
-async function login(username, password) {
+// Mock authentication system
+           async function login(username, password) {
                try {
-                   const response = await fetch(`${API_URL}/auth/login`, {
-                       method: 'POST',
-                       headers: {
-                           'Content-Type': 'application/json'
-                       },
-                       body: JSON.stringify({ username, password })
-                   });
+                   console.log('Mock login attempt with:', { username, password });
                    
-                   console.log('Login API Response Status:', response.status);
-                   console.log('Login API Response Headers:', [...response.headers.entries()]);
+                   // For demo purposes, accept any username/password combination
+                   // In a real app, you would validate against a database
+                   const mockUser = {
+                       id: '12345',
+                       username: username,
+                       email: `${username}@example.com`,
+                       role: username.toLowerCase() === 'admin' ? 'admin' : 'user'
+                   };
                    
-                   const data = await response.json();
-                   console.log('Login API Response Data:', data);
-                   
-                   if (!response.ok) {
-                       throw new Error(data.message || 'Login failed');
-                   }
+                   const mockToken = 'mock_token_' + Math.random().toString(36).substring(2);
                    
                    // Store token and user info
-                   localStorage.setItem('token', data.token);
-                   localStorage.setItem('user', JSON.stringify(data.user));
-                   console.log('User data stored in localStorage:', data.user);
+                   localStorage.setItem('token', mockToken);
+                   localStorage.setItem('user', JSON.stringify(mockUser));
+                   console.log('Mock user data stored in localStorage:', mockUser);
                    
-                   return data;
+                   return {
+                       token: mockToken,
+                       user: mockUser,
+                       message: 'Login successful'
+                   };
                } catch (error) {
                    console.error('Login error:', error);
                    throw error;
@@ -2748,207 +2748,113 @@ async function login(username, password) {
            async function checkAuth() {
                try {
                    const token = localStorage.getItem('token');
+                   const userJson = localStorage.getItem('user');
                    
-                   if (!token) {
+                   if (!token || !userJson) {
                        return false;
                    }
                    
-                   const response = await fetch(`${API_URL}/auth/me`, {
-                       method: 'GET',
-                       headers: {
-                           'Authorization': `Bearer ${token}`
-                       }
-                   });
+                   // In a real app, you would validate the token with the server
+                   // For demo purposes, just check if it exists
+                   const user = JSON.parse(userJson);
+                   console.log('Mock auth check - user found:', user);
                    
-                   const data = await response.json();
-                   
-                   if (!response.ok) {
-                       throw new Error(data.message || 'Authentication failed');
-                   }
-                   
-                   // Update user info
-                   localStorage.setItem('user', JSON.stringify(data));
-                   
-                   return data;
+                   return user;
                } catch (error) {
                    console.error('Auth check error:', error);
                    localStorage.removeItem('token');
                    localStorage.removeItem('user');
                    return false;
                }
-           }                if (!token) {
-                    throw new Error('No authentication token found');
-                }
-                
-                const response = await fetch(`${API_URL}/profile`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Failed to get profile');
-                    }
-                    
-                    return data;
-                } else {
-                    // Handle non-JSON response
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to get profile: Server returned non-JSON response');
-                    }
-                    
-                    // Return an empty profile
-                    return {
-                        companyName: '',
-                        teamSize: '1-10',
-                        infrastructure: 'On-premise',
-                        disasterRecovery: 'No backups',
-                        security: 'None',
-                        gdpr: 'None',
-                        deployment: 'Manual',
-                        versionControl: 'No',
-                        cto: 'No dedicated tech leader',
-                        roadmap: 'Never',
-                        aiUsage: 'Not at all',
-                        aiStrategy: 'No strategy/policy',
-                        aiEthics: 'Not considered'
-                    };
-                }
-            } catch (error) {
-                console.error('Get profile error:', error);
-                
-                // Return an empty profile on error
-                return {
-                    companyName: '',
-                    teamSize: '1-10',
-                    infrastructure: 'On-premise',
-                    disasterRecovery: 'No backups',
-                    security: 'None',
-                    gdpr: 'None',
-                    deployment: 'Manual',
-                    versionControl: 'No',
-                    cto: 'No dedicated tech leader',
-                    roadmap: 'Never',
-                    aiUsage: 'Not at all',
-                    aiStrategy: 'No strategy/policy',
-                    aiEthics: 'Not considered'
-                };
-            }
-        }
-        
-        async function updateProfile(profileData) {
-            try {
-                const token = localStorage.getItem('token');
-                
-                if (!token) {
-                    throw new Error('No authentication token found');
-                }
-                
-const response = await fetch(`${API_URL}/profile`, {
-                       method: 'PUT',  // Changed from POST to PUT for updating
-                       headers: {
-                           'Content-Type': 'application/json',
-                           'Authorization': `Bearer ${token}`
-                       },
-                       body: JSON.stringify(profileData)
-                   });
+           }
+           
+           // Mock profile data
+           const mockProfiles = {
+               defaultProfile: {
+                   companyName: 'Demo Company',
+                   teamSize: '11-50',
+                   infrastructure: 'Hybrid',
+                   disasterRecovery: 'Automated daily',
+                   security: 'Regular vulnerability scans',
+                   gdpr: 'In progress',
+                   deployment: 'Basic CI/CD',
+                   versionControl: 'Yes, but inconsistently',
+                   cto: 'Part-time/fractional support',
+                   roadmap: 'Quarterly',
+                   aiUsage: 'Experimenting in some departments',
+                   aiStrategy: 'Some guidelines, not standardized',
+                   aiEthics: 'Ad-hoc awareness'
+               }
+           };
+           
+           async function getProfile() {
+               try {
+                   const token = localStorage.getItem('token');
                    
-                   console.log('API Response Status:', response.status);
+                   if (!token) {
+                       throw new Error('No authentication token found');
+                   }
                    
-                   // Check if response is JSON
-                   const contentType = response.headers.get('content-type');
-                   console.log('Response Content-Type:', contentType);
+                   // Get user from localStorage
+                   const userJson = localStorage.getItem('user');
+                   if (!userJson) {
+                       throw new Error('User data not found');
+                   }
                    
-                   if (contentType && contentType.includes('application/json')) {
-                       const data = await response.json();
-                       console.log('Response JSON data:', data);
-                       
-                       if (!response.ok) {
-                           throw new Error(data.message || 'Failed to update profile');
-                       }
-                       
-                       return data;
+                   const user = JSON.parse(userJson);
+                   
+                   // Get profile from localStorage or use default
+                   const profileKey = `profile_${user.username}`;
+                   const profileJson = localStorage.getItem(profileKey);
+                   
+                   if (profileJson) {
+                       return JSON.parse(profileJson);
                    } else {
-                       // Handle non-JSON response
-                       const text = await response.text();
-                       console.log('Non-JSON response:', text);
-                       
-                       if (!response.ok) {
-                           throw new Error('Failed to update profile: Server returned non-JSON response');
-                       }
-                       
-                       // Return a default success response
-                       return { success: true, message: 'Profile updated successfully' };
-                   }                }
-                
-                const response = await fetch(`${API_URL}/profile`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(profileData)
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Failed to create profile');
-                }
-                
-                return data;
-            } catch (error) {
-                console.error('Create profile error:', error);
-                throw error;
-            }
-        }
-        
-        // Admin functions
-        async function getAllProfiles() {
-            try {
-                const token = localStorage.getItem('token');
-                
-                if (!token) {
-                    throw new Error('No authentication token found');
-                }
-                
-                const response = await fetch(`${API_URL}/profile/all`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.message || 'Failed to get profiles');
-                }
-                
-                return data;
-            } catch (error) {
-                console.error('Get all profiles error:', error);
-                throw error;
-            }
-        }
-        
-        // Event listeners
-        showRegisterLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-        });
-        
-        showLoginLink.addEventListener('click', function(e) {
+                       // Return default profile
+                       return mockProfiles.defaultProfile;
+                   }
+               } catch (error) {
+                   console.error('Get profile error:', error);
+                   throw error;
+               }
+           }
+           
+           async function updateProfile(profileData) {
+               try {
+                   const token = localStorage.getItem('token');
+                   
+                   if (!token) {
+                       throw new Error('No authentication token found');
+                   }
+                   
+                   // Get user from localStorage
+                   const userJson = localStorage.getItem('user');
+                   if (!userJson) {
+                       throw new Error('User data not found');
+                   }
+                   
+                   const user = JSON.parse(userJson);
+                   
+                   // Save profile to localStorage
+                   const profileKey = `profile_${user.username}`;
+                   localStorage.setItem(profileKey, JSON.stringify(profileData));
+                   
+                   console.log('Profile updated successfully:', profileData);
+                   
+                   return {
+                       success: true,
+                       message: 'Profile updated successfully'
+                   };
+               } catch (error) {
+                   console.error('Update profile error:', error);
+                   throw error;
+               }
+           }
+           
+           async function createProfile(profileData) {
+               // For mock purposes, createProfile is the same as updateProfile
+               return updateProfile(profileData);
+           }        showLoginLink.addEventListener('click', function(e) {
             e.preventDefault();
             registerForm.style.display = 'none';
             loginForm.style.display = 'block';
