@@ -2776,71 +2776,68 @@
         // Profile functions
         async function getProfile() {
             try {
-                const token = localStorage.getItem("token");
+                const token = localStorage.getItem('token');
                 
                 if (!token) {
-                    throw new Error("No authentication token found");
+                    throw new Error('No authentication token found');
                 }
                 
-                const cacheBuster = `?t=${Date.now()}`;
-                const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
-                    method: "GET",
+                const response = await fetch(`${API_URL}/profile`, {
+                    method: 'GET',
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
-
-                console.log("Profile response status:", response.status);
-
-                // Handle 404 specifically for new users
-                if (response.status === 404) {
-                    console.log("Profile not found - new user, returning empty profile");
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Failed to get profile');
+                    }
+                    
+                    return data;
+                } else {
+                    // Handle non-JSON response
+                    const text = await response.text();
+                    console.log('Non-JSON response:', text);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to get profile: Server returned non-JSON response');
+                    }
+                    
+                    // Return an empty profile
                     return {
-                        companyName: "",
-                        teamSize: "1-10",
-                        infrastructure: "On-premise",
-                        disasterRecovery: "No backups",
-                        security: "None",
-                        gdpr: "None",
-                        deployment: "Manual",
-                        versionControl: "No",
-                        cto: "No dedicated tech leader",
-                        roadmap: "Never",
-                        aiUsage: "Not at all",
-                        aiStrategy: "No strategy/policy",
-                        aiEthics: "Not considered",
-                        selectedApps: []
+                        companyName: '',
+                        teamSize: '1-10',
+                        infrastructure: 'On-premise',
+                        disasterRecovery: 'No backups',
+                        security: 'None',
+                        gdpr: 'None',
+                        deployment: 'Manual',
+                        versionControl: 'No',
+                        cto: 'No dedicated tech leader',
+                        roadmap: 'Never',
+                        aiUsage: 'Not at all',
+                        aiStrategy: 'No strategy/policy',
+                        aiEthics: 'Not considered'
                     };
                 }
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                console.log("Profile loaded successfully:", data);
-                return data;
-
             } catch (error) {
-                console.error("Get profile error:", error);
+                console.error('Get profile error:', error);
                 
-                // Return empty profile on any error
+                // Return an empty profile on error
                 return {
-                    companyName: "",
-                    teamSize: "1-10",
-                    infrastructure: "On-premise",
-                    disasterRecovery: "No backups",
-                    security: "None",
-                    gdpr: "None",
-                    deployment: "Manual",
-                    versionControl: "No",
-                    cto: "No dedicated tech leader",
-                    roadmap: "Never",
-                    aiUsage: "Not at all",
-                    aiStrategy: "No strategy/policy",
-                    aiEthics: "Not considered",
-                    selectedApps: []
-                };
+                    companyName: '',
+                    teamSize: '1-10',
+                    infrastructure: 'On-premise',
+                    disasterRecovery: 'No backups',
+                    security: 'None',
+                    gdpr: 'None',
+                    deployment: 'Manual',
+                    versionControl: 'No',
                     cto: 'No dedicated tech leader',
                     roadmap: 'Never',
                     aiUsage: 'Not at all',
@@ -3179,7 +3176,7 @@
                 // Force reload profile in background for next time
                 setTimeout(() => {
                     try {
-                        fetch(`${API_URL}/profile?t=${Date.now()}`, {
+                        fetch(`${API_URL}/profile?nocache=${Date.now()}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -3415,7 +3412,7 @@
                     // Force reload profile in background for next time
                     setTimeout(() => {
                         try {
-                            fetch(`${API_URL}/profile?t=${Date.now()}`, {
+                            fetch(`${API_URL}/profile?nocache=${Date.now()}`, {
                                 headers: {
                                     'Authorization': `Bearer ${token}`
                                 }
