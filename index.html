@@ -2776,58 +2776,73 @@
         // Profile functions
         async function getProfile() {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem("token");
                 
                 if (!token) {
-                    throw new Error('No authentication token found');
+                    throw new Error("No authentication token found");
                 }
                 
-                const response = await fetch(`${API_URL}/profile?t=${Date.now()}`, {
-                    method: 'GET',
+                const cacheBuster = `?t=${Date.now()}`;
+                const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
+                    method: "GET",
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        "Authorization": `Bearer ${token}`
                     }
                 });
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Failed to get profile');
-                    }
-                    
-                    return data;
-                } else {
-                    // Handle non-JSON response
-                    const text = await response.text();
-                    console.log('Non-JSON response:', text);
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to get profile: Server returned non-JSON response');
-                    }
-                    
-                    // Return an empty profile
+
+                console.log("Profile response status:", response.status);
+
+                // Handle 404 specifically for new users
+                if (response.status === 404) {
+                    console.log("Profile not found - new user, returning empty profile");
                     return {
-                        companyName: '',
-                        teamSize: '1-10',
-                        infrastructure: 'On-premise',
-                        disasterRecovery: 'No backups',
-                        security: 'None',
-                        gdpr: 'None',
-                        deployment: 'Manual',
-                        versionControl: 'No',
-                        cto: 'No dedicated tech leader',
-                        roadmap: 'Never',
-                        aiUsage: 'Not at all',
-                        aiStrategy: 'No strategy/policy',
-                        aiEthics: 'Not considered'
+                        companyName: "",
+                        teamSize: "1-10",
+                        infrastructure: "On-premise",
+                        disasterRecovery: "No backups",
+                        security: "None",
+                        gdpr: "None",
+                        deployment: "Manual",
+                        versionControl: "No",
+                        cto: "No dedicated tech leader",
+                        roadmap: "Never",
+                        aiUsage: "Not at all",
+                        aiStrategy: "No strategy/policy",
+                        aiEthics: "Not considered",
+                        selectedApps: []
                     };
                 }
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log("Profile loaded successfully:", data);
+                return data;
+
             } catch (error) {
-                console.error('Get profile error:', error);
+                console.error("Get profile error:", error);
                 
+                // Return empty profile on any error
+                return {
+                    companyName: "",
+                    teamSize: "1-10",
+                    infrastructure: "On-premise",
+                    disasterRecovery: "No backups",
+                    security: "None",
+                    gdpr: "None",
+                    deployment: "Manual",
+                    versionControl: "No",
+                    cto: "No dedicated tech leader",
+                    roadmap: "Never",
+                    aiUsage: "Not at all",
+                    aiStrategy: "No strategy/policy",
+                    aiEthics: "Not considered",
+                    selectedApps: []
+                };
+            }
+        }
                 // Return an empty profile on error
                 return {
                     companyName: '',
