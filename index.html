@@ -2782,7 +2782,7 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile`, {
+                const response = await fetch(`${API_URL}/profile?t=${Date.now()}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -3176,7 +3176,7 @@
                 // Force reload profile in background for next time
                 setTimeout(() => {
                     try {
-                        fetch(`${API_URL}/profile?nocache=${Date.now()}`, {
+                        fetch(`${API_URL}/profile?t=${Date.now()}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }
@@ -3412,7 +3412,7 @@
                     // Force reload profile in background for next time
                     setTimeout(() => {
                         try {
-                            fetch(`${API_URL}/profile?nocache=${Date.now()}`, {
+                            fetch(`${API_URL}/profile?t=${Date.now()}`, {
                                 headers: {
                                     'Authorization': `Bearer ${token}`
                                 }
