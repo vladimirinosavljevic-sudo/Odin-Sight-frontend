@@ -3366,11 +3366,8 @@
                 document.getElementById('ai-ethics').value = profile.aiEthics || 'Not considered';
             } catch (error) {
                 profileInfo.innerHTML = `<p>Failed to load profile: ${error.message}</p>`;
-            }
-        }
-
-        // Initialize
-        init();
+           }\n\n           async function init() {\n               try {\n                   const isAuthenticated = await checkAuth();\n                   if (isAuthenticated) {\n                       // User is already logged in\n                       loginContainer.style.display = "none";\n                       mainContent.style.display = "block";\n                       \n                       const user = JSON.parse(localStorage.getItem("user"));\n                       if (user.role === "admin") {\n                           adminTabContainer.style.display = "block";\n                           loadAllProfiles();\n                       }\n                       \n                       try {\n                           await loadProfile();\n                       } catch (e) {\n                           console.log("No profile found - normal for new users");\n                       }\n                   } else {\n                       // Show login form\n                       loginContainer.style.display = "flex";\n                       mainContent.style.display = "none";\n                   }\n               } catch (error) {\n                   console.error("Initialization error:", error);\n                   loginContainer.style.display = "flex";\n                   mainContent.style.display = "none";\n               }\n           }\n\n           // Initialize\n           init();
+        
     </script>
 </body>
 </html>
