@@ -3015,7 +3015,7 @@
                 mainContent.style.display = 'block';
                 
                 // Load profile
-                loadProfile();
+                try { await loadProfile(); } catch (e) { console.log("No profile found - normal for new users"); }
             } catch (error) {
                 loginError.textContent = error.message || 'Login failed. Please check your credentials.';
             }
