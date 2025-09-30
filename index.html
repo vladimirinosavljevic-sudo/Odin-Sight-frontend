@@ -2782,7 +2782,9 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile`, {
+                // Add cache-busting parameter to prevent browser caching
+                const cacheBuster = `?t=${Date.now()}`;
+                const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -2855,7 +2857,9 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile`, {
+                // Add cache-busting parameter to prevent browser caching
+                const cacheBuster = `?t=${Date.now()}`;
+                const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -2900,14 +2904,16 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(profileData)
-                });
+                   // Add cache-busting parameter to prevent browser caching
+                   const cacheBuster = `?t=${Date.now()}`;
+                   const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json',
+                           'Authorization': `Bearer ${token}`
+                       },
+                       body: JSON.stringify(profileData)
+                   });
                 
                 const data = await response.json();
                 
@@ -2931,12 +2937,11 @@
                     throw new Error('No authentication token found');
                 }
                 
-                const response = await fetch(`${API_URL}/profile/all`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+                   // Add cache-busting parameter to prevent browser caching
+                   const cacheBuster = `?t=${Date.now()}`;
+                   const response = await fetch(`${API_URL}/profile/all${cacheBuster}`, {
+                       method: 'GET'
+                   });
                 
                 const data = await response.json();
                 
@@ -3092,12 +3097,13 @@
                 }
                 
                 // Send request directly to API
-                const response = await fetch(`${API_URL}/profile`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
+                   // Send request directly to API
+                   const cacheBuster = `?t=${Date.now()}`;
+                   const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json',
+                           'Authorization': `Bearer ${token}`
                     body: JSON.stringify(profileData)
                 });
                 
@@ -3388,15 +3394,17 @@
                         throw new Error('No authentication token found');
                     }
                     
-                    // Send request directly to API
-                    const response = await fetch(`${API_URL}/profile`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify(profileData)
-                    });
+                       
+                       // Send request directly to API
+                       const cacheBuster = `?t=${Date.now()}`;
+                          const response = await fetch(`${API_URL}/profile${cacheBuster}`, {
+                              method: 'POST',
+                              headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': `Bearer ${token}`
+                              },
+                              body: JSON.stringify(profileData)
+                          });
                     
                     // Process response
                     if (!response.ok) {
