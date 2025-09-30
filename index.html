@@ -3104,8 +3104,9 @@
                        headers: {
                            'Content-Type': 'application/json',
                            'Authorization': `Bearer ${token}`
-                    body: JSON.stringify(profileData)
-                });
+                       },
+                       body: JSON.stringify(profileData)
+                   });
                 
                 // Process response
                 if (!response.ok) {
