@@ -2827,7 +2827,9 @@
                         throw new Error(data.message || 'Failed to get profile');
                     }
                     
-                    return data;
+                       // Backend returns { success: true, profile: {...} }
+                       // We need to return just the profile object
+                       return data.profile || data;
                 } else {
                     // Handle non-JSON response
                     const text = await response.text();
