@@ -3321,7 +3321,37 @@
                 // Load selected apps if available
                 if (profile.selectedApps && Array.isArray(profile.selectedApps) && profile.selectedApps.length > 0) {
                     console.log("Loading selected apps from profile:", profile.selectedApps);
-                    selectedApps = profile.selectedApps;
+                    
+                    // Reconstruct full app objects from saved data
+                    selectedApps = [];
+                    profile.selectedApps.forEach(savedApp => {
+                        // Find the full app object from appData
+                        let fullApp = null;
+                        if (appData[savedApp.category]) {
+                            fullApp = appData[savedApp.category].find(app => app.name === savedApp.name);
+                        }
+                        
+                        // If found, use the full app object; otherwise create a placeholder
+                        if (fullApp) {
+                            selectedApps.push(fullApp);
+                        } else {
+                            // Create placeholder with default values
+                            selectedApps.push({
+                                name: savedApp.name,
+                                category: savedApp.category,
+                                overallScore: 4.0,
+                                functionality: 4,
+                                userExperience: 4,
+                                integration: 4,
+                                scalability: 4,
+                                security: 4,
+                                support: 4,
+                                value: 4
+                            });
+                        }
+                    });
+                    
+                    console.log("Reconstructed selected apps:", selectedApps);
                     updateSelectedAppsUI();
                 }
                 
@@ -3639,7 +3669,37 @@
                 // Load selected apps if available
                 if (profile.selectedApps && Array.isArray(profile.selectedApps) && profile.selectedApps.length > 0) {
                     console.log("Loading selected apps from profile:", profile.selectedApps);
-                    selectedApps = profile.selectedApps;
+                    
+                    // Reconstruct full app objects from saved data
+                    selectedApps = [];
+                    profile.selectedApps.forEach(savedApp => {
+                        // Find the full app object from appData
+                        let fullApp = null;
+                        if (appData[savedApp.category]) {
+                            fullApp = appData[savedApp.category].find(app => app.name === savedApp.name);
+                        }
+                        
+                        // If found, use the full app object; otherwise create a placeholder
+                        if (fullApp) {
+                            selectedApps.push(fullApp);
+                        } else {
+                            // Create placeholder with default values
+                            selectedApps.push({
+                                name: savedApp.name,
+                                category: savedApp.category,
+                                overallScore: 4.0,
+                                functionality: 4,
+                                userExperience: 4,
+                                integration: 4,
+                                scalability: 4,
+                                security: 4,
+                                support: 4,
+                                value: 4
+                            });
+                        }
+                    });
+                    
+                    console.log("Reconstructed selected apps:", selectedApps);
                     updateSelectedAppsUI();
                 }
                 document.getElementById('edit-version-control').value = profile.versionControl || 'No';
