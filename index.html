@@ -3033,10 +3033,32 @@
             mainContent.style.display = 'none';
             loginContainer.style.display = 'flex';
             
-            // Reset forms
+            // Reset login forms
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             loginError.textContent = '';
+            
+            // Reset assessment form fields
+            document.getElementById('company-name').value = '';
+            document.getElementById('team-size').value = '1-10';
+            document.getElementById('infrastructure').value = 'On-premise';
+            document.getElementById('disaster-recovery').value = 'No backups';
+            document.getElementById('security').value = 'None';
+            document.getElementById('gdpr').value = 'None';
+            document.getElementById('deployment').value = 'Manual';
+            document.getElementById('version-control').value = 'No';
+            document.getElementById('cto').value = 'No dedicated tech leader';
+            document.getElementById('roadmap').value = 'Never';
+            document.getElementById('ai-usage').value = 'Not at all';
+            document.getElementById('ai-strategy').value = 'No strategy/policy';
+            document.getElementById('ai-ethics').value = 'Not considered';
+            
+            // Clear selected apps
+            selectedApps = [];
+            updateSelectedAppsUI();
+            
+            // Reset results
+            resultsDiv.style.display = 'none';
             
             // Hide admin tab
             adminTabContainer.style.display = 'none';
