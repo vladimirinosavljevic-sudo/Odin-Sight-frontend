@@ -2128,7 +2128,7 @@
         }
         
         // Calculate button click handler
-        calculateBtn.addEventListener('click', function() {
+        calculateBtn.addEventListener('click', async function() {
             // Check if at least one app is selected
             if (selectedApps.length === 0) {
                 alert('Please select at least one app to calculate optimization steps.');
@@ -2151,6 +2151,35 @@
                 aiStrategy: document.getElementById('ai-strategy').value,
                 aiEthics: document.getElementById('ai-ethics').value
             };
+            
+            // Auto-save profile data to database before calculating
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const profileData = {
+                        ...companyProfile,
+                        selectedApps: selectedApps.map(app => ({ name: app.name, category: app.category }))
+                    };
+                    
+                    console.log('Auto-saving profile data:', profileData);
+                    
+                    const response = await fetch(`${API_URL}/profile`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(profileData)
+                    });
+                    
+                    if (response.ok) {
+                        console.log('Profile data auto-saved successfully');
+                    }
+                }
+            } catch (error) {
+                console.error('Error auto-saving profile:', error);
+                // Continue with calculation even if save fails
+            }
             
             // Calculate maturity score
             const maturityScore = calculateMaturityScore(companyProfile);
